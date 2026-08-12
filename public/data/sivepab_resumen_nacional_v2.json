@@ -1,0 +1,69 @@
+{
+  "universo": {
+    "registros": 47838,
+    "unidades_con_registros": 143,
+    "unidades_mapa": 144,
+    "entidades": 23,
+    "fecha_corte": "2026-07-15"
+  },
+  "caries": {
+    "N": 47634,
+    "n": 42704,
+    "cpod_2_6": {
+      "N": 1872,
+      "media": 5.53
+    },
+    "CPOD_7_13": {
+      "N": 8236,
+      "media": 1.84
+    },
+    "CPOD_14_mas": {
+      "N": 36047,
+      "media": 11.44
+    }
+  },
+  "higiene": {
+    "N": 43287,
+    "media": 1.1,
+    "excelente": 13144,
+    "buena": 13894,
+    "regular": 13998,
+    "mala": 2251
+  },
+  "periodontal": {
+    "N": 27558,
+    "sano": 10385,
+    "hemorragia": 5807,
+    "calculo": 10511,
+    "bolsa_4_5": 686,
+    "bolsa_6_mas": 169
+  },
+  "otras_patologias": {
+    "lesiones": {
+      "N": 47508,
+      "n": 484
+    },
+    "tiempo": {
+      "N": 307,
+      "menos_3": 243,
+      "mas_3": 64
+    },
+    "fluorosis": {
+      "N": 43462,
+      "n": 844
+    },
+    "otra_patologia": {
+      "N": 46578,
+      "n": 7347
+    }
+  },
+  "kpi_global": {
+    "cuestionarios_registrados_sin_inconsistencias": 47819,
+    "universo_institucional": 47838,
+    "porcentaje": 99.96,
+    "escenario": "B",
+    "criterio": "Consistencia estructural más reglas clínicas conocidas",
+    "comportamiento_filtros": "Fijo; no cambia por Edad, Mes, Entidad o Unidad",
+    "fuente_variable": "flag_sin_inconsistencias_B"
+  }
+}
