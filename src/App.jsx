@@ -3197,13 +3197,6 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="evaluation-period-note">
-                    Meta mensual: 60 formatos por unidad centinela.
-                    Cobertura mínima: 30 formatos. Los indicadores
-                    consideran únicamente meses completos; el mes de
-                    corte parcial permanece visible en los conteos, pero
-                    no entra en la evaluación hasta su cierre.
-                  </div>
                 </>
               )}
             </section>
