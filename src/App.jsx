@@ -844,6 +844,59 @@ function App() {
     };
   })();
 
+  const higieneSegmentos = useMemo(() => {
+    const base = [
+      {
+        etiqueta: 'Excelente',
+        valor: indicadoresHigiene.excelentePct,
+        color: higieneColores[0],
+      },
+      {
+        etiqueta: 'Buena',
+        valor: indicadoresHigiene.buenaPct,
+        color: higieneColores[1],
+      },
+      {
+        etiqueta: 'Regular',
+        valor: indicadoresHigiene.regularPct,
+        color: higieneColores[2],
+      },
+      {
+        etiqueta: 'Mala',
+        valor: indicadoresHigiene.malaPct,
+        color: higieneColores[3],
+      },
+    ].filter((item) => Number.isFinite(item.valor) && item.valor > 0);
+
+    let acumulado = 0;
+
+    return base.map((item) => {
+      const inicio = acumulado;
+      const fin = acumulado + item.valor;
+      const medio = (inicio + fin) / 2;
+      acumulado = fin;
+
+      const angle = medio * 3.6 - 90;
+      const rad = (angle * Math.PI) / 180;
+
+      const esPequeno = item.valor < 8;
+      const radio = esPequeno ? 108 : 63;
+
+      return {
+        ...item,
+        esPequeno,
+        x: Math.cos(rad) * radio,
+        y: Math.sin(rad) * radio,
+        lado: Math.cos(rad) >= 0 ? 'derecha' : 'izquierda',
+      };
+    });
+  }, [
+    indicadoresHigiene.excelentePct,
+    indicadoresHigiene.buenaPct,
+    indicadoresHigiene.regularPct,
+    indicadoresHigiene.malaPct,
+  ]);
+
   const cambiarEntidad = (event) => {
     setEntidad(event.target.value);
     setUnidad('');
@@ -1455,10 +1508,32 @@ function App() {
                       <h3>Clasificación del IHOS</h3>
 
                       <div className="hygiene-chart-row">
-                        <div
-                          className="hygiene-pie"
-                          style={higienePieStyle}
-                        ></div>
+                        <div className="hygiene-pie-wrap">
+                          <div
+                            className="hygiene-pie"
+                            style={higienePieStyle}
+                          >
+                            {higieneSegmentos.map((item) => (
+                              <div
+                                key={item.etiqueta}
+                                className={`hygiene-pie-label ${
+                                  item.esPequeno ? 'outside' : 'inside'
+                                } ${item.lado}`}
+                                style={{
+                                  left: `calc(50% + ${item.x}px)`,
+                                  top: `calc(50% + ${item.y}px)`,
+                                }}
+                              >
+                                {item.esPequeno && (
+                                  <span className="hygiene-pie-callout-line"></span>
+                                )}
+                                <span className="hygiene-pie-label-value">
+                                  {formatoPorcentaje(item.valor, 1)}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
 
                         <div className="hygiene-legend">
                           <div>
@@ -1468,12 +1543,6 @@ function App() {
                               }}
                             ></i>
                             <span>Excelente</span>
-                            <strong>
-                              {formatoPorcentaje(
-                                indicadoresHigiene.excelentePct,
-                                1
-                              )}
-                            </strong>
                           </div>
 
                           <div>
@@ -1483,12 +1552,6 @@ function App() {
                               }}
                             ></i>
                             <span>Buena</span>
-                            <strong>
-                              {formatoPorcentaje(
-                                indicadoresHigiene.buenaPct,
-                                1
-                              )}
-                            </strong>
                           </div>
 
                           <div>
@@ -1498,12 +1561,6 @@ function App() {
                               }}
                             ></i>
                             <span>Regular</span>
-                            <strong>
-                              {formatoPorcentaje(
-                                indicadoresHigiene.regularPct,
-                                1
-                              )}
-                            </strong>
                           </div>
 
                           <div>
@@ -1513,12 +1570,6 @@ function App() {
                               }}
                             ></i>
                             <span>Mala</span>
-                            <strong>
-                              {formatoPorcentaje(
-                                indicadoresHigiene.malaPct,
-                                1
-                              )}
-                            </strong>
                           </div>
                         </div>
                       </div>
