@@ -261,6 +261,177 @@ function FilterStrip({
   );
 }
 
+
+function EvaluationFilterStrip({
+  meses,
+  entidades,
+  unidadesFiltradas,
+  mes,
+  entidad,
+  unidad,
+  setMes,
+  cambiarEntidad,
+  setUnidad,
+  limpiarFiltros,
+  cuestionariosRegistrados,
+  cuestionariosSinInconsistencias,
+}) {
+  return (
+    <div className="evaluation-filter-strip">
+      <div className="evaluation-filters">
+        <div className="filter-group">
+          <label htmlFor="eval-mes">Mes</label>
+
+          <select
+            id="eval-mes"
+            value={mes}
+            onChange={(event) => setMes(event.target.value)}
+          >
+            <option value="">Todos</option>
+
+            {meses.map((item) => (
+              <option key={item.mes} value={item.mes}>
+                {item.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="eval-entidad">Entidad</label>
+
+          <select
+            id="eval-entidad"
+            value={entidad}
+            onChange={cambiarEntidad}
+          >
+            <option value="">Todas</option>
+
+            {entidades.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="eval-unidad">Unidad centinela</label>
+
+          <select
+            id="eval-unidad"
+            value={unidad}
+            onChange={(event) => setUnidad(event.target.value)}
+          >
+            <option value="">Todas</option>
+
+            {unidadesFiltradas.map((item) => (
+              <option key={item.unidad_id} value={item.unidad_id}>
+                {item.unidad}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          className="clear-filters"
+          type="button"
+          onClick={limpiarFiltros}
+        >
+          Limpiar
+        </button>
+      </div>
+
+      <div className="evaluation-top-kpis">
+        <div className="evaluation-top-kpi">
+          <div className="evaluation-top-kpi-value">
+            {Number(cuestionariosRegistrados || 0).toLocaleString('es-MX')}
+          </div>
+
+          <div className="evaluation-top-kpi-label">
+            Cuestionarios
+            <br />
+            registrados
+          </div>
+        </div>
+
+        <div className="evaluation-top-kpi">
+          <div className="evaluation-top-kpi-value">
+            {Number(cuestionariosSinInconsistencias || 0).toLocaleString(
+              'es-MX'
+            )}
+          </div>
+
+          <div className="evaluation-top-kpi-label">
+            Cuestionarios
+            <br />
+            sin inconsistencias
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function EvaluationUnitBars({
+  items,
+  field,
+  color,
+  emptyMessage = 'Sin información evaluable para la selección.',
+}) {
+  const validItems = items.filter((item) =>
+    Number.isFinite(item[field])
+  );
+
+  if (validItems.length === 0) {
+    return (
+      <div className="evaluation-bars-empty">
+        {emptyMessage}
+      </div>
+    );
+  }
+
+  return (
+    <div className="evaluation-unit-bars">
+      {validItems.map((item) => {
+        const valor = Math.max(
+          0,
+          Math.min(100, Number(item[field]) || 0)
+        );
+
+        return (
+          <div
+            className="evaluation-unit-bar-row"
+            key={`${field}-${item.unidad_id}`}
+          >
+            <div
+              className="evaluation-unit-name"
+              title={item.unidad}
+            >
+              {item.unidad}
+            </div>
+
+            <div className="evaluation-unit-track">
+              <div
+                className="evaluation-unit-fill"
+                style={{
+                  width: `${valor}%`,
+                  background: color,
+                }}
+              ></div>
+            </div>
+
+            <strong>
+              {valor.toFixed(1)}%
+            </strong>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function HorizontalBars({ items, variant = 'burgundy' }) {
   const max = Math.max(
     1,
@@ -304,6 +475,7 @@ function App() {
   const [higieneData, setHigieneData] = useState(null);
   const [periodontalData, setPeriodontalData] = useState(null);
   const [otrasData, setOtrasData] = useState(null);
+  const [evaluacionData, setEvaluacionData] = useState(null);
   const [errorCarga, setErrorCarga] = useState('');
 
   const [vista, setVista] = useState('inicio');
@@ -460,6 +632,40 @@ function App() {
         setErrorCarga(error.message);
       });
   }, [vista, otrasData]);
+
+  useEffect(() => {
+    if (vista !== 'evaluacion' || evaluacionData) return;
+
+    fetch('/data/sivepab_evaluacion.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            'No fue posible cargar sivepab_evaluacion.json'
+          );
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        setEvaluacionData({
+          ...data,
+          unidadesDecoded: decodeColumnarDataset(data.unidades),
+          evaluacionDecoded: decodeColumnarDataset(data.evaluacion),
+        });
+
+        setErrorCarga('');
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorCarga(error.message);
+      });
+  }, [vista, evaluacionData]);
+
+  useEffect(() => {
+    if (vista === 'evaluacion' && edad) {
+      setEdad('');
+    }
+  }, [vista, edad]);
 
   useEffect(() => {
     if (vista === 'higiene' && edad && Number(edad) < 7) {
@@ -1477,6 +1683,201 @@ function App() {
       .sort((a, b) => b.n - a.n)
       .slice(0, 5);
   }, [otrasCodigosFiltrado, catalogoOtrasMap]);
+
+  const evaluacionFiltrada = useMemo(() => {
+    const rows = evaluacionData?.evaluacionDecoded || [];
+
+    return rows.filter((item) => {
+      if (mes && Number(item.mes) !== Number(mes)) {
+        return false;
+      }
+
+      if (
+        entidad &&
+        String(item.entidad || '').trim() !== String(entidad).trim()
+      ) {
+        return false;
+      }
+
+      if (
+        unidad &&
+        Number(item.unidad_id) !== Number(unidad)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [evaluacionData, mes, entidad, unidad]);
+
+  const evaluacionCompletaFiltrada = useMemo(
+    () =>
+      evaluacionFiltrada.filter((item) => {
+        const valor = item.periodo_completo;
+
+        return (
+          valor === true ||
+          valor === 1 ||
+          String(valor).toLowerCase() === 'true'
+        );
+      }),
+    [evaluacionFiltrada]
+  );
+
+  const indicadoresEvaluacion = useMemo(() => {
+    const registradosObservados = sumar(
+      evaluacionFiltrada,
+      'formatos_registrados'
+    );
+
+    const sinInconsistenciasObservados = sumar(
+      evaluacionFiltrada,
+      'cuestionarios_sin_inconsistencias'
+    );
+
+    const formatosEsperados = sumar(
+      evaluacionCompletaFiltrada,
+      'meta_formatos_esperados'
+    );
+
+    const oportunos = sumar(
+      evaluacionCompletaFiltrada,
+      'formatos_oportunos'
+    );
+
+    const sinInconsistenciasEvaluables = sumar(
+      evaluacionCompletaFiltrada,
+      'cuestionarios_sin_inconsistencias'
+    );
+
+    const porUnidad = {};
+
+    evaluacionCompletaFiltrada.forEach((item) => {
+      const id = Number(item.unidad_id);
+
+      if (!porUnidad[id]) {
+        porUnidad[id] = {
+          unidad_id: id,
+          unidad: String(item.unidad || ''),
+          registrados: 0,
+          oportunos: 0,
+          sinInconsistencias: 0,
+          esperados: 0,
+        };
+      }
+
+      porUnidad[id].registrados +=
+        Number(item.formatos_registrados) || 0;
+
+      porUnidad[id].oportunos +=
+        Number(item.formatos_oportunos) || 0;
+
+      porUnidad[id].sinInconsistencias +=
+        Number(item.cuestionarios_sin_inconsistencias) || 0;
+
+      porUnidad[id].esperados +=
+        Number(item.meta_formatos_esperados) || 0;
+    });
+
+    const unidadesResultados = Object.values(porUnidad)
+      .map((item) => {
+        const esperado = item.esperados;
+
+        const coberturaMeta =
+          esperado > 0
+            ? Math.min(
+                100,
+                (100 * item.registrados) / esperado
+              )
+            : null;
+
+        const consistencia =
+          esperado > 0
+            ? Math.min(
+                100,
+                (100 * item.oportunos) / esperado
+              )
+            : null;
+
+        const calidad =
+          esperado > 0
+            ? Math.min(
+                100,
+                (100 * item.sinInconsistencias) / esperado
+              )
+            : null;
+
+        return {
+          ...item,
+          coberturaMeta,
+          consistencia,
+          calidad,
+          cumpleCobertura:
+            esperado > 0
+              ? item.registrados >= 0.5 * esperado
+              : false,
+        };
+      })
+      .sort((a, b) =>
+        a.unidad.localeCompare(b.unidad, 'es')
+      );
+
+    const unidadesEvaluables = unidadesResultados.filter(
+      (item) => item.esperados > 0
+    );
+
+    const cobertura =
+      unidadesEvaluables.length > 0
+        ? (100 *
+            unidadesEvaluables.filter(
+              (item) => item.cumpleCobertura
+            ).length) /
+          unidadesEvaluables.length
+        : null;
+
+    const consistencia =
+      formatosEsperados > 0
+        ? Math.min(
+            100,
+            (100 * oportunos) / formatosEsperados
+          )
+        : null;
+
+    const calidad =
+      formatosEsperados > 0
+        ? Math.min(
+            100,
+            (100 * sinInconsistenciasEvaluables) /
+              formatosEsperados
+          )
+        : null;
+
+    const ponderado =
+      Number.isFinite(cobertura) &&
+      Number.isFinite(consistencia) &&
+      Number.isFinite(calidad)
+        ? cobertura * 0.2 +
+          consistencia * 0.3 +
+          calidad * 0.5
+        : null;
+
+    return {
+      registrados: registradosObservados,
+      sinInconsistencias: sinInconsistenciasObservados,
+      formatosEsperados:
+        formatosEsperados > 0 ? formatosEsperados : null,
+      cobertura,
+      consistencia,
+      calidad,
+      ponderado,
+      unidadesResultados,
+      periodoEvaluable:
+        evaluacionCompletaFiltrada.length > 0,
+    };
+  }, [
+    evaluacionFiltrada,
+    evaluacionCompletaFiltrada,
+  ]);
 
   const cambiarEntidad = (event) => {
     setEntidad(event.target.value);
@@ -2665,7 +3066,150 @@ function App() {
             </section>
           )}
 
-          {!['inicio', 'caries', 'higiene', 'periodontal', 'otras'].includes(vista) && (
+          {vista === 'evaluacion' && (
+            <section className="evaluation-module">
+              {!evaluacionData ? (
+                <div className="module-loading">
+                  Cargando EVALUACIÓN DE INDICADORES...
+                </div>
+              ) : (
+                <>
+                  <EvaluationFilterStrip
+                    meses={meses}
+                    entidades={entidades}
+                    unidadesFiltradas={unidadesFiltradas}
+                    mes={mes}
+                    entidad={entidad}
+                    unidad={unidad}
+                    setMes={setMes}
+                    cambiarEntidad={cambiarEntidad}
+                    setUnidad={setUnidad}
+                    limpiarFiltros={limpiarFiltros}
+                    cuestionariosRegistrados={
+                      indicadoresEvaluacion.registrados
+                    }
+                    cuestionariosSinInconsistencias={
+                      indicadoresEvaluacion.sinInconsistencias
+                    }
+                  />
+
+                  <div className="evaluation-content-card final-evaluation-card">
+                    <div className="evaluation-row">
+                      <div className="evaluation-score-card eval-wine">
+                        <strong>
+                          {formatoPorcentaje(
+                            indicadoresEvaluacion.cobertura,
+                            1
+                          )}
+                        </strong>
+                        <span>COBERTURA</span>
+                      </div>
+
+                      <div className="evaluation-real-chart">
+                        <h3>Cobertura por unidad centinela</h3>
+
+                        <EvaluationUnitBars
+                          items={
+                            indicadoresEvaluacion.unidadesResultados
+                          }
+                          field="coberturaMeta"
+                          color="#701039"
+                          emptyMessage="Periodo en curso: la cobertura se calcula al cierre del mes."
+                        />
+                      </div>
+                    </div>
+
+                    <div className="evaluation-row">
+                      <div className="evaluation-score-card eval-gold">
+                        <strong>
+                          {formatoPorcentaje(
+                            indicadoresEvaluacion.consistencia,
+                            1
+                          )}
+                        </strong>
+                        <span>CONSISTENCIA</span>
+                      </div>
+
+                      <div className="evaluation-real-chart">
+                        <h3>Consistencia por unidad centinela</h3>
+
+                        <EvaluationUnitBars
+                          items={
+                            indicadoresEvaluacion.unidadesResultados
+                          }
+                          field="consistencia"
+                          color="#b38c2e"
+                          emptyMessage="Periodo en curso: la consistencia se calcula al cierre del mes."
+                        />
+                      </div>
+                    </div>
+
+                    <div className="evaluation-row">
+                      <div className="evaluation-score-card eval-gray">
+                        <strong>
+                          {formatoPorcentaje(
+                            indicadoresEvaluacion.calidad,
+                            1
+                          )}
+                        </strong>
+                        <span>CALIDAD</span>
+                      </div>
+
+                      <div className="evaluation-real-chart">
+                        <h3>Calidad por unidad centinela</h3>
+
+                        <EvaluationUnitBars
+                          items={
+                            indicadoresEvaluacion.unidadesResultados
+                          }
+                          field="calidad"
+                          color="#8d8d8d"
+                          emptyMessage="Periodo en curso: la calidad se calcula al cierre del mes."
+                        />
+                      </div>
+                    </div>
+
+                    <div className="evaluation-right-column final-evaluation-right">
+                      <div className="evaluation-pending-card evaluation-formats-card">
+                        <strong>
+                          {indicadoresEvaluacion.formatosEsperados === null
+                            ? '—'
+                            : Number(
+                                indicadoresEvaluacion.formatosEsperados
+                              ).toLocaleString('es-MX')}
+                        </strong>
+                        <span>
+                          Formatos
+                          <br />
+                          esperados
+                        </span>
+                      </div>
+
+                      <div className="evaluation-pending-card">
+                        <strong>
+                          {formatoPorcentaje(
+                            indicadoresEvaluacion.ponderado,
+                            1
+                          )}
+                        </strong>
+                        <span>Ponderado</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="evaluation-period-note">
+                    Meta mensual: 60 formatos por unidad centinela.
+                    Cobertura mínima: 30 formatos. Los indicadores
+                    consideran únicamente meses completos; el mes de
+                    corte parcial permanece visible en los conteos, pero
+                    no entra en la evaluación hasta su cierre.
+                  </div>
+                </>
+              )}
+            </section>
+          )}
+
+          {!['inicio', 'caries', 'higiene', 'periodontal', 'otras', 'evaluacion'].includes(vista) && (
             <section className="module-placeholder">
               <h2>{tituloVista}</h2>
               <p>
