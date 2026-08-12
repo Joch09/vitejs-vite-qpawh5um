@@ -400,6 +400,12 @@ function App() {
       });
   }, [vista, higieneData]);
 
+  useEffect(() => {
+    if (vista === 'higiene' && edad && Number(edad) < 7) {
+      setEdad('');
+    }
+  }, [vista, edad]);
+
   const edades = catalogos?.filtros?.edades || [];
   const meses = catalogos?.filtros?.meses || [];
   const unidadesCatalogo = catalogos?.filtros?.unidades || [];
@@ -913,8 +919,13 @@ function App() {
     resumenNacional?.kpi_global
       ?.cuestionarios_registrados_sin_inconsistencias ?? null;
 
+  const edadesDisponibles =
+    vista === 'higiene'
+      ? edades.filter((item) => Number(item) >= 7)
+      : edades;
+
   const filtroProps = {
-    edades,
+    edades: edadesDisponibles,
     meses,
     entidades,
     unidadesFiltradas,
