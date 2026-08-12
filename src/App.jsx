@@ -303,6 +303,7 @@ function App() {
   const [cariesData, setCariesData] = useState(null);
   const [higieneData, setHigieneData] = useState(null);
   const [periodontalData, setPeriodontalData] = useState(null);
+  const [otrasData, setOtrasData] = useState(null);
   const [errorCarga, setErrorCarga] = useState('');
 
   const [vista, setVista] = useState('inicio');
@@ -429,6 +430,36 @@ function App() {
         setErrorCarga(error.message);
       });
   }, [vista, periodontalData]);
+
+  useEffect(() => {
+    if (vista !== 'otras' || otrasData) return;
+
+    fetch('/data/sivepab_otras_patologias.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            'No fue posible cargar sivepab_otras_patologias.json'
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setOtrasData({
+          ...data,
+          coreDecoded: decodeColumnarDataset(data.core),
+          sexoDecoded: decodeColumnarDataset(data.sexo),
+          antecedentesDecoded: decodeColumnarDataset(data.antecedentes),
+          ocupacionDecoded: decodeColumnarDataset(data.ocupacion),
+          socialDecoded: decodeColumnarDataset(data.social),
+          codigosDecoded: decodeColumnarDataset(data.codigos),
+        });
+        setErrorCarga('');
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorCarga(error.message);
+      });
+  }, [vista, otrasData]);
 
   useEffect(() => {
     if (vista === 'higiene' && edad && Number(edad) < 7) {
@@ -683,6 +714,84 @@ function App() {
         idsUnidadesEntidad
       ),
     [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const otrasCoreFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        otrasData?.coreDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const otrasSexoFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        otrasData?.sexoDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const otrasAntecedentesFiltrados = useMemo(
+    () =>
+      filtrarPorLlave(
+        otrasData?.antecedentesDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const otrasOcupacionFiltrada = useMemo(
+    () =>
+      filtrarPorLlave(
+        otrasData?.ocupacionDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const otrasSocialFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        otrasData?.socialDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const otrasCodigosFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        otrasData?.codigosDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
   );
 
   const indicadoresCaries = useMemo(() => {
@@ -1157,6 +1266,217 @@ function App() {
 
     return { background: `conic-gradient(${segmentos.join(', ')})` };
   })();
+
+  const indicadoresOtras = useMemo(() => {
+    const lesionN = sumar(otrasCoreFiltrado, 'lesion_N');
+    const lesionn = sumar(otrasCoreFiltrado, 'lesion_n');
+
+    const tiempoN = sumar(otrasCoreFiltrado, 'tiempo_N');
+    const tiempoLt3 = sumar(otrasCoreFiltrado, 'tiempo_lt3');
+    const tiempoGt3 = sumar(otrasCoreFiltrado, 'tiempo_gt3');
+
+    const fluorN = sumar(otrasCoreFiltrado, 'fluor_N');
+    const fluorn = sumar(otrasCoreFiltrado, 'fluor_n');
+
+    const otraN = sumar(otrasCoreFiltrado, 'otra_N');
+    const otran = sumar(otrasCoreFiltrado, 'otra_n');
+
+    return {
+      lesionN,
+      lesionn,
+      lesionPct: porcentaje(lesionn, lesionN),
+
+      tiempoN,
+      tiempoLt3Pct: porcentaje(tiempoLt3, tiempoN),
+      tiempoGt3Pct: porcentaje(tiempoGt3, tiempoN),
+
+      fluorN,
+      fluorPct: porcentaje(fluorn, fluorN),
+
+      otraN,
+      otraPct: porcentaje(otran, otraN),
+
+      sinLesion: Math.max(0, lesionN - lesionn),
+      ulcera: sumar(otrasCoreFiltrado, 'ulcera'),
+      blanca: sumar(otrasCoreFiltrado, 'blanca'),
+      roja: sumar(otrasCoreFiltrado, 'roja'),
+      mixta: sumar(otrasCoreFiltrado, 'mixta'),
+      volumen: sumar(otrasCoreFiltrado, 'volumen'),
+    };
+  }, [otrasCoreFiltrado]);
+
+  const otrasSociales = useMemo(() => {
+    const migranteN = sumar(otrasSocialFiltrado, 'migrante_N');
+    const migranteNume = sumar(otrasSocialFiltrado, 'migrante_n');
+
+    const indigenaN = sumar(otrasSocialFiltrado, 'indigena_N');
+    const indigenaNume = sumar(otrasSocialFiltrado, 'indigena_n');
+
+    return {
+      migrantePct: porcentaje(migranteNume, migranteN),
+      indigenaPct: porcentaje(indigenaNume, indigenaN),
+    };
+  }, [otrasSocialFiltrado]);
+
+  const otrasSexoData = useMemo(() => {
+    const porSexo = {};
+
+    otrasSexoFiltrado.forEach((item) => {
+      const clave = String(item.sexo || '').trim() || 'No especificado';
+      porSexo[clave] = (porSexo[clave] || 0) + (Number(item.n) || 0);
+    });
+
+    const total = Object.values(porSexo).reduce((a, b) => a + b, 0);
+
+    return {
+      total,
+      items: Object.entries(porSexo)
+        .map(([etiqueta, n]) => ({
+          etiqueta,
+          n,
+          valor: porcentaje(n, total),
+        }))
+        .sort((a, b) => b.n - a.n),
+    };
+  }, [otrasSexoFiltrado]);
+
+  const otrasAntecedentesData = useMemo(() => {
+    const N = sumar(otrasAntecedentesFiltrados, 'N');
+
+    return ANTECEDENTES.map((item) => ({
+      etiqueta: item.etiqueta,
+      valor: porcentaje(
+        sumar(otrasAntecedentesFiltrados, item.campo),
+        N
+      ),
+    })).filter((item) => item.valor !== null);
+  }, [otrasAntecedentesFiltrados]);
+
+  const otrasOcupacionData = useMemo(() => {
+    const acumulado = {};
+
+    otrasOcupacionFiltrada.forEach((item) => {
+      const etiqueta =
+        String(item.ocupacion || '').trim() || 'No especificado';
+
+      acumulado[etiqueta] =
+        (acumulado[etiqueta] || 0) + (Number(item.n) || 0);
+    });
+
+    const total = Object.values(acumulado).reduce((a, b) => a + b, 0);
+
+    return Object.entries(acumulado)
+      .map(([etiqueta, n]) => ({
+        etiqueta,
+        n,
+        valor: porcentaje(n, total),
+      }))
+      .sort((a, b) => b.n - a.n)
+      .slice(0, 8)
+      .sort((a, b) => a.valor - b.valor);
+  }, [otrasOcupacionFiltrada]);
+
+  const otrasSexoPieStyle = (() => {
+    if (!otrasSexoData.items.length) {
+      return { background: '#e7e7e7' };
+    }
+
+    const colores = ['#701039', '#173f3a', '#b38c2e', '#8b8b8b'];
+    let inicio = 0;
+
+    const segmentos = otrasSexoData.items.map((item, index) => {
+      const fin = inicio + (item.valor || 0);
+      const segmento =
+        `${colores[index % colores.length]} ${inicio}% ${fin}%`;
+      inicio = fin;
+      return segmento;
+    });
+
+    return {
+      background: `conic-gradient(${segmentos.join(', ')})`,
+    };
+  })();
+
+  const otrasTiempoPieStyle =
+    indicadoresOtras.tiempoLt3Pct === null
+      ? { background: '#e7e7e7' }
+      : {
+          background: `conic-gradient(
+            #701039 0 ${indicadoresOtras.tiempoLt3Pct}%,
+            #b38c2e ${indicadoresOtras.tiempoLt3Pct}% 100%
+          )`,
+        };
+
+  const lesionesData = useMemo(
+    () => [
+      {
+        etiqueta: 'Sin lesión',
+        valor: indicadoresOtras.sinLesion,
+        color: '#701039',
+      },
+      {
+        etiqueta: 'Úlcera',
+        valor: indicadoresOtras.ulcera,
+        color: '#173f3a',
+      },
+      {
+        etiqueta: 'Leucoplasia bucal',
+        valor: indicadoresOtras.blanca,
+        color: '#6c6c6c',
+      },
+      {
+        etiqueta: 'Eritroplasia',
+        valor: indicadoresOtras.roja,
+        color: '#b38c2e',
+      },
+      {
+        etiqueta: 'Lesión mixta',
+        valor: indicadoresOtras.mixta,
+        color: '#d6bd70',
+      },
+      {
+        etiqueta: 'Aumento de volumen',
+        valor: indicadoresOtras.volumen,
+        color: '#d794a8',
+      },
+    ],
+    [indicadoresOtras]
+  );
+
+  const catalogoOtrasMap = useMemo(() => {
+    const mapaCatalogo = {};
+
+    (catalogos?.otras_patologias_catalogo || []).forEach((item) => {
+      const codigo = String(item.otra_patologia_codigo || '').trim();
+      if (codigo) {
+        mapaCatalogo[codigo] =
+          String(item.descripcion || '').trim() || codigo;
+      }
+    });
+
+    return mapaCatalogo;
+  }, [catalogos]);
+
+  const otrasTopDiagnosticos = useMemo(() => {
+    const acumulado = {};
+
+    otrasCodigosFiltrado.forEach((item) => {
+      const codigo = String(item.otra_patologia_codigo || '').trim();
+      if (!codigo) return;
+
+      acumulado[codigo] =
+        (acumulado[codigo] || 0) + (Number(item.n) || 0);
+    });
+
+    return Object.entries(acumulado)
+      .map(([codigo, n]) => ({
+        codigo,
+        n,
+        descripcion: catalogoOtrasMap[codigo] || codigo,
+      }))
+      .sort((a, b) => b.n - a.n)
+      .slice(0, 5);
+  }, [otrasCodigosFiltrado, catalogoOtrasMap]);
 
   const cambiarEntidad = (event) => {
     setEntidad(event.target.value);
@@ -2040,7 +2360,312 @@ function App() {
             </section>
           )}
 
-          {!['inicio', 'caries', 'higiene', 'periodontal'].includes(vista) && (
+          {vista === 'otras' && (
+            <section className="otras-module">
+              <FilterStrip {...filtroProps} />
+
+              {!otrasData ? (
+                <div className="module-loading">
+                  Cargando información de OTRAS PATOLOGÍAS...
+                </div>
+              ) : (
+                <div className="otras-proposal-grid">
+                  <article className="social-panel proposal-social-panel">
+                    <div className="social-left-column">
+                      <div className="social-summary-card proposal-summary-card">
+                        <div
+                          className="generic-social-icon"
+                          aria-hidden="true"
+                        >
+                          🧳
+                        </div>
+
+                        <div className="social-summary-copy">
+                          <strong>
+                            {formatoPorcentaje(
+                              otrasSociales.migrantePct,
+                              1
+                            )}
+                          </strong>
+                          <span>Se consideran migrantes</span>
+                        </div>
+                      </div>
+
+                      <div className="social-summary-card proposal-summary-card">
+                        <div
+                          className="generic-social-icon"
+                          aria-hidden="true"
+                        >
+                          👥
+                        </div>
+
+                        <div className="social-summary-copy">
+                          <strong>
+                            {formatoPorcentaje(
+                              otrasSociales.indigenaPct,
+                              1
+                            )}
+                          </strong>
+                          <span>Se consideran indígenas</span>
+                        </div>
+                      </div>
+
+                      <div className="mini-section proposal-sex-section">
+                        <h3>Sexo</h3>
+
+                        <div className="sex-chart-wrap">
+                          <div
+                            className="sex-pie"
+                            style={otrasSexoPieStyle}
+                          >
+                            {otrasSexoData.items[0] && (
+                              <span className="sex-pie-label sex-pie-label-a">
+                                {formatoPorcentaje(
+                                  otrasSexoData.items[0].valor,
+                                  1
+                                )}
+                              </span>
+                            )}
+
+                            {otrasSexoData.items[1] && (
+                              <span className="sex-pie-label sex-pie-label-b">
+                                {formatoPorcentaje(
+                                  otrasSexoData.items[1].valor,
+                                  1
+                                )}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="sex-legend">
+                            {otrasSexoData.items.map((item, index) => (
+                              <div
+                                className="sex-legend-row"
+                                key={item.etiqueta}
+                              >
+                                <span
+                                  className="sex-legend-dot"
+                                  style={{
+                                    background:
+                                      index === 0
+                                        ? '#701039'
+                                        : index === 1
+                                        ? '#173f3a'
+                                        : index === 2
+                                        ? '#b38c2e'
+                                        : '#8b8b8b',
+                                  }}
+                                ></span>
+
+                                <span>{item.etiqueta}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="social-right-column">
+                      <div className="mini-section proposal-bars-section">
+                        <h3>Antecedentes</h3>
+
+                        <HorizontalBars
+                          items={otrasAntecedentesData}
+                          variant="green"
+                        />
+                      </div>
+
+                      <div className="mini-section occupation-section proposal-bars-section">
+                        <h3>Ocupación actual</h3>
+
+                        <HorizontalBars
+                          items={otrasOcupacionData}
+                          variant="burgundy"
+                        />
+                      </div>
+                    </div>
+                  </article>
+
+                  <article className="otras-state-panel">
+                    <h2>Otras lesiones en mucosa bucal</h2>
+
+                    <div className="otras-top-grid">
+                      <div className="otras-kpi-stack">
+                        <div className="otras-kpi-card">
+                          <strong>
+                            {formatoPorcentaje(
+                              indicadoresOtras.fluorPct,
+                              1
+                            )}
+                          </strong>
+                          <span>Con diagnóstico de fluorosis</span>
+                        </div>
+
+                        <div className="otras-kpi-card">
+                          <strong>
+                            {formatoPorcentaje(
+                              indicadoresOtras.otraPct,
+                              1
+                            )}
+                          </strong>
+                          <span>Reportó otras patologías</span>
+                        </div>
+                      </div>
+
+                      <div className="otras-tiempo-block">
+                        <h3>
+                          Tiempo de evolución de lesiones
+                          <br />
+                          en mucosa bucal
+                        </h3>
+
+                        <div className="otras-tiempo-row">
+                          <div
+                            className="otras-tiempo-pie"
+                            style={otrasTiempoPieStyle}
+                          >
+                            {Number.isFinite(
+                              indicadoresOtras.tiempoLt3Pct
+                            ) && (
+                              <span className="otras-tiempo-label otras-tiempo-label-a">
+                                {formatoPorcentaje(
+                                  indicadoresOtras.tiempoLt3Pct,
+                                  0
+                                )}
+                              </span>
+                            )}
+
+                            {Number.isFinite(
+                              indicadoresOtras.tiempoGt3Pct
+                            ) && (
+                              <span className="otras-tiempo-label otras-tiempo-label-b">
+                                {formatoPorcentaje(
+                                  indicadoresOtras.tiempoGt3Pct,
+                                  0
+                                )}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="otras-tiempo-legend">
+                            <div>
+                              <i className="otras-dot otras-dot-wine"></i>
+                              <span>Menos de tres semanas</span>
+                            </div>
+
+                            <div>
+                              <i className="otras-dot otras-dot-gold"></i>
+                              <span>Más de tres semanas</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="otras-bottom-grid">
+                      <div className="otras-chart-card">
+                        <h3>Lesiones identificadas</h3>
+
+                        <div className="lesiones-bars">
+                          {lesionesData.map((item) => {
+                            const max = Math.max(
+                              1,
+                              ...lesionesData.map((x) => x.valor || 0)
+                            );
+
+                            return (
+                              <div
+                                className="lesion-bar-item"
+                                key={item.etiqueta}
+                              >
+                                <div className="lesion-bar-value">
+                                  {Number(item.valor || 0).toLocaleString(
+                                    'es-MX'
+                                  )}
+                                </div>
+
+                                <div className="lesion-bar-track">
+                                  <div
+                                    className="lesion-bar-fill"
+                                    style={{
+                                      height: `${Math.max(
+                                        item.valor > 0 ? 8 : 0,
+                                        ((item.valor || 0) / max) * 100
+                                      )}%`,
+                                      background: item.color,
+                                    }}
+                                  ></div>
+                                </div>
+
+                                <div className="lesion-bar-label">
+                                  {item.etiqueta}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="otras-chart-card">
+                        <h3>
+                          Otros diagnósticos y padecimientos registrados
+                        </h3>
+
+                        <div className="diagnosticos-bars">
+                          {otrasTopDiagnosticos.length === 0 ? (
+                            <div className="otras-no-data">
+                              Sin registros para la selección.
+                            </div>
+                          ) : (
+                            otrasTopDiagnosticos.map((item) => {
+                              const max = Math.max(
+                                1,
+                                ...otrasTopDiagnosticos.map(
+                                  (x) => x.n || 0
+                                )
+                              );
+
+                              return (
+                                <div
+                                  className="diagnostico-row"
+                                  key={item.codigo}
+                                >
+                                  <div className="diagnostico-label">
+                                    <strong>{item.codigo}</strong>
+                                    <span>{item.descripcion}</span>
+                                  </div>
+
+                                  <div className="diagnostico-track">
+                                    <div
+                                      className="diagnostico-fill"
+                                      style={{
+                                        width: `${Math.max(
+                                          item.n > 0 ? 2 : 0,
+                                          ((item.n || 0) / max) * 100
+                                        )}%`,
+                                      }}
+                                    ></div>
+                                  </div>
+
+                                  <div className="diagnostico-value">
+                                    {Number(item.n || 0).toLocaleString(
+                                      'es-MX'
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              )}
+            </section>
+          )}
+
+          {!['inicio', 'caries', 'higiene', 'periodontal', 'otras'].includes(vista) && (
             <section className="module-placeholder">
               <h2>{tituloVista}</h2>
               <p>
