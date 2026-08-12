@@ -17,6 +17,9 @@ import iconHigiene from './assets/menu/icono Higiene.png';
 import iconPeriodontal from './assets/menu/icono enfperio.png';
 import iconOtras from './assets/menu/icono cancer.png';
 
+import iconMigrantes from './assets/social/icono_migrantes.png';
+import iconIndigena from './assets/social/icono_indigena.png';
+
 import logoImssBienestar from './assets/logos/Logo_imssb.png';
 import logoVigilancia from './assets/logos/LOGO_BLANCO_V.png';
 
@@ -2149,11 +2152,12 @@ function App() {
                   <article className="social-panel proposal-social-panel">
                     <div className="social-left-column">
                       <div className="social-summary-card proposal-summary-card">
-                        <div
-                          className="generic-social-icon"
-                          aria-hidden="true"
-                        >
-                          🧳
+                        <div className="generic-social-icon" aria-hidden="true">
+                          <img
+                            className="social-icon-image social-icon-migrante"
+                            src={iconMigrantes}
+                            alt=""
+                          />
                         </div>
 
                         <div className="social-summary-copy">
@@ -2168,11 +2172,12 @@ function App() {
                       </div>
 
                       <div className="social-summary-card proposal-summary-card">
-                        <div
-                          className="generic-social-icon"
-                          aria-hidden="true"
-                        >
-                          👥
+                        <div className="generic-social-icon" aria-hidden="true">
+                          <img
+                            className="social-icon-image social-icon-indigena"
+                            src={iconIndigena}
+                            alt=""
+                          />
                         </div>
 
                         <div className="social-summary-copy">
@@ -2380,11 +2385,12 @@ function App() {
                   <article className="social-panel proposal-social-panel">
                     <div className="social-left-column">
                       <div className="social-summary-card proposal-summary-card">
-                        <div
-                          className="generic-social-icon"
-                          aria-hidden="true"
-                        >
-                          🧳
+                        <div className="generic-social-icon" aria-hidden="true">
+                          <img
+                            className="social-icon-image social-icon-migrante"
+                            src={iconMigrantes}
+                            alt=""
+                          />
                         </div>
 
                         <div className="social-summary-copy">
@@ -2399,11 +2405,12 @@ function App() {
                       </div>
 
                       <div className="social-summary-card proposal-summary-card">
-                        <div
-                          className="generic-social-icon"
-                          aria-hidden="true"
-                        >
-                          👥
+                        <div className="generic-social-icon" aria-hidden="true">
+                          <img
+                            className="social-icon-image social-icon-indigena"
+                            src={iconIndigena}
+                            alt=""
+                          />
                         </div>
 
                         <div className="social-summary-copy">
@@ -2603,7 +2610,11 @@ function App() {
                     <div className="social-left-column">
                       <div className="social-summary-card proposal-summary-card">
                         <div className="generic-social-icon" aria-hidden="true">
-                          🧳
+                          <img
+                            className="social-icon-image social-icon-migrante"
+                            src={iconMigrantes}
+                            alt=""
+                          />
                         </div>
                         <div className="social-summary-copy">
                           <strong>
@@ -2618,7 +2629,11 @@ function App() {
 
                       <div className="social-summary-card proposal-summary-card">
                         <div className="generic-social-icon" aria-hidden="true">
-                          👥
+                          <img
+                            className="social-icon-image social-icon-indigena"
+                            src={iconIndigena}
+                            alt=""
+                          />
                         </div>
                         <div className="social-summary-copy">
                           <strong>
@@ -2774,11 +2789,12 @@ function App() {
                   <article className="social-panel proposal-social-panel">
                     <div className="social-left-column">
                       <div className="social-summary-card proposal-summary-card">
-                        <div
-                          className="generic-social-icon"
-                          aria-hidden="true"
-                        >
-                          🧳
+                        <div className="generic-social-icon" aria-hidden="true">
+                          <img
+                            className="social-icon-image social-icon-migrante"
+                            src={iconMigrantes}
+                            alt=""
+                          />
                         </div>
 
                         <div className="social-summary-copy">
@@ -2793,11 +2809,12 @@ function App() {
                       </div>
 
                       <div className="social-summary-card proposal-summary-card">
-                        <div
-                          className="generic-social-icon"
-                          aria-hidden="true"
-                        >
-                          👥
+                        <div className="generic-social-icon" aria-hidden="true">
+                          <img
+                            className="social-icon-image social-icon-indigena"
+                            src={iconIndigena}
+                            alt=""
+                          />
                         </div>
 
                         <div className="social-summary-copy">
