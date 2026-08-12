@@ -1036,8 +1036,8 @@ button {
 
 .periodontal-pie-wrap {
   position: relative;
-  width: 330px;
-  height: 320px;
+  width: 290px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1074,59 +1074,17 @@ button {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
-.periodontal-pie-label.outside .periodontal-pie-label-value {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  white-space: nowrap;
-  min-height: 23px;
-  padding: 2px 6px;
-  border-radius: 999px;
-  background: #ffffff;
-  border: 1px solid #cfcfcf;
-  color: #333333;
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
-}
-
-.periodontal-pie-label.outside.derecha {
-  transform: translate(-8px, -50%);
-}
-
-.periodontal-pie-label.outside.izquierda {
-  transform: translate(calc(-100% + 8px), -50%);
-}
-
-.periodontal-callout-line {
-  position: absolute;
-  top: 50%;
-  width: 34px;
-  height: 1.5px;
-  background: #777777;
-}
-
-.periodontal-pie-label.outside.derecha .periodontal-callout-line {
-  right: 100%;
-}
-
-.periodontal-pie-label.outside.izquierda .periodontal-callout-line {
-  left: 100%;
-}
-
-.periodontal-legend {
-  min-width: 165px;
+.periodontal-pie-label.outside.derecha .periodontal-pie-label.outside.izquierda .periodontal-legend {
+  min-width: 205px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .periodontal-legend > div {
   display: grid;
-  grid-template-columns: 10px 1fr;
-  gap: 8px;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: 9px;
   align-items: center;
   color: #333333;
   font-size: 11px;
@@ -1136,6 +1094,16 @@ button {
   width: 10px;
   height: 10px;
   display: block;
+}
+
+.periodontal-legend-label {
+  line-height: 1.25;
+}
+
+.periodontal-legend-label strong {
+  color: #701039;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .periodontal-reference {

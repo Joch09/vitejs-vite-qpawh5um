@@ -1105,15 +1105,15 @@ function App() {
 
     let acumulado = 0;
 
-    const segmentos = base.map((item) => {
+    return base.map((item) => {
       const inicio = acumulado;
       const fin = acumulado + item.valor;
       const medio = (inicio + fin) / 2;
       acumulado = fin;
 
       const rad = ((medio * 3.6 - 90) * Math.PI) / 180;
-      const esPequeno = item.valor < 7;
-      const radio = esPequeno ? 139 : 77;
+      const esPequeno = item.valor < 4;
+      const radio = 77;
 
       return {
         ...item,
@@ -1122,39 +1122,8 @@ function App() {
         esPequeno,
         x: Math.cos(rad) * radio,
         y: Math.sin(rad) * radio,
-        lado: Math.cos(rad) >= 0 ? 'derecha' : 'izquierda',
       };
     });
-
-    // Evita que las etiquetas externas de segmentos pequeños se encimen.
-    // Se resuelve por cada lado del pastel manteniendo una separación vertical mínima.
-    ['izquierda', 'derecha'].forEach((lado) => {
-      const pequenos = segmentos
-        .filter((item) => item.esPequeno && item.lado === lado)
-        .sort((a, b) => a.y - b.y);
-
-      const separacionMinima = 34;
-
-      for (let i = 1; i < pequenos.length; i += 1) {
-        if (pequenos[i].y - pequenos[i - 1].y < separacionMinima) {
-          pequenos[i].y = pequenos[i - 1].y + separacionMinima;
-        }
-      }
-
-      // Si el grupo se desplazó demasiado, lo recentramos suavemente.
-      if (pequenos.length > 1) {
-        const promedioOriginal = pequenos.reduce((acc, item) => acc + item.y, 0) / pequenos.length;
-        const minY = pequenos[0].y;
-        const maxY = pequenos[pequenos.length - 1].y;
-        const centroActual = (minY + maxY) / 2;
-        const ajuste = Math.max(-18, Math.min(18, promedioOriginal - centroActual));
-        pequenos.forEach((item) => {
-          item.y += ajuste;
-        });
-      }
-    });
-
-    return segmentos;
   }, [
     indicadoresPeriodontal.sanoPct,
     indicadoresPeriodontal.hemPct,
@@ -2017,25 +1986,22 @@ function App() {
                             className="periodontal-pie"
                             style={periodontalPieStyle}
                           >
-                            {periodontalSegmentos.map((item) => (
-                              <div
-                                key={item.etiqueta}
-                                className={`periodontal-pie-label ${
-                                  item.esPequeno ? 'outside' : 'inside'
-                                } ${item.lado}`}
-                                style={{
-                                  left: `calc(50% + ${item.x}px)`,
-                                  top: `calc(50% + ${item.y}px)`,
-                                }}
-                              >
-                                {item.esPequeno && (
-                                  <span className="periodontal-callout-line"></span>
-                                )}
-                                <span className="periodontal-pie-label-value">
-                                  {formatoPorcentaje(item.valor, 1)}
-                                </span>
-                              </div>
-                            ))}
+                            {periodontalSegmentos
+                              .filter((item) => !item.esPequeno)
+                              .map((item) => (
+                                <div
+                                  key={item.etiqueta}
+                                  className="periodontal-pie-label inside"
+                                  style={{
+                                    left: `calc(50% + ${item.x}px)`,
+                                    top: `calc(50% + ${item.y}px)`,
+                                  }}
+                                >
+                                  <span className="periodontal-pie-label-value">
+                                    {formatoPorcentaje(item.valor, 1)}
+                                  </span>
+                                </div>
+                              ))}
                           </div>
                         </div>
 
@@ -2043,7 +2009,17 @@ function App() {
                           {periodontalSegmentos.map((item) => (
                             <div key={item.etiqueta}>
                               <i style={{ background: item.color }}></i>
-                              <span>{item.etiqueta}</span>
+
+                              <span className="periodontal-legend-label">
+                                {item.etiqueta}
+
+                                {item.esPequeno && (
+                                  <strong>
+                                    {' '}
+                                    ({formatoPorcentaje(item.valor, 1)})
+                                  </strong>
+                                )}
+                              </span>
                             </div>
                           ))}
                         </div>
