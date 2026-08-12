@@ -301,6 +301,7 @@ function App() {
   const [mapa, setMapa] = useState([]);
   const [resumenNacional, setResumenNacional] = useState(null);
   const [cariesData, setCariesData] = useState(null);
+  const [higieneData, setHigieneData] = useState(null);
   const [errorCarga, setErrorCarga] = useState('');
 
   const [vista, setVista] = useState('inicio');
@@ -371,6 +372,33 @@ function App() {
         setErrorCarga(error.message);
       });
   }, [vista, cariesData]);
+
+  useEffect(() => {
+    if (vista !== 'higiene' || higieneData) return;
+
+    fetch('/data/sivepab_higiene.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('No fue posible cargar sivepab_higiene.json');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setHigieneData({
+          ...data,
+          coreDecoded: decodeColumnarDataset(data.core),
+          sexoDecoded: decodeColumnarDataset(data.sexo),
+          antecedentesDecoded: decodeColumnarDataset(data.antecedentes),
+          ocupacionDecoded: decodeColumnarDataset(data.ocupacion),
+          socialDecoded: decodeColumnarDataset(data.social),
+        });
+        setErrorCarga('');
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorCarga(error.message);
+      });
+  }, [vista, higieneData]);
 
   const edades = catalogos?.filtros?.edades || [];
   const meses = catalogos?.filtros?.meses || [];
@@ -485,6 +513,71 @@ function App() {
         idsUnidadesEntidad
       ),
     [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const higieneCoreFiltrada = useMemo(
+    () =>
+      filtrarPorLlave(
+        higieneData?.coreDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const higieneSexoFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        higieneData?.sexoDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const higieneAntecedentesFiltrados = useMemo(
+    () =>
+      filtrarPorLlave(
+        higieneData?.antecedentesDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const higieneOcupacionFiltrada = useMemo(
+    () =>
+      filtrarPorLlave(
+        higieneData?.ocupacionDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const higieneSocialFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        higieneData?.socialDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
   );
 
   const indicadoresCaries = useMemo(() => {
@@ -620,6 +713,136 @@ function App() {
       .slice(0, 8)
       .sort((a, b) => a.valor - b.valor);
   }, [ocupacionFiltrada]);
+
+  const indicadoresHigiene = useMemo(() => {
+    const N = sumar(higieneCoreFiltrada, 'IHOS_N');
+    const suma = sumar(higieneCoreFiltrada, 'IHOS_sum');
+
+    const excelente = sumar(higieneCoreFiltrada, 'excelente');
+    const buena = sumar(higieneCoreFiltrada, 'buena');
+    const regular = sumar(higieneCoreFiltrada, 'regular');
+    const mala = sumar(higieneCoreFiltrada, 'mala');
+
+    return {
+      N,
+      media: N > 0 ? suma / N : null,
+      excelentePct: porcentaje(excelente, N),
+      buenaPct: porcentaje(buena, N),
+      regularPct: porcentaje(regular, N),
+      malaPct: porcentaje(mala, N),
+    };
+  }, [higieneCoreFiltrada]);
+
+  const higieneSociales = useMemo(() => {
+    const migranteN = sumar(higieneSocialFiltrado, 'migrante_N');
+    const migranteNume = sumar(higieneSocialFiltrado, 'migrante_n');
+
+    const indigenaN = sumar(higieneSocialFiltrado, 'indigena_N');
+    const indigenaNume = sumar(higieneSocialFiltrado, 'indigena_n');
+
+    return {
+      migrantePct: porcentaje(migranteNume, migranteN),
+      indigenaPct: porcentaje(indigenaNume, indigenaN),
+    };
+  }, [higieneSocialFiltrado]);
+
+  const higieneSexoData = useMemo(() => {
+    const porSexo = {};
+
+    higieneSexoFiltrado.forEach((item) => {
+      const clave = String(item.sexo || '').trim() || 'No especificado';
+      porSexo[clave] = (porSexo[clave] || 0) + (Number(item.n) || 0);
+    });
+
+    const total = Object.values(porSexo).reduce(
+      (acum, valor) => acum + valor,
+      0
+    );
+
+    const items = Object.entries(porSexo)
+      .map(([etiqueta, n]) => ({
+        etiqueta,
+        n,
+        valor: porcentaje(n, total),
+      }))
+      .sort((a, b) => b.n - a.n);
+
+    return { total, items };
+  }, [higieneSexoFiltrado]);
+
+  const higieneAntecedentesData = useMemo(() => {
+    const N = sumar(higieneAntecedentesFiltrados, 'N');
+
+    return ANTECEDENTES.map((item) => ({
+      etiqueta: item.etiqueta,
+      valor: porcentaje(
+        sumar(higieneAntecedentesFiltrados, item.campo),
+        N
+      ),
+    })).filter((item) => item.valor !== null);
+  }, [higieneAntecedentesFiltrados]);
+
+  const higieneOcupacionData = useMemo(() => {
+    const acumulado = {};
+
+    higieneOcupacionFiltrada.forEach((item) => {
+      const etiqueta =
+        String(item.ocupacion || '').trim() || 'No especificado';
+
+      acumulado[etiqueta] =
+        (acumulado[etiqueta] || 0) + (Number(item.n) || 0);
+    });
+
+    const total = Object.values(acumulado).reduce(
+      (acum, valor) => acum + valor,
+      0
+    );
+
+    return Object.entries(acumulado)
+      .map(([etiqueta, n]) => ({
+        etiqueta,
+        n,
+        valor: porcentaje(n, total),
+      }))
+      .sort((a, b) => b.n - a.n)
+      .slice(0, 8)
+      .sort((a, b) => a.valor - b.valor);
+  }, [higieneOcupacionFiltrada]);
+
+  const higieneColores = [
+    '#173f3a',
+    '#b38c2e',
+    '#701039',
+    '#8b8b8b',
+  ];
+
+  const higienePieStyle = (() => {
+    const segmentosDatos = [
+      indicadoresHigiene.excelentePct,
+      indicadoresHigiene.buenaPct,
+      indicadoresHigiene.regularPct,
+      indicadoresHigiene.malaPct,
+    ];
+
+    if (!segmentosDatos.some((valor) => Number.isFinite(valor))) {
+      return { background: '#e7e7e7' };
+    }
+
+    let inicio = 0;
+
+    const segmentos = segmentosDatos.map((valor, index) => {
+      const pct = Number.isFinite(valor) ? valor : 0;
+      const fin = inicio + pct;
+      const segmento =
+        `${higieneColores[index]} ${inicio}% ${fin}%`;
+      inicio = fin;
+      return segmento;
+    });
+
+    return {
+      background: `conic-gradient(${segmentos.join(', ')})`,
+    };
+  })();
 
   const cambiarEntidad = (event) => {
     setEntidad(event.target.value);
@@ -1102,7 +1325,231 @@ function App() {
             </section>
           )}
 
-          {!['inicio', 'caries'].includes(vista) && (
+          {vista === 'higiene' && (
+            <section className="higiene-module">
+              <FilterStrip {...filtroProps} />
+
+              {!higieneData ? (
+                <div className="module-loading">
+                  Cargando información de HIGIENE BUCAL...
+                </div>
+              ) : (
+                <div className="higiene-proposal-grid">
+                  <article className="social-panel proposal-social-panel">
+                    <div className="social-left-column">
+                      <div className="social-summary-card proposal-summary-card">
+                        <div
+                          className="generic-social-icon"
+                          aria-hidden="true"
+                        >
+                          🧳
+                        </div>
+
+                        <div className="social-summary-copy">
+                          <strong>
+                            {formatoPorcentaje(
+                              higieneSociales.migrantePct,
+                              1
+                            )}
+                          </strong>
+                          <span>Se consideran migrantes</span>
+                        </div>
+                      </div>
+
+                      <div className="social-summary-card proposal-summary-card">
+                        <div
+                          className="generic-social-icon"
+                          aria-hidden="true"
+                        >
+                          👥
+                        </div>
+
+                        <div className="social-summary-copy">
+                          <strong>
+                            {formatoPorcentaje(
+                              higieneSociales.indigenaPct,
+                              1
+                            )}
+                          </strong>
+                          <span>Se consideran indígenas</span>
+                        </div>
+                      </div>
+
+                      <div className="mini-section proposal-sex-section">
+                        <h3>Sexo</h3>
+
+                        <div className="higiene-sex-bars">
+                          {higieneSexoData.items.map((item, index) => (
+                            <div
+                              className="higiene-sex-row"
+                              key={item.etiqueta}
+                            >
+                              <span
+                                className="sex-legend-dot"
+                                style={{
+                                  background:
+                                    index === 0
+                                      ? '#701039'
+                                      : index === 1
+                                      ? '#173f3a'
+                                      : '#8b8b8b',
+                                }}
+                              ></span>
+
+                              <span className="higiene-sex-name">
+                                {item.etiqueta}
+                              </span>
+
+                              <div className="higiene-sex-track">
+                                <div
+                                  className="higiene-sex-fill"
+                                  style={{
+                                    width: `${Math.max(
+                                      0,
+                                      item.valor || 0
+                                    )}%`,
+                                    background:
+                                      index === 0
+                                        ? '#701039'
+                                        : index === 1
+                                        ? '#173f3a'
+                                        : '#8b8b8b',
+                                  }}
+                                ></div>
+                              </div>
+
+                              <strong>
+                                {formatoPorcentaje(item.valor, 1)}
+                              </strong>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="social-right-column">
+                      <div className="mini-section proposal-bars-section">
+                        <h3>Antecedentes</h3>
+
+                        <HorizontalBars
+                          items={higieneAntecedentesData}
+                          variant="green"
+                        />
+                      </div>
+
+                      <div className="mini-section occupation-section proposal-bars-section">
+                        <h3>Ocupación actual</h3>
+
+                        <HorizontalBars
+                          items={higieneOcupacionData}
+                          variant="burgundy"
+                        />
+                      </div>
+                    </div>
+                  </article>
+
+                  <article className="hygiene-state-panel">
+                    <h2>Evaluación de la higiene bucal</h2>
+
+                    <div className="hygiene-chart-block">
+                      <h3>Clasificación del IHOS</h3>
+
+                      <div className="hygiene-chart-row">
+                        <div
+                          className="hygiene-pie"
+                          style={higienePieStyle}
+                        ></div>
+
+                        <div className="hygiene-legend">
+                          <div>
+                            <i
+                              style={{
+                                background: higieneColores[0],
+                              }}
+                            ></i>
+                            <span>Excelente</span>
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresHigiene.excelentePct,
+                                1
+                              )}
+                            </strong>
+                          </div>
+
+                          <div>
+                            <i
+                              style={{
+                                background: higieneColores[1],
+                              }}
+                            ></i>
+                            <span>Buena</span>
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresHigiene.buenaPct,
+                                1
+                              )}
+                            </strong>
+                          </div>
+
+                          <div>
+                            <i
+                              style={{
+                                background: higieneColores[2],
+                              }}
+                            ></i>
+                            <span>Regular</span>
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresHigiene.regularPct,
+                                1
+                              )}
+                            </strong>
+                          </div>
+
+                          <div>
+                            <i
+                              style={{
+                                background: higieneColores[3],
+                              }}
+                            ></i>
+                            <span>Mala</span>
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresHigiene.malaPct,
+                                1
+                              )}
+                            </strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="ihos-value-card">
+                      <strong>
+                        {formatoNumero(
+                          indicadoresHigiene.media,
+                          2
+                        )}
+                      </strong>
+                      <span>IHOS</span>
+                    </div>
+
+                    <div className="ihos-reference">
+                      <strong>
+                        Índice de Higiene Oral Simplificado (IHOS):
+                      </strong>
+                      <span>Excelente = 0</span>
+                      <span>Buena = 0.1 - 1.2</span>
+                      <span>Regular = 1.3 - 3.0</span>
+                      <span>Mala = 3.1 - 6.0</span>
+                    </div>
+                  </article>
+                </div>
+              )}
+            </section>
+          )}
+
+          {!['inicio', 'caries', 'higiene'].includes(vista) && (
             <section className="module-placeholder">
               <h2>{tituloVista}</h2>
               <p>
