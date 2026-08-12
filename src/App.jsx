@@ -302,6 +302,7 @@ function App() {
   const [resumenNacional, setResumenNacional] = useState(null);
   const [cariesData, setCariesData] = useState(null);
   const [higieneData, setHigieneData] = useState(null);
+  const [periodontalData, setPeriodontalData] = useState(null);
   const [errorCarga, setErrorCarga] = useState('');
 
   const [vista, setVista] = useState('inicio');
@@ -401,7 +402,40 @@ function App() {
   }, [vista, higieneData]);
 
   useEffect(() => {
-    if (vista === 'higiene' && edad && Number(edad) < 7) {
+    if (vista !== 'periodontal' || periodontalData) return;
+
+    fetch('/data/sivepab_periodontal.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            'No fue posible cargar sivepab_periodontal.json'
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPeriodontalData({
+          ...data,
+          coreDecoded: decodeColumnarDataset(data.core),
+          sexoDecoded: decodeColumnarDataset(data.sexo),
+          antecedentesDecoded: decodeColumnarDataset(data.antecedentes),
+          ocupacionDecoded: decodeColumnarDataset(data.ocupacion),
+          socialDecoded: decodeColumnarDataset(data.social),
+        });
+        setErrorCarga('');
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorCarga(error.message);
+      });
+  }, [vista, periodontalData]);
+
+  useEffect(() => {
+    if (
+      ['higiene', 'periodontal'].includes(vista) &&
+      edad &&
+      Number(edad) < 7
+    ) {
       setEdad('');
     }
   }, [vista, edad]);
@@ -584,6 +618,71 @@ function App() {
         idsUnidadesEntidad
       ),
     [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const periodontalCoreFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        periodontalData?.coreDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const periodontalSexoFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        periodontalData?.sexoDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const periodontalAntecedentesFiltrados = useMemo(
+    () =>
+      filtrarPorLlave(
+        periodontalData?.antecedentesDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const periodontalOcupacionFiltrada = useMemo(
+    () =>
+      filtrarPorLlave(
+        periodontalData?.ocupacionDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  const periodontalSocialFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        periodontalData?.socialDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
   );
 
   const indicadoresCaries = useMemo(() => {
@@ -903,6 +1002,163 @@ function App() {
     indicadoresHigiene.malaPct,
   ]);
 
+  const indicadoresPeriodontal = useMemo(() => {
+    const N = sumar(periodontalCoreFiltrado, 'ipc_N');
+
+    return {
+      N,
+      sanoPct: porcentaje(sumar(periodontalCoreFiltrado, 'ipc_sano'), N),
+      hemPct: porcentaje(sumar(periodontalCoreFiltrado, 'ipc_hem'), N),
+      calcPct: porcentaje(sumar(periodontalCoreFiltrado, 'ipc_calc'), N),
+      b45Pct: porcentaje(sumar(periodontalCoreFiltrado, 'ipc_b45'), N),
+      b6Pct: porcentaje(sumar(periodontalCoreFiltrado, 'ipc_b6'), N),
+    };
+  }, [periodontalCoreFiltrado]);
+
+  const periodontalSociales = useMemo(() => {
+    const migranteN = sumar(periodontalSocialFiltrado, 'migrante_N');
+    const migranteNume = sumar(periodontalSocialFiltrado, 'migrante_n');
+    const indigenaN = sumar(periodontalSocialFiltrado, 'indigena_N');
+    const indigenaNume = sumar(periodontalSocialFiltrado, 'indigena_n');
+
+    return {
+      migrantePct: porcentaje(migranteNume, migranteN),
+      indigenaPct: porcentaje(indigenaNume, indigenaN),
+    };
+  }, [periodontalSocialFiltrado]);
+
+  const periodontalSexoData = useMemo(() => {
+    const porSexo = {};
+
+    periodontalSexoFiltrado.forEach((item) => {
+      const clave = String(item.sexo || '').trim() || 'No especificado';
+      porSexo[clave] = (porSexo[clave] || 0) + (Number(item.n) || 0);
+    });
+
+    const total = Object.values(porSexo).reduce((a, b) => a + b, 0);
+
+    return {
+      total,
+      items: Object.entries(porSexo)
+        .map(([etiqueta, n]) => ({
+          etiqueta,
+          n,
+          valor: porcentaje(n, total),
+        }))
+        .sort((a, b) => b.n - a.n),
+    };
+  }, [periodontalSexoFiltrado]);
+
+  const periodontalAntecedentesData = useMemo(() => {
+    const N = sumar(periodontalAntecedentesFiltrados, 'N');
+
+    return ANTECEDENTES.map((item) => ({
+      etiqueta: item.etiqueta,
+      valor: porcentaje(
+        sumar(periodontalAntecedentesFiltrados, item.campo),
+        N
+      ),
+    })).filter((item) => item.valor !== null);
+  }, [periodontalAntecedentesFiltrados]);
+
+  const periodontalOcupacionData = useMemo(() => {
+    const acumulado = {};
+
+    periodontalOcupacionFiltrada.forEach((item) => {
+      const etiqueta =
+        String(item.ocupacion || '').trim() || 'No especificado';
+      acumulado[etiqueta] =
+        (acumulado[etiqueta] || 0) + (Number(item.n) || 0);
+    });
+
+    const total = Object.values(acumulado).reduce((a, b) => a + b, 0);
+
+    return Object.entries(acumulado)
+      .map(([etiqueta, n]) => ({
+        etiqueta,
+        n,
+        valor: porcentaje(n, total),
+      }))
+      .sort((a, b) => b.n - a.n)
+      .slice(0, 8)
+      .sort((a, b) => a.valor - b.valor);
+  }, [periodontalOcupacionFiltrada]);
+
+  const periodontalColores = [
+    '#173f3a',
+    '#b38c2e',
+    '#701039',
+    '#8f6a56',
+    '#8b8b8b',
+  ];
+
+  const periodontalSegmentos = useMemo(() => {
+    const base = [
+      ['Sano', indicadoresPeriodontal.sanoPct, periodontalColores[0]],
+      ['Hemorragia', indicadoresPeriodontal.hemPct, periodontalColores[1]],
+      ['Cálculo', indicadoresPeriodontal.calcPct, periodontalColores[2]],
+      ['Bolsa de 4-5 mm', indicadoresPeriodontal.b45Pct, periodontalColores[3]],
+      ['Bolsa ≥ 6 mm', indicadoresPeriodontal.b6Pct, periodontalColores[4]],
+    ]
+      .map(([etiqueta, valor, color]) => ({ etiqueta, valor, color }))
+      .filter((item) => Number.isFinite(item.valor) && item.valor > 0);
+
+    let acumulado = 0;
+
+    return base.map((item) => {
+      const inicio = acumulado;
+      const fin = acumulado + item.valor;
+      const medio = (inicio + fin) / 2;
+      acumulado = fin;
+
+      const rad = ((medio * 3.6 - 90) * Math.PI) / 180;
+      const esPequeno = item.valor < 7;
+      const radio = esPequeno ? 126 : 77;
+
+      return {
+        ...item,
+        inicio,
+        fin,
+        esPequeno,
+        x: Math.cos(rad) * radio,
+        y: Math.sin(rad) * radio,
+        lado: Math.cos(rad) >= 0 ? 'derecha' : 'izquierda',
+      };
+    });
+  }, [
+    indicadoresPeriodontal.sanoPct,
+    indicadoresPeriodontal.hemPct,
+    indicadoresPeriodontal.calcPct,
+    indicadoresPeriodontal.b45Pct,
+    indicadoresPeriodontal.b6Pct,
+  ]);
+
+  const periodontalPieStyle = periodontalSegmentos.length
+    ? {
+        background: `conic-gradient(${periodontalSegmentos
+          .map((item) => `${item.color} ${item.inicio}% ${item.fin}%`)
+          .join(', ')})`,
+      }
+    : { background: '#e7e7e7' };
+
+  const periodontalSexoPieStyle = (() => {
+    if (!periodontalSexoData.items.length) {
+      return { background: '#e7e7e7' };
+    }
+
+    const colores = ['#701039', '#173f3a', '#b38c2e', '#8b8b8b'];
+    let inicio = 0;
+
+    const segmentos = periodontalSexoData.items.map((item, index) => {
+      const fin = inicio + (item.valor || 0);
+      const segmento = `${colores[index % colores.length]} ${inicio}% ${fin}%`;
+      inicio = fin;
+      return segmento;
+    });
+
+    return { background: `conic-gradient(${segmentos.join(', ')})` };
+  })();
+
   const cambiarEntidad = (event) => {
     setEntidad(event.target.value);
     setUnidad('');
@@ -920,7 +1176,7 @@ function App() {
       ?.cuestionarios_registrados_sin_inconsistencias ?? null;
 
   const edadesDisponibles =
-    vista === 'higiene'
+    ['higiene', 'periodontal'].includes(vista)
       ? edades.filter((item) => Number(item) >= 7)
       : edades;
 
@@ -1611,7 +1867,172 @@ function App() {
             </section>
           )}
 
-          {!['inicio', 'caries', 'higiene'].includes(vista) && (
+          {vista === 'periodontal' && (
+            <section className="periodontal-module">
+              <FilterStrip {...filtroProps} />
+
+              {!periodontalData ? (
+                <div className="module-loading">
+                  Cargando información de ENFERMEDAD PERIODONTAL...
+                </div>
+              ) : (
+                <div className="periodontal-proposal-grid">
+                  <article className="social-panel proposal-social-panel">
+                    <div className="social-left-column">
+                      <div className="social-summary-card proposal-summary-card">
+                        <div className="generic-social-icon" aria-hidden="true">
+                          🧳
+                        </div>
+                        <div className="social-summary-copy">
+                          <strong>
+                            {formatoPorcentaje(
+                              periodontalSociales.migrantePct,
+                              1
+                            )}
+                          </strong>
+                          <span>Se consideran migrantes</span>
+                        </div>
+                      </div>
+
+                      <div className="social-summary-card proposal-summary-card">
+                        <div className="generic-social-icon" aria-hidden="true">
+                          👥
+                        </div>
+                        <div className="social-summary-copy">
+                          <strong>
+                            {formatoPorcentaje(
+                              periodontalSociales.indigenaPct,
+                              1
+                            )}
+                          </strong>
+                          <span>Se consideran indígenas</span>
+                        </div>
+                      </div>
+
+                      <div className="mini-section proposal-sex-section">
+                        <h3>Sexo</h3>
+                        <div className="sex-chart-wrap">
+                          <div className="sex-pie" style={periodontalSexoPieStyle}>
+                            {periodontalSexoData.items[0] && (
+                              <span className="sex-pie-label sex-pie-label-a">
+                                {formatoPorcentaje(
+                                  periodontalSexoData.items[0].valor,
+                                  1
+                                )}
+                              </span>
+                            )}
+                            {periodontalSexoData.items[1] && (
+                              <span className="sex-pie-label sex-pie-label-b">
+                                {formatoPorcentaje(
+                                  periodontalSexoData.items[1].valor,
+                                  1
+                                )}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="sex-legend">
+                            {periodontalSexoData.items.map((item, index) => (
+                              <div className="sex-legend-row" key={item.etiqueta}>
+                                <span
+                                  className="sex-legend-dot"
+                                  style={{
+                                    background:
+                                      index === 0
+                                        ? '#701039'
+                                        : index === 1
+                                        ? '#173f3a'
+                                        : index === 2
+                                        ? '#b38c2e'
+                                        : '#8b8b8b',
+                                  }}
+                                ></span>
+                                <span>{item.etiqueta}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="social-right-column">
+                      <div className="mini-section proposal-bars-section">
+                        <h3>Antecedentes</h3>
+                        <HorizontalBars
+                          items={periodontalAntecedentesData}
+                          variant="green"
+                        />
+                      </div>
+
+                      <div className="mini-section occupation-section proposal-bars-section">
+                        <h3>Ocupación actual</h3>
+                        <HorizontalBars
+                          items={periodontalOcupacionData}
+                          variant="burgundy"
+                        />
+                      </div>
+                    </div>
+                  </article>
+
+                  <article className="periodontal-state-panel">
+                    <h2>Evaluación del estado periodontal</h2>
+                    <div className="periodontal-chart-block">
+                      <h3>Índice Periodontal Comunitario</h3>
+
+                      <div className="periodontal-chart-row">
+                        <div className="periodontal-pie-wrap">
+                          <div
+                            className="periodontal-pie"
+                            style={periodontalPieStyle}
+                          >
+                            {periodontalSegmentos.map((item) => (
+                              <div
+                                key={item.etiqueta}
+                                className={`periodontal-pie-label ${
+                                  item.esPequeno ? 'outside' : 'inside'
+                                } ${item.lado}`}
+                                style={{
+                                  left: `calc(50% + ${item.x}px)`,
+                                  top: `calc(50% + ${item.y}px)`,
+                                }}
+                              >
+                                {item.esPequeno && (
+                                  <span className="periodontal-callout-line"></span>
+                                )}
+                                <span className="periodontal-pie-label-value">
+                                  {formatoPorcentaje(item.valor, 1)}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="periodontal-legend">
+                          {periodontalSegmentos.map((item) => (
+                            <div key={item.etiqueta}>
+                              <i style={{ background: item.color }}></i>
+                              <span>{item.etiqueta}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="periodontal-reference">
+                      <strong>Índice Periodontal Comunitario (IPC)</strong>
+                      <span>0 = Sano</span>
+                      <span>1 = Hemorragia</span>
+                      <span>2 = Cálculo</span>
+                      <span>3 = Bolsa de 4-5 mm</span>
+                      <span>4 = Bolsa ≥ 6 mm</span>
+                    </div>
+                  </article>
+                </div>
+              )}
+            </section>
+          )}
+
+          {!['inicio', 'caries', 'higiene', 'periodontal'].includes(vista) && (
             <section className="module-placeholder">
               <h2>{tituloVista}</h2>
               <p>

@@ -984,6 +984,186 @@ button {
   }
 }
 
+/* =========================================================
+   ENFERMEDAD PERIODONTAL
+   ========================================================= */
+
+.periodontal-proposal-grid {
+  width: 100%;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: minmax(520px, 1.08fr) minmax(450px, 0.92fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.periodontal-state-panel {
+  min-height: 525px;
+  padding: 20px 28px 22px;
+  border-radius: 11px;
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.periodontal-state-panel > h2 {
+  margin: 0 0 20px;
+  color: #b08728;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.periodontal-chart-block {
+  width: 100%;
+}
+
+.periodontal-chart-block > h3 {
+  margin: 0 0 12px;
+  color: #173f3a;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.periodontal-chart-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+}
+
+.periodontal-pie-wrap {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.periodontal-pie {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+}
+
+.periodontal-pie-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.periodontal-pie-label.inside .periodontal-pie-label-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 25px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.periodontal-pie-label.outside .periodontal-pie-label-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 23px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #cfcfcf;
+  color: #333333;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+.periodontal-pie-label.outside.derecha {
+  transform: translate(-8px, -50%);
+}
+
+.periodontal-pie-label.outside.izquierda {
+  transform: translate(calc(-100% + 8px), -50%);
+}
+
+.periodontal-callout-line {
+  position: absolute;
+  top: 50%;
+  width: 28px;
+  height: 1.5px;
+  background: #777777;
+}
+
+.periodontal-pie-label.outside.derecha .periodontal-callout-line {
+  right: 100%;
+}
+
+.periodontal-pie-label.outside.izquierda .periodontal-callout-line {
+  left: 100%;
+}
+
+.periodontal-legend {
+  min-width: 165px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.periodontal-legend > div {
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  gap: 8px;
+  align-items: center;
+  color: #333333;
+  font-size: 11px;
+}
+
+.periodontal-legend i {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.periodontal-reference {
+  width: 82%;
+  margin-top: 18px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #ffffff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 20px;
+  color: #333333;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.periodontal-reference strong {
+  grid-column: 1 / -1;
+  margin-bottom: 3px;
+  color: #173f3a;
+  font-size: 11px;
+}
+
+@media (max-width: 1250px) {
+  .periodontal-proposal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* OTROS */
 
 .module-placeholder {
