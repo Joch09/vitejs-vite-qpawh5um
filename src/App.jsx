@@ -431,11 +431,11 @@ function App() {
   }, [vista, periodontalData]);
 
   useEffect(() => {
-    if (
-      ['higiene', 'periodontal'].includes(vista) &&
-      edad &&
-      Number(edad) < 7
-    ) {
+    if (vista === 'higiene' && edad && Number(edad) < 7) {
+      setEdad('');
+    }
+
+    if (vista === 'periodontal' && edad && Number(edad) < 15) {
       setEdad('');
     }
   }, [vista, edad]);
@@ -1105,7 +1105,7 @@ function App() {
 
     let acumulado = 0;
 
-    return base.map((item) => {
+    const segmentos = base.map((item) => {
       const inicio = acumulado;
       const fin = acumulado + item.valor;
       const medio = (inicio + fin) / 2;
@@ -1113,7 +1113,7 @@ function App() {
 
       const rad = ((medio * 3.6 - 90) * Math.PI) / 180;
       const esPequeno = item.valor < 7;
-      const radio = esPequeno ? 126 : 77;
+      const radio = esPequeno ? 139 : 77;
 
       return {
         ...item,
@@ -1125,6 +1125,36 @@ function App() {
         lado: Math.cos(rad) >= 0 ? 'derecha' : 'izquierda',
       };
     });
+
+    // Evita que las etiquetas externas de segmentos pequeños se encimen.
+    // Se resuelve por cada lado del pastel manteniendo una separación vertical mínima.
+    ['izquierda', 'derecha'].forEach((lado) => {
+      const pequenos = segmentos
+        .filter((item) => item.esPequeno && item.lado === lado)
+        .sort((a, b) => a.y - b.y);
+
+      const separacionMinima = 34;
+
+      for (let i = 1; i < pequenos.length; i += 1) {
+        if (pequenos[i].y - pequenos[i - 1].y < separacionMinima) {
+          pequenos[i].y = pequenos[i - 1].y + separacionMinima;
+        }
+      }
+
+      // Si el grupo se desplazó demasiado, lo recentramos suavemente.
+      if (pequenos.length > 1) {
+        const promedioOriginal = pequenos.reduce((acc, item) => acc + item.y, 0) / pequenos.length;
+        const minY = pequenos[0].y;
+        const maxY = pequenos[pequenos.length - 1].y;
+        const centroActual = (minY + maxY) / 2;
+        const ajuste = Math.max(-18, Math.min(18, promedioOriginal - centroActual));
+        pequenos.forEach((item) => {
+          item.y += ajuste;
+        });
+      }
+    });
+
+    return segmentos;
   }, [
     indicadoresPeriodontal.sanoPct,
     indicadoresPeriodontal.hemPct,
@@ -1176,8 +1206,10 @@ function App() {
       ?.cuestionarios_registrados_sin_inconsistencias ?? null;
 
   const edadesDisponibles =
-    ['higiene', 'periodontal'].includes(vista)
+    vista === 'higiene'
       ? edades.filter((item) => Number(item) >= 7)
+      : vista === 'periodontal'
+      ? edades.filter((item) => Number(item) >= 15)
       : edades;
 
   const filtroProps = {

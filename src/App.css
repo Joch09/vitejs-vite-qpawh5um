@@ -1036,8 +1036,8 @@ button {
 
 .periodontal-pie-wrap {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 330px;
+  height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1078,7 +1078,8 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 40px;
+  min-width: 44px;
+  white-space: nowrap;
   min-height: 23px;
   padding: 2px 6px;
   border-radius: 999px;
@@ -1102,7 +1103,7 @@ button {
 .periodontal-callout-line {
   position: absolute;
   top: 50%;
-  width: 28px;
+  width: 34px;
   height: 1.5px;
   background: #777777;
 }
