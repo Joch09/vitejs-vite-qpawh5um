@@ -1207,7 +1207,7 @@ button {
   margin: 0 0 8px;
   color: #173f3a;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.25;
 }
@@ -1259,7 +1259,7 @@ button {
   gap: 7px;
   align-items: start;
   color: #333333;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.25;
 }
 
@@ -1296,7 +1296,7 @@ button {
   margin: 0 0 8px;
   color: #173f3a;
   text-align: center;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   line-height: 1.2;
 }
@@ -1322,7 +1322,7 @@ button {
 .lesion-bar-value {
   align-self: center;
   color: #333333;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
 }
 
@@ -1345,8 +1345,8 @@ button {
   overflow-wrap: anywhere;
   color: #333333;
   text-align: center;
-  font-size: 7px;
-  line-height: 1.05;
+  font-size: 9px;
+  line-height: 1.08;
 }
 
 /* Otros diagnósticos: horizontal para conservar nombres completos */
@@ -1374,15 +1374,15 @@ button {
 
 .diagnostico-label strong {
   color: #701039;
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1;
 }
 
 .diagnostico-label span {
   margin-top: 2px;
   color: #333333;
-  font-size: 7px;
-  line-height: 1.06;
+  font-size: 9px;
+  line-height: 1.08;
 }
 
 .diagnostico-track {
@@ -1398,7 +1398,7 @@ button {
 
 .diagnostico-value {
   color: #222222;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
 }
 
