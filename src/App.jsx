@@ -22,6 +22,7 @@ import iconIndigena from './assets/social/icono_indigena.png';
 
 import logoImssBienestar from './assets/logos/Logo_imssb.png';
 import logoVigilancia from './assets/logos/LOGO_BLANCO_V.png';
+import logoCoordinacion from './assets/logos/logo_cordinacion.png';
 
 const MODULOS = [
   { id: 'caries', titulo: 'CARIES', icono: iconCaries },
@@ -117,6 +118,230 @@ function formatoPorcentaje(valor, decimales = 1) {
   return `${formatoNumero(valor, decimales)}%`;
 }
 
+function edadCoincide(valorEdad, filtroEdad) {
+  if (!filtroEdad) return true;
+
+  const valor = Number(valorEdad);
+
+  if (!Number.isFinite(valor)) return false;
+
+  const filtro = String(filtroEdad).trim();
+
+  if (filtro.endsWith('+')) {
+    const minimo = Number(filtro.slice(0, -1));
+    return Number.isFinite(minimo) && valor >= minimo;
+  }
+
+  if (filtro.includes('-')) {
+    const [minimo, maximo] = filtro
+      .split('-')
+      .map((item) => Number(item));
+
+    return (
+      Number.isFinite(minimo) &&
+      Number.isFinite(maximo) &&
+      valor >= minimo &&
+      valor <= maximo
+    );
+  }
+
+  return valor === Number(filtro);
+}
+
+function hayEdadEnRango(edades, valor) {
+  return edades.some((edad) => edadCoincide(edad, valor));
+}
+
+function construirGruposEdad(vista, edadesFuente) {
+  const edades = edadesFuente
+    .map((item) => Number(item))
+    .filter((item) => Number.isFinite(item))
+    .sort((a, b) => a - b);
+
+  const exactas = (inicio, fin) =>
+    edades
+      .filter((item) => item >= inicio && item <= fin)
+      .map((item) => ({
+        value: String(item),
+        label: `${item} años`,
+      }));
+
+  const rangosAdultos = [
+    ['20-24', '20 a 24 años'],
+    ['25-29', '25 a 29 años'],
+    ['30-34', '30 a 34 años'],
+    ['35-39', '35 a 39 años'],
+    ['40-44', '40 a 44 años'],
+    ['45-49', '45 a 49 años'],
+    ['50-54', '50 a 54 años'],
+    ['55-59', '55 a 59 años'],
+    ['60-64', '60 a 64 años'],
+    ['65-69', '65 a 69 años'],
+    ['70-74', '70 a 74 años'],
+    ['75-79', '75 a 79 años'],
+    ['80+', '80 y más'],
+  ]
+    .filter(([value]) => hayEdadEnRango(edades, value))
+    .map(([value, label]) => ({ value, label }));
+
+  if (vista === 'higiene') {
+    return [
+      {
+        label: 'Niñas, niños y adolescentes',
+        opciones: exactas(7, 18),
+      },
+      {
+        label: 'Adultos',
+        opciones: [
+          ...(edades.includes(19)
+            ? [{ value: '19', label: '19 años' }]
+            : []),
+          ...rangosAdultos,
+        ],
+      },
+    ].filter((grupo) => grupo.opciones.length > 0);
+  }
+
+  if (vista === 'periodontal') {
+    return [
+      {
+        label: 'Niñas, niños y adolescentes',
+        opciones: hayEdadEnRango(edades, '15-19')
+          ? [{ value: '15-19', label: '15 a 19 años' }]
+          : [],
+      },
+      {
+        label: 'Adultos',
+        opciones: rangosAdultos,
+      },
+    ].filter((grupo) => grupo.opciones.length > 0);
+  }
+
+  if (vista === 'caries') {
+    return [
+      {
+        label: 'Niñas, niños y adolescentes',
+        opciones: exactas(2, 19),
+      },
+      {
+        label: 'Adultos',
+        opciones: rangosAdultos,
+      },
+    ].filter((grupo) => grupo.opciones.length > 0);
+  }
+
+  return [
+    {
+      label: 'Niñas, niños y adolescentes',
+      opciones: exactas(0, 19),
+    },
+    {
+      label: 'Adultos',
+      opciones: rangosAdultos,
+    },
+  ].filter((grupo) => grupo.opciones.length > 0);
+}
+
+function acortarOcupacion(etiquetaOriginal) {
+  const original =
+    String(etiquetaOriginal || '').trim() || 'No especificado';
+
+  const texto = original
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase();
+
+  if (texto.includes('AMA DE CASA')) return 'Hogar';
+  if (texto.includes('ESTUDIANTE')) return 'Estudiante';
+  if (texto.includes('NO TRABAJA')) return 'No trabaja';
+  if (texto.includes('NO APLICA')) return 'No aplica';
+
+  if (
+    texto.includes('COMERCIANTES') ||
+    texto.includes('AGENTES DE VENTAS') ||
+    texto.includes('EMPLEADOS DE COMERCIO')
+  ) {
+    return 'Comercio y ventas';
+  }
+
+  if (
+    texto.includes('AGRICOL') ||
+    texto.includes('GANADER') ||
+    texto.includes('SILVIC') ||
+    texto.includes('CAZA') ||
+    texto.includes('PESCA')
+  ) {
+    return 'Agropecuario';
+  }
+
+  if (
+    texto.includes('AYUDANTES') ||
+    texto.includes('PEONES')
+  ) {
+    return 'Ayudantes y peones';
+  }
+
+  if (
+    texto.includes('OTROS') &&
+    (
+      texto.includes('EMPLEADOS') ||
+      texto.includes('TRABAJADORES')
+    )
+  ) {
+    return 'Otros empleos';
+  }
+
+  if (texto.includes('PROFESION')) return 'Profesionistas';
+  if (texto.includes('TECNIC')) return 'Técnicos';
+  if (texto.includes('EDUCACION')) return 'Educación';
+
+  if (
+    texto.includes('FUNCIONARIOS') ||
+    texto.includes('DIRECTIVOS')
+  ) {
+    return 'Directivos';
+  }
+
+  if (
+    texto.includes('ARTESAN') ||
+    texto.includes('FABRICACION') ||
+    texto.includes('INDUSTRIAL')
+  ) {
+    return 'Manufactura';
+  }
+
+  if (
+    texto.includes('OPERADORES') ||
+    texto.includes('MAQUINARIA')
+  ) {
+    return 'Operadores';
+  }
+
+  if (
+    texto.includes('SERVICIOS PERSONALES') ||
+    texto.includes('SERVICIOS DIVERSOS')
+  ) {
+    return 'Servicios';
+  }
+
+  if (
+    texto.includes('PROTECCION') ||
+    texto.includes('VIGILANCIA')
+  ) {
+    return 'Seguridad';
+  }
+
+  if (
+    texto.includes('DOMESTIC')
+  ) {
+    return 'Trabajo doméstico';
+  }
+
+  if (original.length <= 28) return original;
+
+  return `${original.slice(0, 25).trim()}…`;
+}
+
 function filtrarPorLlave(
   rows,
   edad,
@@ -126,7 +351,7 @@ function filtrarPorLlave(
   idsUnidadesEntidad
 ) {
   return rows.filter((item) => {
-    if (edad && Number(item.edad) !== Number(edad)) return false;
+    if (edad && !edadCoincide(item.edad, edad)) return false;
     if (mes && Number(item.mes) !== Number(mes)) return false;
 
     if (
@@ -146,7 +371,7 @@ function filtrarPorLlave(
 }
 
 function FilterStrip({
-  edades,
+  gruposEdad,
   meses,
   entidades,
   unidadesFiltradas,
@@ -164,42 +389,6 @@ function FilterStrip({
   return (
     <div className="shared-filter-strip">
       <div className="shared-filters">
-        <div className="filter-group">
-          <label htmlFor="edad">Edad</label>
-
-          <select
-            id="edad"
-            value={edad}
-            onChange={(event) => setEdad(event.target.value)}
-          >
-            <option value="">Todas</option>
-
-            {edades.map((item) => (
-              <option key={item} value={item}>
-                {item} años
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="mes">Mes</label>
-
-          <select
-            id="mes"
-            value={mes}
-            onChange={(event) => setMes(event.target.value)}
-          >
-            <option value="">Todos</option>
-
-            {meses.map((item) => (
-              <option key={item.mes} value={item.mes}>
-                {item.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <div className="filter-group">
           <label htmlFor="entidad">Entidad</label>
 
@@ -236,6 +425,46 @@ function FilterStrip({
           </select>
         </div>
 
+        <div className="filter-group">
+          <label htmlFor="mes">Mes</label>
+
+          <select
+            id="mes"
+            value={mes}
+            onChange={(event) => setMes(event.target.value)}
+          >
+            <option value="">Todos</option>
+
+            {meses.map((item) => (
+              <option key={item.mes} value={item.mes}>
+                {item.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="edad">Edad</label>
+
+          <select
+            id="edad"
+            value={edad}
+            onChange={(event) => setEdad(event.target.value)}
+          >
+            <option value="">Todas</option>
+
+            {gruposEdad.map((grupo) => (
+              <optgroup key={grupo.label} label={grupo.label}>
+                {grupo.opciones.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </div>
+
         <button
           className="clear-filters"
           type="button"
@@ -264,7 +493,6 @@ function FilterStrip({
   );
 }
 
-
 function EvaluationFilterStrip({
   meses,
   entidades,
@@ -282,24 +510,6 @@ function EvaluationFilterStrip({
   return (
     <div className="evaluation-filter-strip">
       <div className="evaluation-filters">
-        <div className="filter-group">
-          <label htmlFor="eval-mes">Mes</label>
-
-          <select
-            id="eval-mes"
-            value={mes}
-            onChange={(event) => setMes(event.target.value)}
-          >
-            <option value="">Todos</option>
-
-            {meses.map((item) => (
-              <option key={item.mes} value={item.mes}>
-                {item.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <div className="filter-group">
           <label htmlFor="eval-entidad">Entidad</label>
 
@@ -331,6 +541,24 @@ function EvaluationFilterStrip({
             {unidadesFiltradas.map((item) => (
               <option key={item.unidad_id} value={item.unidad_id}>
                 {item.unidad}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="eval-mes">Mes</label>
+
+          <select
+            id="eval-mes"
+            value={mes}
+            onChange={(event) => setMes(event.target.value)}
+          >
+            <option value="">Todos</option>
+
+            {meses.map((item) => (
+              <option key={item.mes} value={item.mes}>
+                {item.nombre}
               </option>
             ))}
           </select>
@@ -375,7 +603,6 @@ function EvaluationFilterStrip({
     </div>
   );
 }
-
 
 function EvaluationUnitBars({
   items,
@@ -479,6 +706,7 @@ function App() {
   const [periodontalData, setPeriodontalData] = useState(null);
   const [otrasData, setOtrasData] = useState(null);
   const [evaluacionData, setEvaluacionData] = useState(null);
+  const [kpiFiltrosData, setKpiFiltrosData] = useState(null);
   const [errorCarga, setErrorCarga] = useState('');
 
   const [vista, setVista] = useState('inicio');
@@ -510,11 +738,23 @@ function App() {
         }
         return response.json();
       }),
+      fetch('/data/sivepab_kpi_filtros.json').then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            'No fue posible cargar sivepab_kpi_filtros.json'
+          );
+        }
+        return response.json();
+      }),
     ])
-      .then(([catalogosData, mapaData, resumenData]) => {
+      .then(([catalogosData, mapaData, resumenData, kpiData]) => {
         setCatalogos(catalogosData);
         setMapa(Array.isArray(mapaData) ? mapaData : []);
         setResumenNacional(resumenData);
+        setKpiFiltrosData({
+          ...kpiData,
+          kpiDecoded: decodeColumnarDataset(kpiData.kpi),
+        });
         setErrorCarga('');
       })
       .catch((error) => {
@@ -670,19 +910,34 @@ function App() {
     }
   }, [vista, edad]);
 
-  useEffect(() => {
-    if (vista === 'higiene' && edad && Number(edad) < 7) {
-      setEdad('');
-    }
-
-    if (vista === 'periodontal' && edad && Number(edad) < 15) {
-      setEdad('');
-    }
-  }, [vista, edad]);
-
   const edades = catalogos?.filtros?.edades || [];
   const meses = catalogos?.filtros?.meses || [];
   const unidadesCatalogo = catalogos?.filtros?.unidades || [];
+
+  const gruposEdad = useMemo(
+    () => construirGruposEdad(vista, edades),
+    [vista, edades]
+  );
+
+  const valoresEdadPermitidos = useMemo(
+    () =>
+      new Set(
+        gruposEdad.flatMap((grupo) =>
+          grupo.opciones.map((item) => String(item.value))
+        )
+      ),
+    [gruposEdad]
+  );
+
+  useEffect(() => {
+    if (
+      vista !== 'evaluacion' &&
+      edad &&
+      !valoresEdadPermitidos.has(String(edad))
+    ) {
+      setEdad('');
+    }
+  }, [vista, edad, valoresEdadPermitidos]);
 
   const entidades = useMemo(() => {
     return [...new Set(unidadesCatalogo.map((item) => item.entidad))]
@@ -1114,8 +1369,9 @@ function App() {
     const acumulado = {};
 
     ocupacionFiltrada.forEach((item) => {
-      const etiqueta =
-        String(item.ocupacion || '').trim() || 'No especificado';
+      const etiqueta = acortarOcupacion(
+        item.ocupacion
+      );
 
       acumulado[etiqueta] =
         (acumulado[etiqueta] || 0) + (Number(item.n) || 0);
@@ -1209,8 +1465,9 @@ function App() {
     const acumulado = {};
 
     higieneOcupacionFiltrada.forEach((item) => {
-      const etiqueta =
-        String(item.ocupacion || '').trim() || 'No especificado';
+      const etiqueta = acortarOcupacion(
+        item.ocupacion
+      );
 
       acumulado[etiqueta] =
         (acumulado[etiqueta] || 0) + (Number(item.n) || 0);
@@ -1383,8 +1640,9 @@ function App() {
     const acumulado = {};
 
     periodontalOcupacionFiltrada.forEach((item) => {
-      const etiqueta =
-        String(item.ocupacion || '').trim() || 'No especificado';
+      const etiqueta = acortarOcupacion(
+        item.ocupacion
+      );
       acumulado[etiqueta] =
         (acumulado[etiqueta] || 0) + (Number(item.n) || 0);
     });
@@ -1565,8 +1823,9 @@ function App() {
     const acumulado = {};
 
     otrasOcupacionFiltrada.forEach((item) => {
-      const etiqueta =
-        String(item.ocupacion || '').trim() || 'No especificado';
+      const etiqueta = acortarOcupacion(
+        item.ocupacion
+      );
 
       acumulado[etiqueta] =
         (acumulado[etiqueta] || 0) + (Number(item.n) || 0);
@@ -1894,19 +2153,60 @@ function App() {
     setUnidad('');
   };
 
-  const kpiSinInconsistencias =
-    resumenNacional?.kpi_global
-      ?.cuestionarios_registrados_sin_inconsistencias ?? null;
+  const kpiSinInconsistencias = useMemo(() => {
+    if (!kpiFiltrosData?.kpiDecoded) {
+      const sinFiltros =
+        !edad && !mes && !entidad && !unidad;
 
-  const edadesDisponibles =
-    vista === 'higiene'
-      ? edades.filter((item) => Number(item) >= 7)
-      : vista === 'periodontal'
-      ? edades.filter((item) => Number(item) >= 15)
-      : edades;
+      return sinFiltros
+        ? resumenNacional?.kpi_global
+            ?.cuestionarios_registrados_sin_inconsistencias ?? null
+        : null;
+    }
+
+    const filas = kpiFiltrosData.kpiDecoded.filter((item) => {
+      if (edad && !edadCoincide(item.edad, edad)) {
+        return false;
+      }
+
+      if (mes && Number(item.mes) !== Number(mes)) {
+        return false;
+      }
+
+      if (
+        entidad &&
+        idsUnidadesEntidad &&
+        !idsUnidadesEntidad.has(Number(item.unidad_id))
+      ) {
+        return false;
+      }
+
+      if (
+        unidad &&
+        Number(item.unidad_id) !== Number(unidad)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+    return sumar(
+      filas,
+      'n_sin_inconsistencias'
+    );
+  }, [
+    kpiFiltrosData,
+    resumenNacional,
+    edad,
+    mes,
+    entidad,
+    unidad,
+    idsUnidadesEntidad,
+  ]);
 
   const filtroProps = {
-    edades: edadesDisponibles,
+    gruposEdad,
     meses,
     entidades,
     unidadesFiltradas,
@@ -1987,6 +2287,12 @@ function App() {
         </div>
 
         <div className="top-header-logos">
+          <img
+            className="logo-coordinacion"
+            src={logoCoordinacion}
+            alt="Coordinación de Epidemiología"
+          />
+
           <img
             className="logo-imss-bienestar"
             src={logoImssBienestar}

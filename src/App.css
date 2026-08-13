@@ -62,16 +62,17 @@ button {
 
 .top-header-title h1 {
   margin: 0;
-  font-size: 34px;
-  font-weight: 700;
-  line-height: 1;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.8px;
   color: #ffffff;
 }
 
 .top-header-title p {
-  margin: 8px 0 0;
-  font-size: 16px;
-  font-weight: 500;
+  margin: 9px 0 0;
+  font-size: 17px;
+  font-weight: 600;
   line-height: 1.2;
   color: #ffffff;
 }
@@ -80,19 +81,29 @@ button {
   height: 100%;
   display: flex;
   align-items: center;
-  gap: 34px;
+  justify-content: flex-end;
+  gap: 26px;
+}
+
+.logo-coordinacion {
+  width: 145px;
+  max-height: 93px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .logo-imss-bienestar {
-  width: 300px;
-  max-height: 82px;
+  width: 280px;
+  max-height: 80px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .logo-vigilancia {
-  width: 105px;
-  max-height: 92px;
+  width: 96px;
+  max-height: 88px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .app-body {
@@ -215,10 +226,10 @@ button {
 .shared-filters {
   display: grid;
   grid-template-columns:
-    minmax(110px, 0.65fr)
-    minmax(135px, 0.75fr)
-    minmax(190px, 1.05fr)
-    minmax(260px, 1.55fr)
+    minmax(180px, 1.05fr)
+    minmax(280px, 1.55fr)
+    minmax(130px, 0.75fr)
+    minmax(170px, 0.9fr)
     78px;
   gap: 12px;
   align-items: end;
@@ -250,6 +261,16 @@ button {
   font-weight: 500;
   color: #333333;
   cursor: pointer;
+}
+
+.filter-group select optgroup {
+  color: #002f28;
+  font-weight: 700;
+}
+
+.filter-group select option {
+  color: #333333;
+  font-weight: 500;
 }
 
 .filter-group select:focus {
@@ -1470,7 +1491,7 @@ button {
 
 .evaluation-filters {
   display: grid;
-  grid-template-columns: 0.85fr 1.05fr 1.6fr auto;
+  grid-template-columns: 1.05fr 1.6fr 0.85fr auto;
   gap: 12px;
   align-items: end;
 }
@@ -1807,3 +1828,51 @@ button {
     grid-column: auto;
   }
 }
+
+
+@media (max-width: 1200px) {
+  .top-header-title h1 {
+    font-size: 42px;
+  }
+
+  .top-header-logos {
+    gap: 16px;
+  }
+
+  .logo-coordinacion {
+    width: 115px;
+  }
+
+  .logo-imss-bienestar {
+    width: 235px;
+  }
+
+  .logo-vigilancia {
+    width: 82px;
+  }
+}
+
+@media (max-width: 950px) {
+  .top-header {
+    height: auto;
+    min-height: 125px;
+    gap: 18px;
+  }
+
+  .top-header-logos {
+    flex-wrap: wrap;
+  }
+
+  .logo-coordinacion {
+    width: 100px;
+  }
+
+  .logo-imss-bienestar {
+    width: 205px;
+  }
+
+  .logo-vigilancia {
+    width: 72px;
+  }
+}
+
