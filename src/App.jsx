@@ -2288,15 +2288,15 @@ function App() {
 
         <div className="top-header-logos">
           <img
-            className="logo-coordinacion"
-            src={logoCoordinacion}
-            alt="Coordinación de Epidemiología"
-          />
-
-          <img
             className="logo-imss-bienestar"
             src={logoImssBienestar}
             alt="IMSS Bienestar"
+          />
+
+          <img
+            className="logo-coordinacion"
+            src={logoCoordinacion}
+            alt="Coordinación de Epidemiología"
           />
 
           <img
