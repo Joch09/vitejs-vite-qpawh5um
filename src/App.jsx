@@ -166,6 +166,10 @@ function construirGruposEdad(vista, edadesFuente) {
         label: `${item} años`,
       }));
 
+  const opcion19 = edades.includes(19)
+    ? [{ value: '19', label: '19 años' }]
+    : [];
+
   const rangosAdultos = [
     ['20-24', '20 a 24 años'],
     ['25-29', '25 a 29 años'],
@@ -193,9 +197,7 @@ function construirGruposEdad(vista, edadesFuente) {
       {
         label: 'Adultos',
         opciones: [
-          ...(edades.includes(19)
-            ? [{ value: '19', label: '19 años' }]
-            : []),
+          ...opcion19,
           ...rangosAdultos,
         ],
       },
@@ -206,9 +208,12 @@ function construirGruposEdad(vista, edadesFuente) {
     return [
       {
         label: 'Niñas, niños y adolescentes',
-        opciones: hayEdadEnRango(edades, '15-19')
-          ? [{ value: '15-19', label: '15 a 19 años' }]
-          : [],
+        opciones: [
+          ...exactas(7, 14),
+          ...(hayEdadEnRango(edades, '15-19')
+            ? [{ value: '15-19', label: '15 a 19 años' }]
+            : []),
+        ],
       },
       {
         label: 'Adultos',
@@ -221,11 +226,14 @@ function construirGruposEdad(vista, edadesFuente) {
     return [
       {
         label: 'Niñas, niños y adolescentes',
-        opciones: exactas(2, 19),
+        opciones: exactas(2, 18),
       },
       {
         label: 'Adultos',
-        opciones: rangosAdultos,
+        opciones: [
+          ...opcion19,
+          ...rangosAdultos,
+        ],
       },
     ].filter((grupo) => grupo.opciones.length > 0);
   }
@@ -233,11 +241,14 @@ function construirGruposEdad(vista, edadesFuente) {
   return [
     {
       label: 'Niñas, niños y adolescentes',
-      opciones: exactas(0, 19),
+      opciones: exactas(0, 18),
     },
     {
       label: 'Adultos',
-      opciones: rangosAdultos,
+      opciones: [
+        ...opcion19,
+        ...rangosAdultos,
+      ],
     },
   ].filter((grupo) => grupo.opciones.length > 0);
 }
@@ -1577,6 +1588,18 @@ function App() {
     indicadoresHigiene.malaPct,
   ]);
 
+  const periodontalEdad7a14 = useMemo(() => {
+    if (!edad) return false;
+
+    const valor = Number(edad);
+
+    return (
+      Number.isFinite(valor) &&
+      valor >= 7 &&
+      valor <= 14
+    );
+  }, [edad]);
+
   const indicadoresPeriodontal = useMemo(() => {
     const N = sumar(periodontalCoreFiltrado, 'ipc_N');
 
@@ -1669,13 +1692,28 @@ function App() {
   ];
 
   const periodontalSegmentos = useMemo(() => {
-    const base = [
+    const categoriasBase = [
       ['Sano', indicadoresPeriodontal.sanoPct, periodontalColores[0]],
       ['Hemorragia', indicadoresPeriodontal.hemPct, periodontalColores[1]],
       ['Cálculo', indicadoresPeriodontal.calcPct, periodontalColores[2]],
-      ['Bolsa de 4-5 mm', indicadoresPeriodontal.b45Pct, periodontalColores[3]],
-      ['Bolsa ≥ 6 mm', indicadoresPeriodontal.b6Pct, periodontalColores[4]],
-    ]
+    ];
+
+    if (!periodontalEdad7a14) {
+      categoriasBase.push(
+        [
+          'Bolsa de 4-5 mm',
+          indicadoresPeriodontal.b45Pct,
+          periodontalColores[3],
+        ],
+        [
+          'Bolsa ≥ 6 mm',
+          indicadoresPeriodontal.b6Pct,
+          periodontalColores[4],
+        ]
+      );
+    }
+
+    const base = categoriasBase
       .map(([etiqueta, valor, color]) => ({ etiqueta, valor, color }))
       .filter((item) => Number.isFinite(item.valor) && item.valor > 0);
 
@@ -1706,6 +1744,7 @@ function App() {
     indicadoresPeriodontal.calcPct,
     indicadoresPeriodontal.b45Pct,
     indicadoresPeriodontal.b6Pct,
+    periodontalEdad7a14,
   ]);
 
   const periodontalPieStyle = periodontalSegmentos.length
@@ -3073,8 +3112,13 @@ function App() {
                       <span>0 = Sano</span>
                       <span>1 = Hemorragia</span>
                       <span>2 = Cálculo</span>
-                      <span>3 = Bolsa de 4-5 mm</span>
-                      <span>4 = Bolsa ≥ 6 mm</span>
+
+                      {!periodontalEdad7a14 && (
+                        <>
+                          <span>3 = Bolsa de 4-5 mm</span>
+                          <span>4 = Bolsa ≥ 6 mm</span>
+                        </>
+                      )}
                     </div>
                   </article>
                 </div>
