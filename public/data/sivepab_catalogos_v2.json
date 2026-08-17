@@ -2,9 +2,9 @@
   "metadata": {
     "proyecto": "Tablero interactivo de información epidemiológica del SIVEPAB",
     "institucion": "IMSS-Bienestar",
-    "registros_fuente": 47838,
-    "unidades_con_registros": 143,
-    "unidades_mapa": 144,
+    "registros_fuente": 48222,
+    "unidades_con_registros": 157,
+    "unidades_mapa": 157,
     "entidades": 23,
     "fecha_corte": "2026-07-15",
     "granularidad": "edad exacta x mes x unidad",
@@ -12,7 +12,7 @@
   },
   "filtros": {
     "orden": ["edad", "mes", "entidad", "unidad"],
-    "edades": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 102, 108],
+    "edades": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99],
     "meses": [
       {
         "mes": 1,
@@ -53,7 +53,7 @@
         "localidad": "TIJUANA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
+        "registros_total": 348
       },
       {
         "unidad_id": 2,
@@ -64,7 +64,7 @@
         "localidad": "MEXICALI",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 125
+        "registros_total": 111
       },
       {
         "unidad_id": 3,
@@ -75,7 +75,7 @@
         "localidad": "RODOLFO SANCHEZ TABOADA (MANEADERO)",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 375
+        "registros_total": 342
       },
       {
         "unidad_id": 4,
@@ -86,10 +86,21 @@
         "localidad": "CIUDAD CONSTITUCION",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 407
+        "registros_total": 387
       },
       {
         "unidad_id": 5,
+        "clues": "SIV_20_3_30300300011",
+        "entidad": "BAJA CALIFORNIA SUR",
+        "unidad": "C.S. LA PAZ",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 335
+      },
+      {
+        "unidad_id": 6,
         "clues": "BSIMB000351",
         "entidad": "BAJA CALIFORNIA SUR",
         "unidad": "C.S. SAN JOSÉ DEL CABO",
@@ -97,10 +108,10 @@
         "localidad": "SAN JOSE DEL CABO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 295
+        "registros_total": 271
       },
       {
-        "unidad_id": 6,
+        "unidad_id": 7,
         "clues": "CCIMB001531",
         "entidad": "CAMPECHE",
         "unidad": "CENTRO DE SALUD ESCARCEGA",
@@ -108,10 +119,10 @@
         "localidad": "ESCARCEGA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 361
+        "registros_total": 257
       },
       {
-        "unidad_id": 7,
+        "unidad_id": 8,
         "clues": "CSIMB001481",
         "entidad": "CHIAPAS",
         "unidad": "OCOSINGO",
@@ -119,10 +130,10 @@
         "localidad": "OCOSINGO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 246
+        "registros_total": 230
       },
       {
-        "unidad_id": 8,
+        "unidad_id": 9,
         "clues": "CSIMB002246",
         "entidad": "CHIAPAS",
         "unidad": "SAN CRISTÓBAL DE LAS CASAS, CHIAPAS",
@@ -130,10 +141,10 @@
         "localidad": "SAN CRISTOBAL DE LAS CASAS",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 323
+        "registros_total": 296
       },
       {
-        "unidad_id": 9,
+        "unidad_id": 10,
         "clues": "CSIMB002280",
         "entidad": "CHIAPAS",
         "unidad": "SILTEPEC",
@@ -141,10 +152,10 @@
         "localidad": "SILTEPEC",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 376
+        "registros_total": 356
       },
       {
-        "unidad_id": 10,
+        "unidad_id": 11,
         "clues": "DFIMB002271",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.C. SANTA CATARINA",
@@ -152,10 +163,10 @@
         "localidad": "IZTAPALAPA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 402
+        "registros_total": 375
       },
       {
-        "unidad_id": 11,
+        "unidad_id": 12,
         "clues": "DFIMB000784",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-II RAMOS MILLÁN",
@@ -163,10 +174,10 @@
         "localidad": "IZTACALCO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 246
+        "registros_total": 230
       },
       {
-        "unidad_id": 12,
+        "unidad_id": 13,
         "clues": "DFIMB001414",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-II SANTA CATARINA YECAHUIZOTL",
@@ -174,10 +185,10 @@
         "localidad": "SANTA CATARINA YECAHUITZOTL",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 445
+        "registros_total": 426
       },
       {
-        "unidad_id": 13,
+        "unidad_id": 14,
         "clues": "DFIMB001764",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-II SANTA CRUZ ACALPIXCA",
@@ -185,10 +196,10 @@
         "localidad": "XOCHIMILCO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 392
+        "registros_total": 370
       },
       {
-        "unidad_id": 14,
+        "unidad_id": 15,
         "clues": "DFIMB000253",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-II SANTA ÚRSULA COAPA",
@@ -196,10 +207,10 @@
         "localidad": "COYOACAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 365
+        "registros_total": 355
       },
       {
-        "unidad_id": 15,
+        "unidad_id": 16,
         "clues": "DFIMB001653",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-II TOPILEJO",
@@ -207,10 +218,10 @@
         "localidad": "TLALPAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 405
+        "registros_total": 387
       },
       {
-        "unidad_id": 16,
+        "unidad_id": 17,
         "clues": "DFIMB002242",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III BEATRIZ VELAZCO DE ALEMÁN.",
@@ -218,10 +229,10 @@
         "localidad": "VENUSTIANO CARRANZA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 354
+        "registros_total": 340
       },
       {
-        "unidad_id": 17,
+        "unidad_id": 18,
         "clues": "DFIMB000405",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III CUAJIMALPA",
@@ -229,10 +240,10 @@
         "localidad": "CUAJIMALPA DE MORELOS",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 501
+        "registros_total": 491
       },
       {
-        "unidad_id": 18,
+        "unidad_id": 19,
         "clues": "DFIMB001250",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III DR GASTÓN MELO",
@@ -240,10 +251,10 @@
         "localidad": "SAN ANTONIO TECOMITL",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 388
+        "registros_total": 363
       },
       {
-        "unidad_id": 19,
+        "unidad_id": 20,
         "clues": "DFIMB000171",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III DR. GALO SOBERÓN Y PARRA",
@@ -251,10 +262,10 @@
         "localidad": "AZCAPOTZALCO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 399
+        "registros_total": 365
       },
       {
-        "unidad_id": 20,
+        "unidad_id": 21,
         "clues": "DFIMB000702",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III DR. MANUEL CÁRDENAS DE LA VEGA",
@@ -262,10 +273,10 @@
         "localidad": "GUSTAVO A. MADERO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 375
+        "registros_total": 364
       },
       {
-        "unidad_id": 21,
+        "unidad_id": 22,
         "clues": "DFIMB001361",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III DR. MANUEL ESCONTRIA",
@@ -273,10 +284,10 @@
         "localidad": "ALVARO OBREGON",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 373
+        "registros_total": 343
       },
       {
-        "unidad_id": 22,
+        "unidad_id": 23,
         "clues": "DFIMB001146",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III DR. ÁNGEL DE LA GARZA BRITO",
@@ -284,10 +295,10 @@
         "localidad": "LA MAGDALENA CONTRERAS",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 233
+        "registros_total": 226
       },
       {
-        "unidad_id": 23,
+        "unidad_id": 24,
         "clues": "DFIMB002032",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III MANUEL GONZÁLEZ RIVERA",
@@ -295,10 +306,10 @@
         "localidad": "MIGUEL HIDALGO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 399
+        "registros_total": 388
       },
       {
-        "unidad_id": 24,
+        "unidad_id": 25,
         "clues": "DFIMB001851",
         "entidad": "CIUDAD DE MEXICO",
         "unidad": "C.S.T-III PORTALES",
@@ -306,10 +317,10 @@
         "localidad": "BENITO JUAREZ",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 229
+        "registros_total": 227
       },
       {
-        "unidad_id": 25,
+        "unidad_id": 26,
         "clues": "CMIMB001136",
         "entidad": "COLIMA",
         "unidad": "CENTRO DE SALUD \"GUSTAVO VAZQUEZ MONTES\"",
@@ -317,10 +328,10 @@
         "localidad": "COLIMA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 26
+        "registros_total": 21
       },
       {
-        "unidad_id": 26,
+        "unidad_id": 27,
         "clues": "CMIMB000021",
         "entidad": "COLIMA",
         "unidad": "CENTRO DE SALUD ARMERIA",
@@ -328,10 +339,10 @@
         "localidad": "CIUDAD DE ARMERIA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 123
+        "registros_total": 108
       },
       {
-        "unidad_id": 27,
+        "unidad_id": 28,
         "clues": "CMIMB000914",
         "entidad": "COLIMA",
         "unidad": "CENTRO DE SALUD CERRO DE ORTEGA",
@@ -339,10 +350,21 @@
         "localidad": "CERRO DE ORTEGA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 313
+        "registros_total": 297
       },
       {
-        "unidad_id": 28,
+        "unidad_id": 29,
+        "clues": "SIV_20_6_60100200391",
+        "entidad": "COLIMA",
+        "unidad": "CENTRO DE SALUD COLIMA",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 22
+      },
+      {
+        "unidad_id": 30,
         "clues": "CMIMB001170",
         "entidad": "COLIMA",
         "unidad": "CENTRO DE SALUD COMALA",
@@ -350,10 +372,10 @@
         "localidad": "COMALA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 80
+        "registros_total": 75
       },
       {
-        "unidad_id": 29,
+        "unidad_id": 31,
         "clues": "CMIMB000873",
         "entidad": "COLIMA",
         "unidad": "CENTRO DE SALUD TECOMAN",
@@ -361,10 +383,10 @@
         "localidad": "TECOMAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 391
+        "registros_total": 346
       },
       {
-        "unidad_id": 30,
+        "unidad_id": 32,
         "clues": "CMIMB000115",
         "entidad": "COLIMA",
         "unidad": "ZONA ORIENTE (LA VIRGENCITA)",
@@ -372,10 +394,10 @@
         "localidad": "COLIMA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 32
+        "registros_total": 30
       },
       {
-        "unidad_id": 31,
+        "unidad_id": 33,
         "clues": "GRIMB010401",
         "entidad": "GUERRERO",
         "unidad": "HG ADOLFO PRIETO",
@@ -383,10 +405,10 @@
         "localidad": "TAXCO DE ALARCON",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 636
+        "registros_total": 513
       },
       {
-        "unidad_id": 32,
+        "unidad_id": 34,
         "clues": "GRIMB005653",
         "entidad": "GUERRERO",
         "unidad": "HOSPITAL BÁSICO COMUNITARIO SAN LUIS ACATLÁN",
@@ -394,10 +416,10 @@
         "localidad": "SAN LUIS ACATLAN",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "FUERA DE OPERACION",
-        "registros_total": 411
+        "registros_total": 380
       },
       {
-        "unidad_id": 33,
+        "unidad_id": 35,
         "clues": "GRIMB001680",
         "entidad": "GUERRERO",
         "unidad": "HOSPITAL GENERAL DE AYUTLA",
@@ -405,10 +427,10 @@
         "localidad": "AYUTLA DE LOS LIBRES",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "FUERA DE OPERACION",
-        "registros_total": 68
+        "registros_total": 58
       },
       {
-        "unidad_id": 34,
+        "unidad_id": 36,
         "clues": "GRIMB005484",
         "entidad": "GUERRERO",
         "unidad": "R-03 CIUDAD ALTAMIRANO",
@@ -416,10 +438,10 @@
         "localidad": "CIUDAD ALTAMIRANO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 188
+        "registros_total": 172
       },
       {
-        "unidad_id": 35,
+        "unidad_id": 37,
         "clues": "GRIMB010191",
         "entidad": "GUERRERO",
         "unidad": "U-03 ZIHUATANEJO",
@@ -427,10 +449,10 @@
         "localidad": "ZIHUATANEJO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 370
+        "registros_total": 336
       },
       {
-        "unidad_id": 36,
+        "unidad_id": 38,
         "clues": "HGIMB000163",
         "entidad": "HIDALGO",
         "unidad": "ACTOPAN",
@@ -438,10 +460,10 @@
         "localidad": "ACTOPAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 372
+        "registros_total": 315
       },
       {
-        "unidad_id": 37,
+        "unidad_id": 39,
         "clues": "HGIMB004701",
         "entidad": "HIDALGO",
         "unidad": "AJACUBA",
@@ -449,10 +471,10 @@
         "localidad": "AJACUBA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 364
+        "registros_total": 344
       },
       {
-        "unidad_id": 38,
+        "unidad_id": 40,
         "clues": "HGIMB004766",
         "entidad": "HIDALGO",
         "unidad": "APAN",
@@ -460,10 +482,10 @@
         "localidad": "APAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 387
+        "registros_total": 337
       },
       {
-        "unidad_id": 39,
+        "unidad_id": 41,
         "clues": "HGIMB001493",
         "entidad": "HIDALGO",
         "unidad": "C.S.U. IXMIQUILPAN",
@@ -471,10 +493,10 @@
         "localidad": "IXMIQUILPAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 368
+        "registros_total": 363
       },
       {
-        "unidad_id": 40,
+        "unidad_id": 42,
         "clues": "HGIMB003844",
         "entidad": "HIDALGO",
         "unidad": "C.S.U. TULANCINGO",
@@ -482,10 +504,10 @@
         "localidad": "TULANCINGO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 650
+        "registros_total": 587
       },
       {
-        "unidad_id": 41,
+        "unidad_id": 43,
         "clues": "HGIMB001155",
         "entidad": "HIDALGO",
         "unidad": "HUASCA",
@@ -493,10 +515,10 @@
         "localidad": "HUASCA DE OCAMPO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 420
+        "registros_total": 402
       },
       {
-        "unidad_id": 42,
+        "unidad_id": 44,
         "clues": "HGIMB001802",
         "entidad": "HIDALGO",
         "unidad": "METZTITLAN",
@@ -504,10 +526,10 @@
         "localidad": "METZTITLAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 395
+        "registros_total": 384
       },
       {
-        "unidad_id": 43,
+        "unidad_id": 45,
         "clues": "HGIMB002041",
         "entidad": "HIDALGO",
         "unidad": "MOLANGO",
@@ -515,10 +537,10 @@
         "localidad": "MOLANGO DE ESCAMILLA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 364
+        "registros_total": 347
       },
       {
-        "unidad_id": 44,
+        "unidad_id": 46,
         "clues": "HGIMB002123",
         "entidad": "HIDALGO",
         "unidad": "NOPALA",
@@ -526,10 +548,10 @@
         "localidad": "NOPALA DE VILLAGRAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 411
+        "registros_total": 318
       },
       {
-        "unidad_id": 45,
+        "unidad_id": 47,
         "clues": "HGIMB002403",
         "entidad": "HIDALGO",
         "unidad": "PACHUCA (DR. JESÚS DEL ROSAL)",
@@ -537,10 +559,10 @@
         "localidad": "PACHUCA DE SOTO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 633
+        "registros_total": 608
       },
       {
-        "unidad_id": 46,
+        "unidad_id": 48,
         "clues": "HGIMB002432",
         "entidad": "HIDALGO",
         "unidad": "PISAFLORES",
@@ -548,10 +570,10 @@
         "localidad": "PISAFLORES",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 433
+        "registros_total": 364
       },
       {
-        "unidad_id": 47,
+        "unidad_id": 49,
         "clues": "HGIMB002193",
         "entidad": "HIDALGO",
         "unidad": "SAN FELIPE ORIZATLAN",
@@ -559,10 +581,10 @@
         "localidad": "SAN FELIPE ORIZATLAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 431
+        "registros_total": 387
       },
       {
-        "unidad_id": 48,
+        "unidad_id": 50,
         "clues": "HGIMB002951",
         "entidad": "HIDALGO",
         "unidad": "TENANGO DE DORIA",
@@ -570,10 +592,10 @@
         "localidad": "TENANGO DE DORIA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 426
+        "registros_total": 391
       },
       {
-        "unidad_id": 49,
+        "unidad_id": 51,
         "clues": "HGIMB003395",
         "entidad": "HIDALGO",
         "unidad": "TIZAYUCA",
@@ -581,10 +603,10 @@
         "localidad": "TIZAYUCA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 464
+        "registros_total": 422
       },
       {
-        "unidad_id": 50,
+        "unidad_id": 52,
         "clues": "HGIMB003716",
         "entidad": "HIDALGO",
         "unidad": "TULA DE ALLENDE",
@@ -592,10 +614,10 @@
         "localidad": "TULA DE ALLENDE",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 450
+        "registros_total": 418
       },
       {
-        "unidad_id": 51,
+        "unidad_id": 53,
         "clues": "HGIMB004042",
         "entidad": "HIDALGO",
         "unidad": "ZACUALTIPAN",
@@ -603,10 +625,10 @@
         "localidad": "ZACUALTIPAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 408
+        "registros_total": 401
       },
       {
-        "unidad_id": 52,
+        "unidad_id": 54,
         "clues": "HGIMB004112",
         "entidad": "HIDALGO",
         "unidad": "ZIMAPAN",
@@ -614,10 +636,10 @@
         "localidad": "ZIMAPAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 391
+        "registros_total": 349
       },
       {
-        "unidad_id": 53,
+        "unidad_id": 55,
         "clues": "MCIMB004986",
         "entidad": "MEXICO",
         "unidad": "CEAPS SAN MATEO ATENCO",
@@ -625,10 +647,10 @@
         "localidad": "SAN MATEO ATENCO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 348
+        "registros_total": 308
       },
       {
-        "unidad_id": 54,
+        "unidad_id": 56,
         "clues": "MCIMB001713",
         "entidad": "MEXICO",
         "unidad": "CEAPS SAN MIGUEL CHAPULTEPEC \"BICENTENARIO\"",
@@ -636,10 +658,10 @@
         "localidad": "CHAPULTEPEC",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
+        "registros_total": 327
       },
       {
-        "unidad_id": 55,
+        "unidad_id": 57,
         "clues": "MCIMB001013",
         "entidad": "MEXICO",
         "unidad": "CENTRO DE ATENCIÓN ESTOMATOLÓGICA ATLACOMULCO",
@@ -647,10 +669,10 @@
         "localidad": "ATLACOMULCO DE FABELA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 390
+        "registros_total": 376
       },
       {
-        "unidad_id": 56,
+        "unidad_id": 58,
         "clues": "MCIMB009816",
         "entidad": "MEXICO",
         "unidad": "CENTRO DE SALUD EL SALITRE",
@@ -658,10 +680,10 @@
         "localidad": "EL SALITRE",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 354
+        "registros_total": 304
       },
       {
-        "unidad_id": 57,
+        "unidad_id": 59,
         "clues": "MCIMB004052",
         "entidad": "MEXICO",
         "unidad": "METROPOLITANA",
@@ -669,10 +691,10 @@
         "localidad": "CIUDAD NEZAHUALCOYOTL",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 390
+        "registros_total": 354
       },
       {
-        "unidad_id": 58,
+        "unidad_id": 60,
         "clues": "MCIMB005230",
         "entidad": "MEXICO",
         "unidad": "TEJUPILCO",
@@ -680,164 +702,164 @@
         "localidad": "TEJUPILCO DE HIDALGO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
-      },
-      {
-        "unidad_id": 59,
-        "clues": "MNIMB000131",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. APATZINGÁN",
-        "municipio": "APATZINGAN",
-        "localidad": "APATZINGAN DE LA CONSTITUCION",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 608
-      },
-      {
-        "unidad_id": 60,
-        "clues": "MNIMB000860",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. CIUDAD HIDALGO",
-        "municipio": "HIDALGO",
-        "localidad": "CIUDAD HIDALGO",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 362
+        "registros_total": 335
       },
       {
         "unidad_id": 61,
-        "clues": "MNIMB001654",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. COMACHUEN",
-        "municipio": "NAHUATZEN",
-        "localidad": "COMACHUEN",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 86
+        "clues": "SIV_20_16_160700617041",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. APATZINGÁN",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 595
       },
       {
         "unidad_id": 62,
-        "clues": "MNIMB001111",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. JIQUILPAN",
-        "municipio": "JIQUILPAN",
-        "localidad": "JIQUILPAN DE JUAREZ",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 244
+        "clues": "SIV_20_16_160303413151",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. CIUDAD HIDALGO",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 346
       },
       {
         "unidad_id": 63,
-        "clues": "MNIMB003281",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. LA ORILLA (LA ORILLITA)",
-        "municipio": "LAZARO CARDENAS",
-        "localidad": "LA ORILLA",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 472
+        "clues": "SIV_20_16_160505615091",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. COMACHUEN",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 78
       },
       {
         "unidad_id": 64,
-        "clues": "MNIMB004763",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. LA PIEDAD (GPE. MATEOS Y VEGA)",
-        "municipio": "LA PIEDAD",
-        "localidad": "LA PIEDAD DE CABADAS",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 282
+        "clues": "SIV_20_16_160204512121",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. JIQUILPAN",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 226
       },
       {
         "unidad_id": 65,
-        "clues": "MNIMB001362",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. LAS GUACAMAYAS",
-        "municipio": "LAZARO CARDENAS",
-        "localidad": "LAS GUACAMAYAS",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 456
+        "clues": "SIV_20_16_160805218261",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. LA ORILLA (LA ORILLITA)",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 418
       },
       {
         "unidad_id": 66,
-        "clues": "MNIMB001526",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. MORELIA (DR. JUAN MANUEL GONZÁLEZ UREÑA)",
-        "municipio": "MORELIA",
-        "localidad": "MORELIA",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 530
+        "clues": "SIV_1_16_160606916411",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. LA PIEDAD (GPE. MATEOS Y VEGA)",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 239
       },
       {
         "unidad_id": 67,
-        "clues": "MNIMB001770",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. PARÁCUARO",
-        "municipio": "PARACUARO",
-        "localidad": "PARACUARO",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 361
+        "clues": "SIV_20_16_160805218231",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. LAS GUACAMAYAS",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 423
       },
       {
         "unidad_id": 68,
-        "clues": "MNIMB001840",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. PÁTZCUARO (VISTA DEL LAGO)",
-        "municipio": "PATZCUARO",
-        "localidad": "PATZCUARO",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 581
+        "clues": "SIV_20_16_160105311401",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. MORELIA (DR. JUAN MANUEL GONZÁLEZ UREÑA)",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 510
       },
       {
         "unidad_id": 69,
-        "clues": "MNIMB002786",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. URUAPAN (DR. JOSÉ ALVAREZ AMEZQUITA)",
-        "municipio": "URUAPAN",
-        "localidad": "URUAPAN",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 288
+        "clues": "SIV_20_16_160706417211",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. PARÁCUARO",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 359
       },
       {
         "unidad_id": 70,
-        "clues": "MNIMB004010",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "C.S. ZAMORA",
-        "municipio": "ZAMORA",
-        "localidad": "ZAMORA DE HIDALGO",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 234
+        "clues": "SIV_20_16_160406614241",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. PÁTZCUARO (VISTA DEL LAGO)",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 511
       },
       {
         "unidad_id": 71,
-        "clues": "MNIMB003742",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "CS SAHUAYO",
-        "municipio": "SAHUAYO",
-        "localidad": "SAHUAYO DE MORELOS",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 149
+        "clues": "SIV_20_16_160510215281",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. URUAPAN (DR. JOSÉ ALVAREZ AMEZQUITA)",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 274
       },
       {
         "unidad_id": 72,
-        "clues": "MNIMB003911",
-        "entidad": "MICHOACAN DE OCAMPO",
-        "unidad": "HOSPITAL GENERAL MARAVATIO",
-        "municipio": "MARAVATIO",
-        "localidad": "MARAVATIO DE OCAMPO",
-        "nivel": "SEGUNDO NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 360
+        "clues": "SIV_20_16_160210812371",
+        "entidad": "MICHOACAN",
+        "unidad": "C.S. ZAMORA",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 201
       },
       {
         "unidad_id": 73,
+        "clues": "SIV_20_16_160207612811",
+        "entidad": "MICHOACAN",
+        "unidad": "CS SAHUAYO",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 139
+      },
+      {
+        "unidad_id": 74,
+        "clues": "SIV_20_16_160105012001",
+        "entidad": "MICHOACAN",
+        "unidad": "HOSPITAL GENERAL MARAVATIO",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 347
+      },
+      {
+        "unidad_id": 75,
         "clues": "MSIMB001791",
         "entidad": "MORELOS",
         "unidad": "AMACUZAC",
@@ -845,10 +867,10 @@
         "localidad": "AMACUZAC",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 365
+        "registros_total": 254
       },
       {
-        "unidad_id": 74,
+        "unidad_id": 76,
         "clues": "MSIMB001173",
         "entidad": "MORELOS",
         "unidad": "TEPOZTLÁN",
@@ -856,10 +878,21 @@
         "localidad": "TEPOZTLAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 382
+        "registros_total": 361
       },
       {
-        "unidad_id": 75,
+        "unidad_id": 77,
+        "clues": "SIV_20_17_170300400321",
+        "entidad": "MORELOS",
+        "unidad": "XALOSTOC",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 187
+      },
+      {
+        "unidad_id": 78,
         "clues": "NTIMB001432",
         "entidad": "NAYARIT",
         "unidad": "FRANCISCO I. MADERO",
@@ -867,10 +900,10 @@
         "localidad": "FRANCISCO I. MADERO (PUGA)",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 14
+        "registros_total": 9
       },
       {
-        "unidad_id": 76,
+        "unidad_id": 79,
         "clues": "NTIMB002646",
         "entidad": "NAYARIT",
         "unidad": "HOSPITAL BASICO COMUNITARIO DE LAS VARAS",
@@ -878,10 +911,10 @@
         "localidad": "LAS VARAS",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 366
+        "registros_total": 357
       },
       {
-        "unidad_id": 77,
+        "unidad_id": 80,
         "clues": "NTIMB002622",
         "entidad": "NAYARIT",
         "unidad": "HOSPITAL BÁSICO COMUNITARIO DE COMPOSTELA",
@@ -889,10 +922,10 @@
         "localidad": "COMPOSTELA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 346
+        "registros_total": 243
       },
       {
-        "unidad_id": 78,
+        "unidad_id": 81,
         "clues": "NTIMB001724",
         "entidad": "NAYARIT",
         "unidad": "HOSPITAL GENERAL SANTIAGO IXCUINTLA",
@@ -900,10 +933,10 @@
         "localidad": "SANTIAGO IXCUINTLA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 450
+        "registros_total": 432
       },
       {
-        "unidad_id": 79,
+        "unidad_id": 82,
         "clues": "NTIMB000884",
         "entidad": "NAYARIT",
         "unidad": "SANTA MARÍA DEL ORO",
@@ -911,10 +944,10 @@
         "localidad": "SANTA MARIA DEL ORO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 329
+        "registros_total": 298
       },
       {
-        "unidad_id": 80,
+        "unidad_id": 83,
         "clues": "NTIMB001321",
         "entidad": "NAYARIT",
         "unidad": "TEPIC, COL. VALLE DE MATATIPAC",
@@ -922,10 +955,10 @@
         "localidad": "TEPIC",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 366
+        "registros_total": 298
       },
       {
-        "unidad_id": 81,
+        "unidad_id": 84,
         "clues": "OCIMB000695",
         "entidad": "OAXACA",
         "unidad": "MARISCALA DE JUÁREZ",
@@ -933,10 +966,10 @@
         "localidad": "MARISCALA DE JUAREZ",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 327
+        "registros_total": 281
       },
       {
-        "unidad_id": 82,
+        "unidad_id": 85,
         "clues": "OCIMB000934",
         "entidad": "OAXACA",
         "unidad": "OAXACA DE JUÁREZ URBANO 1",
@@ -947,7 +980,7 @@
         "registros_total": 1
       },
       {
-        "unidad_id": 83,
+        "unidad_id": 86,
         "clues": "OCIMB003734",
         "entidad": "OAXACA",
         "unidad": "SAN SEBASTIÁN ABASOLO",
@@ -955,10 +988,10 @@
         "localidad": "SAN SEBASTIAN ABASOLO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 250
+        "registros_total": 195
       },
       {
-        "unidad_id": 84,
+        "unidad_id": 87,
         "clues": "OCIMB005805",
         "entidad": "OAXACA",
         "unidad": "UNION HIDALGO",
@@ -966,10 +999,10 @@
         "localidad": "UNION HIDALGO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 254
+        "registros_total": 165
       },
       {
-        "unidad_id": 85,
+        "unidad_id": 88,
         "clues": "PLIMB002533",
         "entidad": "PUEBLA",
         "unidad": "CENTRO DE SALUD TEHUITZINGO",
@@ -977,10 +1010,10 @@
         "localidad": "TEHUITZINGO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 361
+        "registros_total": 311
       },
       {
-        "unidad_id": 86,
+        "unidad_id": 89,
         "clues": "PLIMB005490",
         "entidad": "PUEBLA",
         "unidad": "CENTRO DE SALUD URBANO SAN MARTIN TEXMELUCAN",
@@ -991,7 +1024,7 @@
         "registros_total": 215
       },
       {
-        "unidad_id": 87,
+        "unidad_id": 90,
         "clues": "PLIMB004394",
         "entidad": "PUEBLA",
         "unidad": "CENTRO DE SALUD URBANO SANTA MARÍA XONACATEPEC",
@@ -999,10 +1032,10 @@
         "localidad": "SANTA MARIA XONACATEPEC",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 377
+        "registros_total": 371
       },
       {
-        "unidad_id": 88,
+        "unidad_id": 91,
         "clues": "PLIMB002521",
         "entidad": "PUEBLA",
         "unidad": "CENTRO DE SALUD URBANO TEHUACAN",
@@ -1010,10 +1043,10 @@
         "localidad": "TEHUACAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 390
+        "registros_total": 356
       },
       {
-        "unidad_id": 89,
+        "unidad_id": 92,
         "clues": "PLIMB003344",
         "entidad": "PUEBLA",
         "unidad": "CENTRO DE SALUD URBANO ZACAPOAXTLA",
@@ -1021,10 +1054,10 @@
         "localidad": "ZACAPOAXTLA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 327
+        "registros_total": 306
       },
       {
-        "unidad_id": 90,
+        "unidad_id": 93,
         "clues": "PLIMB005345",
         "entidad": "PUEBLA",
         "unidad": "CESSA IZÚCAR DE MATAMOROS",
@@ -1032,10 +1065,32 @@
         "localidad": "LOMAS DE ALCHICHICA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 401
+        "registros_total": 380
       },
       {
-        "unidad_id": 91,
+        "unidad_id": 94,
+        "clues": "SIV_1_23_230100400041",
+        "entidad": "QUINTANA ROO",
+        "unidad": "CENTRO DE SALUD RURAL CALDERITAS",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 177
+      },
+      {
+        "unidad_id": 95,
+        "clues": "SIV_20_23_230100400011",
+        "entidad": "QUINTANA ROO",
+        "unidad": "CENTRO DE SALUD URBANO # 1",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 22
+      },
+      {
+        "unidad_id": 96,
         "clues": "QRIMB001442",
         "entidad": "QUINTANA ROO",
         "unidad": "CENTRO DE SALUD URBANO # 2 ZACIL-HA PLAYA DEL CARMEN",
@@ -1046,7 +1101,7 @@
         "registros_total": 4
       },
       {
-        "unidad_id": 92,
+        "unidad_id": 97,
         "clues": "SPIMB002364",
         "entidad": "SAN LUIS POTOSI",
         "unidad": "CEDRAL",
@@ -1054,10 +1109,21 @@
         "localidad": "CEDRAL",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 307
+        "registros_total": 297
       },
       {
-        "unidad_id": 93,
+        "unidad_id": 98,
+        "clues": "SIV_1_24_240103500061",
+        "entidad": "SAN LUIS POTOSI",
+        "unidad": "SAN ANTONIO",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 142
+      },
+      {
+        "unidad_id": 99,
         "clues": "SLIMB000043",
         "entidad": "SINALOA",
         "unidad": "AHOME",
@@ -1065,10 +1131,10 @@
         "localidad": "AHOME",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 391
+        "registros_total": 359
       },
       {
-        "unidad_id": 94,
+        "unidad_id": 100,
         "clues": "SLIMB001093",
         "entidad": "SINALOA",
         "unidad": "CONSTANCIA",
@@ -1076,10 +1142,21 @@
         "localidad": "CONSTANCIA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 390
+        "registros_total": 364
       },
       {
-        "unidad_id": 95,
+        "unidad_id": 101,
+        "clues": "SIV_20_25_250400602751",
+        "entidad": "SINALOA",
+        "unidad": "CULIACAN",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 349
+      },
+      {
+        "unidad_id": 102,
         "clues": "SLIMB001040",
         "entidad": "SINALOA",
         "unidad": "ESCUINAPA",
@@ -1087,10 +1164,10 @@
         "localidad": "ESCUINAPA DE HIDALGO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 332
+        "registros_total": 308
       },
       {
-        "unidad_id": 96,
+        "unidad_id": 103,
         "clues": "SRIMB000890",
         "entidad": "SONORA",
         "unidad": "CENTRO AVANZADO DE ATENCION PRIMARÍA A LA SALUD",
@@ -1098,10 +1175,10 @@
         "localidad": "HERMOSILLO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 218
+        "registros_total": 190
       },
       {
-        "unidad_id": 97,
+        "unidad_id": 104,
         "clues": "SRIMB002425",
         "entidad": "SONORA",
         "unidad": "CENTRO DE SALUD URBANO CABORCA",
@@ -1109,10 +1186,10 @@
         "localidad": "HEROICA CABORCA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 322
+        "registros_total": 312
       },
       {
-        "unidad_id": 98,
+        "unidad_id": 105,
         "clues": "SRIMB002396",
         "entidad": "SONORA",
         "unidad": "CENTRO DE SALUD URBANO NAVOJOA ORIENTE",
@@ -1120,10 +1197,10 @@
         "localidad": "NAVOJOA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 158
+        "registros_total": 135
       },
       {
-        "unidad_id": 99,
+        "unidad_id": 106,
         "clues": "SRIMB002191",
         "entidad": "SONORA",
         "unidad": "HOSPITAL COMUNITARIO DE MAGDALENA",
@@ -1131,10 +1208,10 @@
         "localidad": "MAGDALENA DE KINO",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 213
+        "registros_total": 182
       },
       {
-        "unidad_id": 100,
+        "unidad_id": 107,
         "clues": "SRIMB000914",
         "entidad": "SONORA",
         "unidad": "HOSPITAL INFANTIL DEL ESTADO DE SONORA DRA. LUISA MARÍA GODOY OLVERA",
@@ -1142,10 +1219,10 @@
         "localidad": "HERMOSILLO",
         "nivel": "TERCER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 329
+        "registros_total": 208
       },
       {
-        "unidad_id": 101,
+        "unidad_id": 108,
         "clues": "TCIMB000202",
         "entidad": "TABASCO",
         "unidad": "C.S. CÁRDENAS",
@@ -1153,10 +1230,10 @@
         "localidad": "CARDENAS",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 387
+        "registros_total": 369
       },
       {
-        "unidad_id": 102,
+        "unidad_id": 109,
         "clues": "TCIMB003451",
         "entidad": "TABASCO",
         "unidad": "C.S. TEAPA (COL. LA SIERRA)",
@@ -1164,10 +1241,10 @@
         "localidad": "TEAPA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 127
+        "registros_total": 119
       },
       {
-        "unidad_id": 103,
+        "unidad_id": 110,
         "clues": "TCIMB001281",
         "entidad": "TABASCO",
         "unidad": "C.S.U. COMALCALCO",
@@ -1175,10 +1252,10 @@
         "localidad": "COMALCALCO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 278
+        "registros_total": 261
       },
       {
-        "unidad_id": 104,
+        "unidad_id": 111,
         "clues": "TCIMB001573",
         "entidad": "TABASCO",
         "unidad": "C.S.U. CUNDUACAN",
@@ -1186,10 +1263,10 @@
         "localidad": "CUNDUACAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 56
+        "registros_total": 48
       },
       {
-        "unidad_id": 105,
+        "unidad_id": 112,
         "clues": "TCIMB000861",
         "entidad": "TABASCO",
         "unidad": "CESSA GAVIOTAS",
@@ -1197,10 +1274,10 @@
         "localidad": "VILLAHERMOSA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 483
+        "registros_total": 463
       },
       {
-        "unidad_id": 106,
+        "unidad_id": 113,
         "clues": "TCIMB004991",
         "entidad": "TABASCO",
         "unidad": "CESSA LA MANGA 1RA",
@@ -1208,10 +1285,10 @@
         "localidad": "VILLAHERMOSA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 228
+        "registros_total": 206
       },
       {
-        "unidad_id": 107,
+        "unidad_id": 114,
         "clues": "TCIMB001100",
         "entidad": "TABASCO",
         "unidad": "CESSA LUIS GIL PEREZ",
@@ -1219,10 +1296,10 @@
         "localidad": "LUIS GIL PEREZ",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 111
+        "registros_total": 106
       },
       {
-        "unidad_id": 108,
+        "unidad_id": 115,
         "clues": "TCIMB002623",
         "entidad": "TABASCO",
         "unidad": "CESSA MACUSPANA",
@@ -1230,10 +1307,21 @@
         "localidad": "MACUSPANA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 479
+        "registros_total": 458
       },
       {
-        "unidad_id": 109,
+        "unidad_id": 116,
+        "clues": "SIV_1_27_270400400221",
+        "entidad": "TABASCO",
+        "unidad": "CESSA OCUILTZAPOTLAN",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 404
+      },
+      {
+        "unidad_id": 117,
         "clues": "TCIMB000873",
         "entidad": "TABASCO",
         "unidad": "CESSA TAMULTE DELICIAS",
@@ -1241,10 +1329,10 @@
         "localidad": "VILLAHERMOSA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 442
+        "registros_total": 430
       },
       {
-        "unidad_id": 110,
+        "unidad_id": 118,
         "clues": "TCIMB000885",
         "entidad": "TABASCO",
         "unidad": "CESSA TIERRA COLORADA",
@@ -1252,10 +1340,10 @@
         "localidad": "VILLAHERMOSA",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 313
+        "registros_total": 288
       },
       {
-        "unidad_id": 111,
+        "unidad_id": 119,
         "clues": "TCIMB005505",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL COMUNITARIO DE FRONTERA",
@@ -1263,10 +1351,10 @@
         "localidad": "FRONTERA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 300
+        "registros_total": 292
       },
       {
-        "unidad_id": 112,
+        "unidad_id": 120,
         "clues": "TCIMB002273",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL COMUNITARIO DE JALAPA",
@@ -1274,10 +1362,10 @@
         "localidad": "JALAPA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 153
+        "registros_total": 150
       },
       {
-        "unidad_id": 113,
+        "unidad_id": 121,
         "clues": "TCIMB002396",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL COMUNITARIO DE JALPA DE MÈNDEZ",
@@ -1285,10 +1373,10 @@
         "localidad": "JALPA DE MENDEZ",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 342
+        "registros_total": 332
       },
       {
-        "unidad_id": 114,
+        "unidad_id": 122,
         "clues": "TCIMB002961",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL COMUNITARIO DE NACAJUCA",
@@ -1296,10 +1384,10 @@
         "localidad": "NACAJUCA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 231
+        "registros_total": 222
       },
       {
-        "unidad_id": 115,
+        "unidad_id": 123,
         "clues": "TCIMB003265",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL COMUNITARIO DE TACOTALPA DR. RAMON MEDINA",
@@ -1307,10 +1395,10 @@
         "localidad": "TACOTALPA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 116
+        "registros_total": 113
       },
       {
-        "unidad_id": 116,
+        "unidad_id": 124,
         "clues": "TCIMB003586",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL COMUNITARIO DE TENOSIQUE",
@@ -1318,10 +1406,10 @@
         "localidad": "TENOSIQUE DE PINO SUAREZ",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 226
+        "registros_total": 221
       },
       {
-        "unidad_id": 117,
+        "unidad_id": 125,
         "clues": "TCIMB005271",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL DR. ARCENIO FILIGRANA ZUBIETA",
@@ -1329,10 +1417,10 @@
         "localidad": "JONUTA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 150
+        "registros_total": 149
       },
       {
-        "unidad_id": 118,
+        "unidad_id": 126,
         "clues": "TCIMB000016",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL GENERAL DE BALANCÁN",
@@ -1340,10 +1428,10 @@
         "localidad": "BALANCAN",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 442
+        "registros_total": 429
       },
       {
-        "unidad_id": 119,
+        "unidad_id": 127,
         "clues": "TCIMB001841",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL GENERAL DE EMILIANO ZAPATA",
@@ -1351,10 +1439,10 @@
         "localidad": "EMILIANO ZAPATA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 233
+        "registros_total": 227
       },
       {
-        "unidad_id": 120,
+        "unidad_id": 128,
         "clues": "TCIMB001870",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL GENERAL DE HUIMANGUILLO DR. ADELFO S. AGUIRRE",
@@ -1362,10 +1450,10 @@
         "localidad": "HUIMANGUILLO",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 475
+        "registros_total": 460
       },
       {
-        "unidad_id": 121,
+        "unidad_id": 129,
         "clues": "TCIMB003253",
         "entidad": "TABASCO",
         "unidad": "HOSPITAL GENERAL DE PARAISO",
@@ -1373,10 +1461,32 @@
         "localidad": "QUINTIN ARAUZ UNO",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 299
+        "registros_total": 283
       },
       {
-        "unidad_id": 122,
+        "unidad_id": 130,
+        "clues": "SIV_20_28_280602100041",
+        "entidad": "TAMAULIPAS",
+        "unidad": "CENTRO DE SALUD COL. LAS BRISAS",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 18
+      },
+      {
+        "unidad_id": 131,
+        "clues": "SIV_1_28_280703500281",
+        "entidad": "TAMAULIPAS",
+        "unidad": "SAN FERNANDO (CSU) MODULO 1",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 350
+      },
+      {
+        "unidad_id": 132,
         "clues": "TSIMB001190",
         "entidad": "TAMAULIPAS",
         "unidad": "U-04 COL. HIDALGO",
@@ -1384,10 +1494,10 @@
         "localidad": "NUEVO LAREDO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
+        "registros_total": 353
       },
       {
-        "unidad_id": 123,
+        "unidad_id": 133,
         "clues": "TLIMB001774",
         "entidad": "TLAXCALA",
         "unidad": "CENTRO DE SALUD URBANO DE CHIAUTEMPAN",
@@ -1395,10 +1505,32 @@
         "localidad": "SANTA ANA CHIAUTEMPAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
+        "registros_total": 345
       },
       {
-        "unidad_id": 124,
+        "unidad_id": 134,
+        "clues": "SIV_20_29_290201302021",
+        "entidad": "TLAXCALA",
+        "unidad": "HUAMANTLA",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 390
+      },
+      {
+        "unidad_id": 135,
+        "clues": "SIV_1_29_290300599991",
+        "entidad": "TLAXCALA",
+        "unidad": "MODULO DENTAL APIZACO",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 630
+      },
+      {
+        "unidad_id": 136,
         "clues": "TLIMB000794",
         "entidad": "TLAXCALA",
         "unidad": "MODULO DENTAL TLAXACALA",
@@ -1406,10 +1538,10 @@
         "localidad": "TLAXCALA DE XICOHTENCATL",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 653
+        "registros_total": 610
       },
       {
-        "unidad_id": 125,
+        "unidad_id": 137,
         "clues": "TLIMB000456",
         "entidad": "TLAXCALA",
         "unidad": "SAN IDELFONSO HUEYOTLIPAN",
@@ -1417,120 +1549,142 @@
         "localidad": "HUEYOTLIPAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 510
+        "registros_total": 464
       },
       {
-        "unidad_id": 126,
-        "clues": "TLIMB000992",
-        "entidad": "TLAXCALA",
-        "unidad": "XALOSTOC",
-        "municipio": "XALOZTOC",
-        "localidad": "XALOZTOC",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 220
-      },
-      {
-        "unidad_id": 127,
-        "clues": "VZIMB000901",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 138,
+        "clues": "SIV_20_30_300304000011",
+        "entidad": "VERACRUZ",
         "unidad": "COATZINTLA",
-        "municipio": "COATZINTLA",
-        "localidad": "COATZINTLA",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 462
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 454
       },
       {
-        "unidad_id": 128,
-        "clues": "VZIMB001012",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 139,
+        "clues": "SIV_20_30_300904500011",
+        "entidad": "VERACRUZ",
         "unidad": "COSAMALOAPAN",
-        "municipio": "COSAMALOAPAN DE CARPIO",
-        "localidad": "COSAMALOAPAN",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 282
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 267
       },
       {
-        "unidad_id": 129,
-        "clues": "VZIMB007645",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 140,
+        "clues": "SIV_20_30_300604400011",
+        "entidad": "VERACRUZ",
+        "unidad": "CSU CORDOBA",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 506
+      },
+      {
+        "unidad_id": 141,
+        "clues": "SIV_20_30_300216016021",
+        "entidad": "VERACRUZ",
         "unidad": "DOBLE ALAMO TEMAPACHE",
-        "municipio": "ALAMO TEMAPACHE",
-        "localidad": "ALAMO",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 337
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 321
       },
       {
-        "unidad_id": 130,
-        "clues": "VZIMB005661",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 142,
+        "clues": "SIV_20_30_300819301571",
+        "entidad": "VERACRUZ",
         "unidad": "GRANJA RÍO MEDIO",
-        "municipio": "VERACRUZ",
-        "localidad": "RIO MEDIO [GRANJA]",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 334
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 248
       },
       {
-        "unidad_id": 131,
-        "clues": "VZIMB002856",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 143,
+        "clues": "SIV_1_30_300410200011",
+        "entidad": "VERACRUZ",
+        "unidad": "MARTÍNEZ DE LA TORRE PLAZA VERDE",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 457
+      },
+      {
+        "unidad_id": 144,
+        "clues": "SIV_20_30_301110800101",
+        "entidad": "VERACRUZ",
         "unidad": "MINATITLAN",
-        "municipio": "MINATITLAN",
-        "localidad": "MINATITLAN",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 510
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 487
       },
       {
-        "unidad_id": 132,
-        "clues": "VZIMB003264",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 145,
+        "clues": "SIV_20_30_300711800151",
+        "entidad": "VERACRUZ",
         "unidad": "ORIZABA",
-        "municipio": "ORIZABA",
-        "localidad": "ORIZABA",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 360
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 326
       },
       {
-        "unidad_id": 133,
-        "clues": "VZIMB003334",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 146,
+        "clues": "SIV_20_30_300112300011",
+        "entidad": "VERACRUZ",
         "unidad": "PANUCO COL. REVOLUCIÓN MEXICANA",
-        "municipio": "PANUCO",
-        "localidad": "PANUCO",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 288
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 265
       },
       {
-        "unidad_id": 134,
-        "clues": "VZIMB005603",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 147,
+        "clues": "SIV_1_30_301014100011",
+        "entidad": "VERACRUZ",
+        "unidad": "SAN ANDRÉS TUXTLA",
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 463
+      },
+      {
+        "unidad_id": 148,
+        "clues": "SIV_20_30_300819391121",
+        "entidad": "VERACRUZ",
         "unidad": "VERACRUZ, COL. EL COYOL",
-        "municipio": "VERACRUZ",
-        "localidad": "VERACRUZ",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 363
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 301
       },
       {
-        "unidad_id": 135,
-        "clues": "VZIMB002383",
-        "entidad": "VERACRUZ DE IGNACIO DE LA LLAVE",
+        "unidad_id": 149,
+        "clues": "SIV_20_30_300508791231",
+        "entidad": "VERACRUZ",
         "unidad": "XALAPA- DR. JOSÉ ANTONIO MARABOTO CARREON COL. OBRERO CAMPESINA",
-        "municipio": "XALAPA",
-        "localidad": "XALAPA-ENRIQUEZ",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "EN OPERACION",
-        "registros_total": 100
+        "municipio": null,
+        "localidad": null,
+        "nivel": null,
+        "estatus": "SIN DATO",
+        "registros_total": 93
       },
       {
-        "unidad_id": 136,
+        "unidad_id": 150,
         "clues": "ZSIMB000125",
         "entidad": "ZACATECAS",
         "unidad": "CENTRO DE SALUD FRESNILLO",
@@ -1538,10 +1692,10 @@
         "localidad": "FRESNILLO",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 420
+        "registros_total": 361
       },
       {
-        "unidad_id": 137,
+        "unidad_id": 151,
         "clues": "ZSIMB000446",
         "entidad": "ZACATECAS",
         "unidad": "CENTRO DE SALUD GUADALUPE",
@@ -1549,10 +1703,10 @@
         "localidad": "GUADALUPE",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 384
+        "registros_total": 371
       },
       {
-        "unidad_id": 138,
+        "unidad_id": 152,
         "clues": "ZSIMB001945",
         "entidad": "ZACATECAS",
         "unidad": "CENTRO DE SALUD TLALTENANGO DE SÁNCHEZ ROMÁN",
@@ -1560,10 +1714,10 @@
         "localidad": "TLALTENANGO DE SANCHEZ ROMAN",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
+        "registros_total": 333
       },
       {
-        "unidad_id": 139,
+        "unidad_id": 153,
         "clues": "ZSIMB001641",
         "entidad": "ZACATECAS",
         "unidad": "CENTRO DE SALUD ZACATECAS",
@@ -1571,10 +1725,10 @@
         "localidad": "ZACATECAS",
         "nivel": "PRIMER NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 420
+        "registros_total": 390
       },
       {
-        "unidad_id": 140,
+        "unidad_id": 154,
         "clues": "ZSIMB000492",
         "entidad": "ZACATECAS",
         "unidad": "HOSPITAL COMUNITARIO JALPA (DR CALIXTO MEDINA MEDINA)",
@@ -1582,10 +1736,10 @@
         "localidad": "JALPA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
+        "registros_total": 346
       },
       {
-        "unidad_id": 141,
+        "unidad_id": 155,
         "clues": "ZSIMB000615",
         "entidad": "ZACATECAS",
         "unidad": "HOSPITAL COMUNITARIO JUAN ALDAMA",
@@ -1593,10 +1747,10 @@
         "localidad": "JUAN ALDAMA",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 381
+        "registros_total": 361
       },
       {
-        "unidad_id": 142,
+        "unidad_id": 156,
         "clues": "ZSIMB000900",
         "entidad": "ZACATECAS",
         "unidad": "HOSPITAL COMUNITARIO OJOCALIENTE",
@@ -1604,10 +1758,10 @@
         "localidad": "OJOCALIENTE",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 364
+        "registros_total": 331
       },
       {
-        "unidad_id": 143,
+        "unidad_id": 157,
         "clues": "ZSIMB001846",
         "entidad": "ZACATECAS",
         "unidad": "HOSPITAL COMUNITARIO VILLA DE COS",
@@ -1615,18 +1769,7 @@
         "localidad": "VILLA DE COS",
         "nivel": "SEGUNDO NIVEL",
         "estatus": "EN OPERACION",
-        "registros_total": 360
-      },
-      {
-        "unidad_id": 144,
-        "clues": "ZSIMB000545",
-        "entidad": "ZACATECAS",
-        "unidad": "UNIDAD DE MEDICINA FAMILIAR JEREZ DE GARCÍA SALINAS",
-        "municipio": "JEREZ",
-        "localidad": "JEREZ DE GARCIA SALINAS",
-        "nivel": "PRIMER NIVEL",
-        "estatus": "FUERA DE OPERACION",
-        "registros_total": 0
+        "registros_total": 334
       }
     ]
   },
