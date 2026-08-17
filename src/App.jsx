@@ -606,7 +606,9 @@ function EvaluationFilterStrip({
           <div className="evaluation-top-kpi-label">
             Cuestionarios
             <br />
-            sin inconsistencias
+            registrados sin
+            <br />
+            inconsistencias
           </div>
         </div>
       </div>
@@ -758,15 +760,20 @@ function PregnancySummaryCard({ valor }) {
 const AJUSTES_VISUALES_20260817 = `
   /* Ajustes solicitados 17-08-2026 */
   .sidebar-menu .menu-item img {
-    width: 46px !important;
-    height: 46px !important;
-    min-width: 46px !important;
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
     object-fit: contain !important;
+    transform: scale(1.22);
+    transform-origin: center center;
+    display: block;
   }
 
   .sidebar-menu .menu-item {
-    min-height: 64px;
-    gap: 12px;
+    min-height: 84px;
+    gap: 18px;
+    padding: 14px 18px;
+    overflow: visible;
   }
 
   .proposal-summary-card {
