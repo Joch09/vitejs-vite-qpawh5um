@@ -41,7 +41,6 @@ const MODULOS = [
 ];
 
 const ANTECEDENTES = [
-  { campo: 'embarazo', etiqueta: 'Embarazo' },
   { campo: 'tabaco', etiqueta: 'Tabaquismo' },
   { campo: 'dm', etiqueta: 'Diabetes Mellitus' },
   { campo: 'hta', etiqueta: 'Enfermedades hipertensivas' },
@@ -707,6 +706,147 @@ function HorizontalBars({ items, variant = 'burgundy' }) {
     </div>
   );
 }
+
+function PregnancyIcon() {
+  return (
+    <svg
+      className="pregnancy-icon-svg"
+      viewBox="0 0 96 96"
+      role="img"
+      aria-label="Embarazo"
+    >
+      <circle cx="49" cy="18" r="10" fill="#701039" />
+      <path
+        d="M43 30c-8 4-13 13-13 25v19c0 5 4 9 9 9h7V62c0-2 2-4 4-4s4 2 4 4v21h7c5 0 9-4 9-9V58c0-14-7-25-18-29-3-1-6-1-9 1Z"
+        fill="#173f3a"
+      />
+      <circle cx="59" cy="51" r="15" fill="#b38c2e" />
+      <path
+        d="M51 48c5-4 12-3 16 2"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <circle cx="62" cy="50" r="2.8" fill="#ffffff" />
+      <path
+        d="M42 38c-5 5-8 13-8 22"
+        fill="none"
+        stroke="#701039"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function PregnancySummaryCard({ valor }) {
+  return (
+    <div className="social-summary-card proposal-summary-card pregnancy-summary-card">
+      <div className="generic-social-icon pregnancy-social-icon">
+        <PregnancyIcon />
+      </div>
+
+      <div className="social-summary-copy">
+        <strong>{formatoPorcentaje(valor, 1)}</strong>
+        <span>Se encuentran embarazadas</span>
+      </div>
+    </div>
+  );
+}
+
+const AJUSTES_VISUALES_20260817 = `
+  /* Ajustes solicitados 17-08-2026 */
+  .sidebar-menu .menu-item img {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    object-fit: contain !important;
+  }
+
+  .sidebar-menu .menu-item {
+    min-height: 64px;
+    gap: 12px;
+  }
+
+  .proposal-summary-card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(23, 63, 58, 0.08) !important;
+    box-shadow: 0 7px 18px rgba(30, 48, 55, 0.10) !important;
+  }
+
+  .pregnancy-social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .pregnancy-icon-svg {
+    width: 100%;
+    height: 100%;
+    max-width: 72px;
+    max-height: 72px;
+    display: block;
+  }
+
+  .proposal-bars-section {
+    background: #ffffff !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(23, 63, 58, 0.07) !important;
+    box-shadow: 0 9px 22px rgba(34, 51, 59, 0.12) !important;
+    padding: 18px 20px !important;
+  }
+
+  .proposal-bars-section .bar-track,
+  .proposal-bars-section .bar-fill {
+    border-radius: 999px !important;
+  }
+
+  .proposal-bars-section .bar-track {
+    overflow: hidden;
+  }
+
+  .periodontal-reference {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    gap: 5px !important;
+  }
+
+  .periodontal-reference > strong,
+  .periodontal-reference > span {
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  .top-header-logos .logo-coordinacion,
+  .top-header-logos .logo-vigilancia {
+    width: 145px !important;
+    height: 58px !important;
+    max-width: 145px !important;
+    max-height: 58px !important;
+    object-fit: contain !important;
+  }
+
+  .lesiones-no-lesion-note {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(23, 63, 58, 0.14);
+    color: #46545a;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .lesiones-no-lesion-note strong {
+    color: #701039;
+    font-style: normal;
+  }
+`;
 
 function App() {
   const [catalogos, setCatalogos] = useState(null);
@@ -1376,6 +1516,11 @@ function App() {
     })).filter((item) => item.valor !== null);
   }, [antecedentesFiltrados]);
 
+  const embarazoPct = useMemo(() => {
+    const N = sumar(antecedentesFiltrados, 'N');
+    return porcentaje(sumar(antecedentesFiltrados, 'embarazo'), N);
+  }, [antecedentesFiltrados]);
+
   const ocupacionData = useMemo(() => {
     const acumulado = {};
 
@@ -1470,6 +1615,14 @@ function App() {
         N
       ),
     })).filter((item) => item.valor !== null);
+  }, [higieneAntecedentesFiltrados]);
+
+  const higieneEmbarazoPct = useMemo(() => {
+    const N = sumar(higieneAntecedentesFiltrados, 'N');
+    return porcentaje(
+      sumar(higieneAntecedentesFiltrados, 'embarazo'),
+      N
+    );
   }, [higieneAntecedentesFiltrados]);
 
   const higieneOcupacionData = useMemo(() => {
@@ -1657,6 +1810,14 @@ function App() {
         N
       ),
     })).filter((item) => item.valor !== null);
+  }, [periodontalAntecedentesFiltrados]);
+
+  const periodontalEmbarazoPct = useMemo(() => {
+    const N = sumar(periodontalAntecedentesFiltrados, 'N');
+    return porcentaje(
+      sumar(periodontalAntecedentesFiltrados, 'embarazo'),
+      N
+    );
   }, [periodontalAntecedentesFiltrados]);
 
   const periodontalOcupacionData = useMemo(() => {
@@ -1858,6 +2019,14 @@ function App() {
     })).filter((item) => item.valor !== null);
   }, [otrasAntecedentesFiltrados]);
 
+  const otrasEmbarazoPct = useMemo(() => {
+    const N = sumar(otrasAntecedentesFiltrados, 'N');
+    return porcentaje(
+      sumar(otrasAntecedentesFiltrados, 'embarazo'),
+      N
+    );
+  }, [otrasAntecedentesFiltrados]);
+
   const otrasOcupacionData = useMemo(() => {
     const acumulado = {};
 
@@ -1916,11 +2085,6 @@ function App() {
 
   const lesionesData = useMemo(
     () => [
-      {
-        etiqueta: 'Sin lesión',
-        valor: indicadoresOtras.sinLesion,
-        color: '#701039',
-      },
       {
         etiqueta: 'Úlcera',
         valor: indicadoresOtras.ulcera,
@@ -2308,6 +2472,7 @@ function App() {
 
   return (
     <div className="app">
+      <style>{AJUSTES_VISUALES_20260817}</style>
       <header className="top-header">
         <div
           className="top-header-title"
@@ -2406,10 +2571,9 @@ function App() {
                     En este tablero interactivo encontrará información de
                     interés epidemiológico proveniente de las unidades
                     centinela de IMSS-BIENESTAR en las 24 Coordinaciones
-                    Estatales. Puede seleccionar del menú del lado izquierdo
-                    el apartado de interés, incluyendo el cálculo de
-                    indicadores por entidad y unidad centinela. Seleccione de
-                    los filtros de la parte de arriba.
+                    Estatales. Seleccione de los filtros la entidad, unidad
+                    centinela, mes y grupo de edad de interés. En el menú del
+                    lado izquierdo puede seleccionar el apartado de interés.
                   </p>
                 </article>
 
@@ -2536,6 +2700,8 @@ function App() {
                         </div>
                       </div>
 
+                      <PregnancySummaryCard valor={embarazoPct} />
+
                       <div className="mini-section sex-section proposal-sex-section">
                         <h3>Sexo</h3>
 
@@ -2588,7 +2754,7 @@ function App() {
 
                     <div className="social-right-column">
                       <div className="mini-section proposal-bars-section">
-                        <h3>Antecedentes</h3>
+                        <h3>Antecedentes patológicos</h3>
 
                         <HorizontalBars
                           items={antecedentesData}
@@ -2769,6 +2935,9 @@ function App() {
                         </div>
                       </div>
 
+                      <PregnancySummaryCard valor={higieneEmbarazoPct} />
+
+
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
 
@@ -2823,7 +2992,7 @@ function App() {
 
                     <div className="social-right-column">
                       <div className="mini-section proposal-bars-section">
-                        <h3>Antecedentes</h3>
+                        <h3>Antecedentes patológicos</h3>
 
                         <HorizontalBars
                           items={higieneAntecedentesData}
@@ -2991,6 +3160,8 @@ function App() {
                         </div>
                       </div>
 
+                      <PregnancySummaryCard valor={periodontalEmbarazoPct} />
+
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
                         <div className="sex-chart-wrap">
@@ -3039,7 +3210,7 @@ function App() {
 
                     <div className="social-right-column">
                       <div className="mini-section proposal-bars-section">
-                        <h3>Antecedentes</h3>
+                        <h3>Antecedentes patológicos</h3>
                         <HorizontalBars
                           items={periodontalAntecedentesData}
                           variant="green"
@@ -3178,6 +3349,8 @@ function App() {
                         </div>
                       </div>
 
+                      <PregnancySummaryCard valor={otrasEmbarazoPct} />
+
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
 
@@ -3235,7 +3408,7 @@ function App() {
 
                     <div className="social-right-column">
                       <div className="mini-section proposal-bars-section">
-                        <h3>Antecedentes</h3>
+                        <h3>Antecedentes patológicos</h3>
 
                         <HorizontalBars
                           items={otrasAntecedentesData}
@@ -3371,6 +3544,15 @@ function App() {
                               </div>
                             );
                           })}
+                        </div>
+
+                        <div className="lesiones-no-lesion-note">
+                          <strong>
+                            {Number(
+                              indicadoresOtras.sinLesion || 0
+                            ).toLocaleString('es-MX')}
+                          </strong>{' '}
+                          pacientes no registraron lesión
                         </div>
                       </div>
 
