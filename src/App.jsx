@@ -776,6 +776,39 @@ const AJUSTES_VISUALES_20260817 = `
     overflow: visible;
   }
 
+
+  .ihos-reference {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    gap: 22px !important;
+    padding: 14px 22px !important;
+    white-space: nowrap;
+  }
+
+  .ihos-reference strong,
+  .ihos-reference span {
+    display: inline-block !important;
+    margin: 0 !important;
+    width: auto !important;
+    line-height: 1.25 !important;
+  }
+
+  .ihos-reference strong {
+    flex: 0 0 auto;
+  }
+
+  @media (max-width: 1180px) {
+    .ihos-reference {
+      gap: 12px !important;
+      font-size: 12px !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+  }
+
   .proposal-summary-card {
     background: #ffffff !important;
     border-radius: 16px !important;
@@ -1611,6 +1644,27 @@ function App() {
 
     return { total, items };
   }, [higieneSexoFiltrado]);
+
+
+  const higieneSexoPieStyle = useMemo(() => {
+    if (!higieneSexoData.items.length) {
+      return { background: '#e7e7e7' };
+    }
+
+    const colores = ['#701039', '#173f3a', '#b38c2e', '#8b8b8b'];
+    let inicio = 0;
+
+    const segmentos = higieneSexoData.items.map((item, index) => {
+      const fin = inicio + (item.valor || 0);
+      const segmento = `${colores[index % colores.length]} ${inicio}% ${fin}%`;
+      inicio = fin;
+      return segmento;
+    });
+
+    return {
+      background: `conic-gradient(${segmentos.join(', ')})`,
+    };
+  }, [higieneSexoData]);
 
   const higieneAntecedentesData = useMemo(() => {
     const N = sumar(higieneAntecedentesFiltrados, 'N');
@@ -2948,51 +3002,53 @@ function App() {
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
 
-                        <div className="higiene-sex-bars">
-                          {higieneSexoData.items.map((item, index) => (
-                            <div
-                              className="higiene-sex-row"
-                              key={item.etiqueta}
-                            >
-                              <span
-                                className="sex-legend-dot"
-                                style={{
-                                  background:
-                                    index === 0
-                                      ? '#701039'
-                                      : index === 1
-                                      ? '#173f3a'
-                                      : '#8b8b8b',
-                                }}
-                              ></span>
-
-                              <span className="higiene-sex-name">
-                                {item.etiqueta}
+                        <div className="sex-chart-wrap">
+                          <div
+                            className="sex-pie"
+                            style={higieneSexoPieStyle}
+                          >
+                            {higieneSexoData.items[0] && (
+                              <span className="sex-pie-label sex-pie-label-a">
+                                {formatoPorcentaje(
+                                  higieneSexoData.items[0].valor,
+                                  1
+                                )}
                               </span>
+                            )}
 
-                              <div className="higiene-sex-track">
-                                <div
-                                  className="higiene-sex-fill"
+                            {higieneSexoData.items[1] && (
+                              <span className="sex-pie-label sex-pie-label-b">
+                                {formatoPorcentaje(
+                                  higieneSexoData.items[1].valor,
+                                  1
+                                )}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="sex-legend">
+                            {higieneSexoData.items.map((item, index) => (
+                              <div
+                                className="sex-legend-row"
+                                key={item.etiqueta}
+                              >
+                                <span
+                                  className="sex-legend-dot"
                                   style={{
-                                    width: `${Math.max(
-                                      0,
-                                      item.valor || 0
-                                    )}%`,
                                     background:
                                       index === 0
                                         ? '#701039'
                                         : index === 1
                                         ? '#173f3a'
+                                        : index === 2
+                                        ? '#b38c2e'
                                         : '#8b8b8b',
                                   }}
-                                ></div>
+                                ></span>
+                                <span>{item.etiqueta}</span>
                               </div>
-
-                              <strong>
-                                {formatoPorcentaje(item.valor, 1)}
-                              </strong>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
