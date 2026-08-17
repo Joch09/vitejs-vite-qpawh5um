@@ -779,34 +779,22 @@ const AJUSTES_VISUALES_20260817 = `
 
   .ihos-reference {
     display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-wrap: nowrap !important;
-    gap: 22px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    gap: 5px !important;
     padding: 14px 22px !important;
-    white-space: nowrap;
+    white-space: normal !important;
   }
 
-  .ihos-reference strong,
-  .ihos-reference span {
-    display: inline-block !important;
+  .ihos-reference > strong,
+  .ihos-reference > span {
+    display: block !important;
     margin: 0 !important;
-    width: auto !important;
+    width: 100% !important;
     line-height: 1.25 !important;
-  }
-
-  .ihos-reference strong {
-    flex: 0 0 auto;
-  }
-
-  @media (max-width: 1180px) {
-    .ihos-reference {
-      gap: 12px !important;
-      font-size: 12px !important;
-      padding-left: 12px !important;
-      padding-right: 12px !important;
-    }
+    text-align: left !important;
   }
 
   .proposal-summary-card {
@@ -865,10 +853,10 @@ const AJUSTES_VISUALES_20260817 = `
 
   .top-header-logos .logo-coordinacion,
   .top-header-logos .logo-vigilancia {
-    width: 145px !important;
-    height: 58px !important;
-    max-width: 145px !important;
-    max-height: 58px !important;
+    width: 170px !important;
+    height: 68px !important;
+    max-width: 170px !important;
+    max-height: 68px !important;
     object-fit: contain !important;
   }
 
