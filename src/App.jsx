@@ -19,6 +19,7 @@ import iconOtras from './assets/menu/icono cancer.png';
 
 import iconMigrantes from './assets/social/icono_migrantes.png';
 import iconIndigena from './assets/social/icono_indigena.png';
+import iconEmbarazo from './assets/social/icono_embarazo.png';
 
 import logoImssBienestar from './assets/logos/Logo_imssb.png';
 import logoVigilancia from './assets/logos/LOGO_BLANCO_V.png';
@@ -709,44 +710,18 @@ function HorizontalBars({ items, variant = 'burgundy' }) {
   );
 }
 
-function PregnancyIcon() {
-  return (
-    <svg
-      className="pregnancy-icon-svg"
-      viewBox="0 0 96 96"
-      role="img"
-      aria-label="Embarazo"
-    >
-      <circle cx="49" cy="18" r="10" fill="#701039" />
-      <path
-        d="M43 30c-8 4-13 13-13 25v19c0 5 4 9 9 9h7V62c0-2 2-4 4-4s4 2 4 4v21h7c5 0 9-4 9-9V58c0-14-7-25-18-29-3-1-6-1-9 1Z"
-        fill="#173f3a"
-      />
-      <circle cx="59" cy="51" r="15" fill="#b38c2e" />
-      <path
-        d="M51 48c5-4 12-3 16 2"
-        fill="none"
-        stroke="#ffffff"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <circle cx="62" cy="50" r="2.8" fill="#ffffff" />
-      <path
-        d="M42 38c-5 5-8 13-8 22"
-        fill="none"
-        stroke="#701039"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 function PregnancySummaryCard({ valor }) {
   return (
     <div className="social-summary-card proposal-summary-card pregnancy-summary-card">
-      <div className="generic-social-icon pregnancy-social-icon">
-        <PregnancyIcon />
+      <div
+        className="generic-social-icon pregnancy-social-icon"
+        aria-hidden="true"
+      >
+        <img
+          className="social-icon-image social-icon-embarazo"
+          src={iconEmbarazo}
+          alt=""
+        />
       </div>
 
       <div className="social-summary-copy">
@@ -811,11 +786,12 @@ const AJUSTES_VISUALES_20260817 = `
     overflow: hidden;
   }
 
-  .pregnancy-icon-svg {
-    width: 100%;
-    height: 100%;
-    max-width: 72px;
-    max-height: 72px;
+  .social-icon-embarazo {
+    width: 72px !important;
+    height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+    object-fit: contain !important;
     display: block;
   }
 
