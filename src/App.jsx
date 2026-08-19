@@ -2093,6 +2093,14 @@ const AJUSTES_VISUALES_20260817 = `
     line-height: 1.4;
   }
 
+
+
+  .lesion-grouped-legend-bottom {
+    margin-top: 12px !important;
+    margin-bottom: 4px !important;
+    justify-content: center !important;
+  }
+
 `;
 
 function App() {
@@ -4994,18 +5002,6 @@ function App() {
                           </div>
                         ) : (
                           <div className="lesion-grouped-chart">
-                            <div className="lesion-grouped-legend">
-                              <span>
-                                <i style={{ background: '#a71f4d' }}></i>
-                                Menos de 3 semanas
-                              </span>
-
-                              <span>
-                                <i style={{ background: '#235d53' }}></i>
-                                Más de 3 semanas
-                              </span>
-                            </div>
-
                             <div className="lesion-grouped-plot">
                               {lesionesTiempoData.map((item) => {
                                 const maxValor = Math.max(
@@ -5084,6 +5080,18 @@ function App() {
                                   </div>
                                 );
                               })}
+                            </div>
+
+                            <div className="lesion-grouped-legend lesion-grouped-legend-bottom">
+                              <span>
+                                <i style={{ background: '#a71f4d' }}></i>
+                                Menos de 3 semanas
+                              </span>
+
+                              <span>
+                                <i style={{ background: '#235d53' }}></i>
+                                Más de 3 semanas
+                              </span>
                             </div>
 
                             <div className="lesion-grouped-note">
