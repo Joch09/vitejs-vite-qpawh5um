@@ -2101,6 +2101,99 @@ const AJUSTES_VISUALES_20260817 = `
     justify-content: center !important;
   }
 
+
+
+  /* ==========================================================
+     OTRAS PATOLOGÍAS - gráfica de lesiones más amplia y legible
+     ========================================================== */
+
+  .otras-boceto-grid {
+    grid-template-columns:
+      minmax(0, 1.48fr)
+      minmax(290px, 0.82fr) !important;
+    gap: 20px !important;
+  }
+
+  .lesion-grouped-chart {
+    min-height: 400px !important;
+  }
+
+  .lesion-grouped-plot {
+    min-height: 315px !important;
+    grid-template-columns: repeat(5, minmax(64px, 1fr)) !important;
+    gap: 8px !important;
+    padding-left: 18px !important;
+    padding-right: 4px !important;
+    overflow: hidden !important;
+  }
+
+  .lesion-grouped-plot::before {
+    left: 18px !important;
+    right: 4px !important;
+  }
+
+  .lesion-bars {
+    gap: 5px !important;
+    padding: 0 3px !important;
+  }
+
+  .lesion-vbar-wrap {
+    flex-basis: 20px !important;
+    width: 20px !important;
+    max-width: 20px !important;
+  }
+
+  .lesion-group-label {
+    min-height: 68px !important;
+    margin-top: 9px !important;
+    padding: 0 3px !important;
+    font-size: 0.72rem !important;
+    line-height: 1.12 !important;
+    font-weight: 650 !important;
+
+    /* Nunca cortar una palabra por la mitad */
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+    white-space: normal !important;
+  }
+
+  .lesion-grouped-legend-bottom {
+    margin-top: 8px !important;
+  }
+
+  .lesion-grouped-note {
+    margin-top: 9px !important;
+    padding-left: 18px !important;
+  }
+
+  /* La columna derecha se mantiene compacta sin invadir la gráfica */
+  .otras-boceto-col.right {
+    min-width: 0 !important;
+  }
+
+  .otras-boceto-kpi {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  @media (max-width: 1100px) and (min-width: 651px) {
+    .otras-boceto-grid {
+      grid-template-columns:
+        minmax(0, 1.42fr)
+        minmax(270px, 0.78fr) !important;
+    }
+
+    .lesion-grouped-plot {
+      grid-template-columns: repeat(5, minmax(58px, 1fr)) !important;
+      gap: 6px !important;
+    }
+
+    .lesion-group-label {
+      font-size: 0.68rem !important;
+    }
+  }
+
 `;
 
 function App() {
