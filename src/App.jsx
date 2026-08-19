@@ -2042,6 +2042,56 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+
+
+  /* Estado informativo cuando existen lesiones, pero no temporalidad válida */
+  .lesion-temporal-empty {
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 28px 34px;
+    box-sizing: border-box;
+  }
+
+  .lesion-temporal-empty-card {
+    width: min(100%, 420px);
+    padding: 24px 26px;
+    border-radius: 14px;
+    background: #f6f0db;
+    border: 1px solid rgba(176,124,19,0.15);
+  }
+
+  .lesion-temporal-empty-card strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #173f3a;
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .lesion-temporal-empty-card span {
+    display: block;
+    color: #5f6764;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .lesion-temporal-empty-card b {
+    color: #a71f4d;
+    font-weight: 850;
+  }
+
+  .lesion-temporal-empty-note {
+    width: min(100%, 420px);
+    margin-top: 14px;
+    color: #6b6b6b;
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
 `;
 
 function App() {
@@ -3479,6 +3529,20 @@ function App() {
     });
   }, [otrasLesionesTiempoFiltrado]);
 
+  const totalLesionesTiempoValido = lesionesTiempoData.reduce(
+    (acum, item) =>
+      acum +
+      Number(item.lt3 || 0) +
+      Number(item.gt3 || 0),
+    0
+  );
+
+  const totalLesionesSinTiempoValido = lesionesTiempoData.reduce(
+    (acum, item) =>
+      acum + Number(item.sinTiempo || 0),
+    0
+  );
+
   const maxLesionesTiempo = Math.max(
     1,
     ...lesionesTiempoData.map((item) => item.total || 0)
@@ -4899,6 +4963,34 @@ function App() {
                           <div className="otras-no-data">
                             Sin lesiones registradas para la selección.
                           </div>
+                        ) : totalLesionesTiempoValido === 0 ? (
+                          <div className="lesion-temporal-empty">
+                            <div className="lesion-temporal-empty-card">
+                              <strong>
+                                Sin registros con tiempo de evolución válido
+                                para la selección.
+                              </strong>
+
+                              <span>
+                                Se identificaron{' '}
+                                <b>
+                                  {Number(
+                                    totalLesionesSinTiempoValido
+                                  ).toLocaleString('es-MX')}
+                                </b>{' '}
+                                registros de lesión sin un tiempo de evolución
+                                válido, por lo que no se representan en las
+                                barras por temporalidad.
+                              </span>
+                            </div>
+
+                            <div className="lesion-temporal-empty-note">
+                              {Number(
+                                indicadoresOtras.sinLesion || 0
+                              ).toLocaleString('es-MX')}{' '}
+                              pacientes no registraron lesión.
+                            </div>
+                          </div>
                         ) : (
                           <div className="lesion-grouped-chart">
                             <div className="lesion-grouped-legend">
@@ -5000,9 +5092,21 @@ function App() {
                                 ).toLocaleString('es-MX')}
                               </strong>{' '}
                               pacientes no registraron lesión.
-                              {' '}
-                              Los registros sin tiempo de evolución válido
-                              no se representan en las barras por temporalidad.
+
+                              {totalLesionesSinTiempoValido > 0 && (
+                                <>
+                                  {' '}
+                                  Además,{' '}
+                                  <strong>
+                                    {Number(
+                                      totalLesionesSinTiempoValido
+                                    ).toLocaleString('es-MX')}
+                                  </strong>{' '}
+                                  registros de lesión no contaron con tiempo
+                                  de evolución válido y no se representan en
+                                  las barras por temporalidad.
+                                </>
+                              )}
                             </div>
                           </div>
                         )}
