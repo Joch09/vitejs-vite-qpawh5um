@@ -48,10 +48,17 @@ const ANTECEDENTES = [
   { campo: 'inmuno', etiqueta: 'Inmunodeficiencia' },
 ];
 
-function MapAutoFit({ puntos }) {
+function MapAutoFit({ puntos, vistaNacional }) {
   const map = useMap();
 
   useEffect(() => {
+    if (vistaNacional) {
+      map.setView([23.7, -102.5], 5, {
+        animate: false,
+      });
+      return;
+    }
+
     const puntosValidos = puntos.filter(
       (item) =>
         Number.isFinite(Number(item.lat)) &&
@@ -60,15 +67,28 @@ function MapAutoFit({ puntos }) {
 
     if (puntosValidos.length === 0) return;
 
+    if (puntosValidos.length === 1) {
+      map.setView(
+        [
+          Number(puntosValidos[0].lat),
+          Number(puntosValidos[0].lon),
+        ],
+        11,
+        { animate: false }
+      );
+      return;
+    }
+
     const bounds = latLngBounds(
       puntosValidos.map((item) => [Number(item.lat), Number(item.lon)])
     );
 
     map.fitBounds(bounds, {
       padding: [28, 28],
-      maxZoom: 11,
+      maxZoom: 10,
+      animate: false,
     });
-  }, [puntos, map]);
+  }, [puntos, vistaNacional, map]);
 
   return null;
 }
@@ -116,6 +136,33 @@ function formatoPorcentaje(valor, decimales = 1) {
   }
 
   return `${formatoNumero(valor, decimales)}%`;
+}
+
+function claveEntidadComparacion(valor) {
+  const texto = String(valor || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+
+  if (
+    texto === 'CIUDAD DE MEXICO' ||
+    texto === 'DISTRITO FEDERAL' ||
+    texto === 'CDMX'
+  ) {
+    return 'CDMX';
+  }
+
+  if (
+    texto === 'ESTADO DE MEXICO' ||
+    texto === 'MEXICO'
+  ) {
+    return 'MEXICO';
+  }
+
+  return texto;
 }
 
 function edadCoincide(valorEdad, filtroEdad) {
@@ -517,7 +564,18 @@ function EvaluationFilterStrip({
   limpiarFiltros,
   cuestionariosRegistrados,
   cuestionariosSinInconsistencias,
+  formatosEsperados,
 }) {
+  const mostrarEntero = (valor) => {
+    if (valor === null || valor === undefined) {
+      return '—';
+    }
+
+    return Number.isFinite(Number(valor))
+      ? Number(valor).toLocaleString('es-MX')
+      : '—';
+  };
+
   return (
     <div className="evaluation-filter-strip">
       <div className="evaluation-filters">
@@ -585,31 +643,33 @@ function EvaluationFilterStrip({
       </div>
 
       <div className="evaluation-top-kpis">
-        <div className="evaluation-top-kpi">
+        <div className="evaluation-top-kpi evaluation-top-kpi-green">
           <div className="evaluation-top-kpi-value">
-            {Number(cuestionariosRegistrados || 0).toLocaleString('es-MX')}
+            {mostrarEntero(formatosEsperados)}
           </div>
 
           <div className="evaluation-top-kpi-label">
-            Cuestionarios
-            <br />
-            registrados
+            Formatos esperados
           </div>
         </div>
 
-        <div className="evaluation-top-kpi">
+        <div className="evaluation-top-kpi evaluation-top-kpi-green">
           <div className="evaluation-top-kpi-value">
-            {Number(cuestionariosSinInconsistencias || 0).toLocaleString(
-              'es-MX'
-            )}
+            {mostrarEntero(cuestionariosRegistrados)}
           </div>
 
           <div className="evaluation-top-kpi-label">
-            Cuestionarios
-            <br />
-            registrados sin
-            <br />
-            inconsistencias
+            Cuestionarios registrados
+          </div>
+        </div>
+
+        <div className="evaluation-top-kpi evaluation-top-kpi-clean">
+          <div className="evaluation-top-kpi-value">
+            {mostrarEntero(cuestionariosSinInconsistencias)}
+          </div>
+
+          <div className="evaluation-top-kpi-label">
+            Cuestionarios registrados sin inconsistencias
           </div>
         </div>
       </div>
@@ -624,7 +684,7 @@ function EvaluationUnitBars({
   emptyMessage = 'Sin información evaluable para la selección.',
 }) {
   const validItems = items.filter((item) =>
-    Number.isFinite(item[field])
+    Number.isFinite(Number(item[field]))
   );
 
   if (validItems.length === 0) {
@@ -638,9 +698,14 @@ function EvaluationUnitBars({
   return (
     <div className="evaluation-unit-bars">
       {validItems.map((item) => {
-        const valor = Math.max(
+        const valorRaw = Math.max(
           0,
-          Math.min(100, Number(item[field]) || 0)
+          Number(item[field]) || 0
+        );
+
+        const valorBar = Math.min(
+          100,
+          valorRaw
         );
 
         return (
@@ -659,14 +724,14 @@ function EvaluationUnitBars({
               <div
                 className="evaluation-unit-fill"
                 style={{
-                  width: `${valor}%`,
+                  width: `${valorBar}%`,
                   background: color,
                 }}
               ></div>
             </div>
 
             <strong>
-              {valor.toFixed(1)}%
+              {valorRaw.toFixed(1)}%
             </strong>
           </div>
         );
@@ -850,6 +915,370 @@ const AJUSTES_VISUALES_20260817 = `
     color: #701039;
     font-style: normal;
   }
+
+  /* ==========================================================
+     Ajustes integrados 19-08-2026
+     ========================================================== */
+
+  .top-header-title h1 {
+    font-size: 2.35rem !important;
+    line-height: 1 !important;
+    letter-spacing: 0.04em !important;
+    margin-bottom: 5px !important;
+  }
+
+  .top-header-title p {
+    font-size: 1.03rem !important;
+  }
+
+  .sidebar-menu .menu-item img {
+    width: 68px !important;
+    height: 68px !important;
+    min-width: 68px !important;
+    transform: scale(1.18) !important;
+  }
+
+  .sidebar-menu .menu-item {
+    min-height: 92px !important;
+    gap: 20px !important;
+  }
+
+  .top-header-logos .logo-coordinacion,
+  .top-header-logos .logo-vigilancia {
+    width: 190px !important;
+    height: 76px !important;
+    max-width: 190px !important;
+    max-height: 76px !important;
+    object-fit: contain !important;
+  }
+
+  .top-header-logos .logo-imss-bienestar {
+    max-height: 76px !important;
+    object-fit: contain !important;
+  }
+
+  .free-caries-banner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    text-align: center !important;
+    margin-top: 18px !important;
+  }
+
+  .free-caries-banner-label {
+    order: 1 !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+  }
+
+  .free-caries-banner-value {
+    order: 2 !important;
+    font-size: 2rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+  }
+
+  .proposal-solid-pie .proposal-pie-label {
+    font-weight: 800 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.22);
+  }
+
+  .hygiene-legend span,
+  .ihos-reference span {
+    text-transform: none !important;
+  }
+
+  .periodontal-state-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .periodontal-epo-section {
+    border-radius: 16px;
+    padding: 14px 16px;
+    background: rgba(23, 63, 58, 0.045);
+    border: 1px solid rgba(23, 63, 58, 0.10);
+  }
+
+  .periodontal-epo-section > h3 {
+    margin: 0 0 10px 0;
+    text-align: left;
+  }
+
+  .periodontal-epo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .periodontal-epo-card {
+    min-height: 94px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(112, 16, 57, 0.12);
+    box-shadow: 0 5px 14px rgba(30, 48, 55, 0.08);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .periodontal-epo-card span {
+    font-size: 0.86rem;
+    line-height: 1.2;
+    font-weight: 650;
+  }
+
+  .periodontal-epo-card strong {
+    margin-top: 5px;
+    font-size: 1.7rem;
+    color: #701039;
+    line-height: 1;
+  }
+
+  .periodontal-distributions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: stretch;
+  }
+
+  .periodontal-chart-block.periodontal-probe-block {
+    margin: 0 !important;
+    height: 100%;
+  }
+
+  .periodontal-probe-pie {
+    width: 172px;
+    height: 172px;
+    border-radius: 50%;
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .periodontal-probe-pie .periodontal-pie-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+
+  .periodontal-reference-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px !important;
+  }
+
+  .periodontal-reference-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f7f7f5;
+  }
+
+  .otras-state-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .otras-section-group {
+    border-radius: 18px;
+    border: 1px solid rgba(23, 63, 58, 0.10);
+    background: #ffffff;
+    padding: 16px 18px;
+    box-shadow: 0 7px 18px rgba(30, 48, 55, 0.08);
+  }
+
+  .otras-section-title {
+    margin: 0 0 14px 0 !important;
+    text-align: left !important;
+    font-size: 1.14rem !important;
+    color: #173f3a;
+  }
+
+  .otras-kpi-card.fluorosis-card {
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+
+  .otras-kpi-card.fluorosis-card span,
+  .otras-kpi-card.fluorosis-card strong {
+    width: 100%;
+    text-align: left !important;
+  }
+
+  .lesion-time-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    margin: 2px 0 12px;
+    font-size: 0.82rem;
+  }
+
+  .lesion-time-legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .lesion-time-legend i {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .lesion-time-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .lesion-time-row {
+    display: grid;
+    grid-template-columns: minmax(145px, 0.95fr) minmax(220px, 2.2fr) 54px;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .lesion-time-name {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    font-size: 0.86rem;
+    line-height: 1.2;
+    font-weight: 650;
+  }
+
+  .lesion-time-track {
+    height: 20px;
+    border-radius: 999px;
+    background: #eceeec;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .lesion-time-total {
+    height: 100%;
+    display: flex;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .lesion-time-segment {
+    height: 100%;
+    min-width: 0;
+  }
+
+  .lesion-time-count {
+    text-align: right;
+    font-size: 0.83rem;
+    font-weight: 750;
+  }
+
+  .lesiones-no-lesion-note {
+    text-align: left !important;
+  }
+
+  .diagnostico-label span {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  .evaluation-filter-strip {
+    align-items: stretch !important;
+  }
+
+  .evaluation-top-kpis {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(150px, 1fr)) !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+
+  .evaluation-top-kpi {
+    min-width: 0 !important;
+    min-height: 86px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 10px 12px !important;
+  }
+
+  .evaluation-top-kpi-green {
+    background: #173f3a !important;
+    color: #ffffff !important;
+  }
+
+  .evaluation-top-kpi-clean {
+    background: #701039 !important;
+    color: #ffffff !important;
+  }
+
+  .evaluation-top-kpi-label {
+    white-space: normal !important;
+    line-height: 1.15 !important;
+    margin-top: 4px !important;
+  }
+
+  .evaluation-official-note {
+    margin: 10px 0 14px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: rgba(23, 63, 58, 0.06);
+    color: #46545a;
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .evaluation-official-note strong {
+    color: #173f3a;
+  }
+
+  .final-evaluation-right {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+  }
+
+  .final-evaluation-right .evaluation-pending-card {
+    width: 100% !important;
+  }
+
+  @media (max-width: 1180px) {
+    .periodontal-distributions-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .evaluation-top-kpis {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .periodontal-epo-grid,
+    .periodontal-reference-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .lesion-time-row {
+      grid-template-columns: 1fr;
+    }
+
+    .lesion-time-count {
+      text-align: left;
+    }
+  }
 `;
 
 function App() {
@@ -988,6 +1417,7 @@ function App() {
         setPeriodontalData({
           ...data,
           coreDecoded: decodeColumnarDataset(data.core),
+          epoReferenciaDecoded: decodeColumnarDataset(data.epo_referencia),
           sexoDecoded: decodeColumnarDataset(data.sexo),
           antecedentesDecoded: decodeColumnarDataset(data.antecedentes),
           ocupacionDecoded: decodeColumnarDataset(data.ocupacion),
@@ -1017,6 +1447,7 @@ function App() {
         setOtrasData({
           ...data,
           coreDecoded: decodeColumnarDataset(data.core),
+          lesionesTiempoDecoded: decodeColumnarDataset(data.lesiones_tiempo),
           sexoDecoded: decodeColumnarDataset(data.sexo),
           antecedentesDecoded: decodeColumnarDataset(data.antecedentes),
           ocupacionDecoded: decodeColumnarDataset(data.ocupacion),
@@ -1049,6 +1480,9 @@ function App() {
           ...data,
           unidadesDecoded: decodeColumnarDataset(data.unidades),
           evaluacionDecoded: decodeColumnarDataset(data.evaluacion),
+          indicadoresOficialesDecoded: decodeColumnarDataset(
+            data.indicadores_oficiales
+          ),
         });
 
         setErrorCarga('');
@@ -1205,6 +1639,19 @@ function App() {
     [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
   );
 
+  const cariesLibreFiltrada = useMemo(
+    () =>
+      filtrarPorLlave(
+        cariesData?.coreDecoded || [],
+        '',
+        '',
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [cariesData, entidad, unidad, idsUnidadesEntidad]
+  );
+
   const higieneCoreFiltrada = useMemo(
     () =>
       filtrarPorLlave(
@@ -1335,6 +1782,19 @@ function App() {
     [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
   );
 
+  const periodontalEpoFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        periodontalData?.epoReferenciaDecoded || [],
+        '',
+        '',
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [periodontalData, entidad, unidad, idsUnidadesEntidad]
+  );
+
   const otrasCoreFiltrado = useMemo(
     () =>
       filtrarPorLlave(
@@ -1413,6 +1873,19 @@ function App() {
     [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
   );
 
+  const otrasLesionesTiempoFiltrado = useMemo(
+    () =>
+      filtrarPorLlave(
+        otrasData?.lesionesTiempoDecoded || [],
+        edad,
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
   const indicadoresCaries = useMemo(() => {
     if (!cariesData) {
       return {
@@ -1449,8 +1922,8 @@ function App() {
       CPODSum = sumar(cariesFiltrada, 'CPOD14_sum');
     }
 
-    const libreN = sumar(cariesFiltrada, 'libre_N');
-    const libreNume = sumar(cariesFiltrada, 'libre_n');
+    const libreN = sumar(cariesLibreFiltrada, 'libre_N');
+    const libreNume = sumar(cariesLibreFiltrada, 'libre_n');
 
     const carN = sumar(cariesFiltrada, 'car_N');
     const carNume = sumar(cariesFiltrada, 'car_n');
@@ -1469,7 +1942,7 @@ function App() {
         cariesPct === null ? null : Math.max(0, 100 - cariesPct),
       edentPct: porcentaje(edentNume, edentN),
     };
-  }, [cariesData, cariesFiltrada, edad]);
+  }, [cariesData, cariesFiltrada, cariesLibreFiltrada, edad]);
 
   const indicadoresSociales = useMemo(() => {
     const migranteN = sumar(socialFiltrado, 'migrante_N');
@@ -1791,6 +2264,43 @@ function App() {
     };
   }, [periodontalCoreFiltrado]);
 
+  const indicadoresPeriodontalSonda = useMemo(() => {
+    const N = sumar(periodontalCoreFiltrado, 'sonda_N');
+
+    return {
+      N,
+      normalPct: porcentaje(
+        sumar(periodontalCoreFiltrado, 'sonda_normal'),
+        N
+      ),
+      gingivitisPct: porcentaje(
+        sumar(periodontalCoreFiltrado, 'sonda_ging'),
+        N
+      ),
+      periodontitisPct: porcentaje(
+        sumar(periodontalCoreFiltrado, 'sonda_perio'),
+        N
+      ),
+    };
+  }, [periodontalCoreFiltrado]);
+
+  const periodontalEpoReferencia = useMemo(() => {
+    const epo18N = sumar(periodontalEpoFiltrado, 'epo18_N');
+    const epo18n = sumar(periodontalEpoFiltrado, 'epo18_n');
+
+    const epo3544N = sumar(periodontalEpoFiltrado, 'epo35_44_N');
+    const epo3544n = sumar(periodontalEpoFiltrado, 'epo35_44_n');
+
+    const epo60N = sumar(periodontalEpoFiltrado, 'epo60_N');
+    const epo60n = sumar(periodontalEpoFiltrado, 'epo60_n');
+
+    return {
+      epo18Pct: porcentaje(epo18n, epo18N),
+      epo3544Pct: porcentaje(epo3544n, epo3544N),
+      epo60Pct: porcentaje(epo60n, epo60N),
+    };
+  }, [periodontalEpoFiltrado]);
+
   const periodontalSociales = useMemo(() => {
     const migranteN = sumar(periodontalSocialFiltrado, 'migrante_N');
     const migranteNume = sumar(periodontalSocialFiltrado, 'migrante_n');
@@ -1936,6 +2446,57 @@ function App() {
   const periodontalPieStyle = periodontalSegmentos.length
     ? {
         background: `conic-gradient(${periodontalSegmentos
+          .map((item) => `${item.color} ${item.inicio}% ${item.fin}%`)
+          .join(', ')})`,
+      }
+    : { background: '#e7e7e7' };
+
+  const periodontalSondaSegmentos = useMemo(() => {
+    const base = [
+      {
+        etiqueta: 'Normal',
+        valor: indicadoresPeriodontalSonda.normalPct,
+        color: '#173f3a',
+      },
+      {
+        etiqueta: 'Gingivitis',
+        valor: indicadoresPeriodontalSonda.gingivitisPct,
+        color: '#b38c2e',
+      },
+      {
+        etiqueta: 'Periodontitis',
+        valor: indicadoresPeriodontalSonda.periodontitisPct,
+        color: '#701039',
+      },
+    ].filter((item) => Number.isFinite(item.valor) && item.valor > 0);
+
+    let acumulado = 0;
+
+    return base.map((item) => {
+      const inicio = acumulado;
+      const fin = acumulado + item.valor;
+      const medio = (inicio + fin) / 2;
+      acumulado = fin;
+
+      const rad = ((medio * 3.6 - 90) * Math.PI) / 180;
+
+      return {
+        ...item,
+        inicio,
+        fin,
+        x: Math.cos(rad) * 58,
+        y: Math.sin(rad) * 58,
+      };
+    });
+  }, [
+    indicadoresPeriodontalSonda.normalPct,
+    indicadoresPeriodontalSonda.gingivitisPct,
+    indicadoresPeriodontalSonda.periodontitisPct,
+  ]);
+
+  const periodontalSondaPieStyle = periodontalSondaSegmentos.length
+    ? {
+        background: `conic-gradient(${periodontalSondaSegmentos
           .map((item) => `${item.color} ${item.inicio}% ${item.fin}%`)
           .join(', ')})`,
       }
@@ -2139,6 +2700,57 @@ function App() {
     [indicadoresOtras]
   );
 
+  const lesionesTiempoData = useMemo(() => {
+    const acumulado = {};
+
+    otrasLesionesTiempoFiltrado.forEach((item) => {
+      const lesion =
+        String(item.lesion || '').trim() || 'No especificado';
+
+      if (!acumulado[lesion]) {
+        acumulado[lesion] = {
+          lesion,
+          total: 0,
+          lt3: 0,
+          gt3: 0,
+          sinTiempo: 0,
+        };
+      }
+
+      acumulado[lesion].total += Number(item.total) || 0;
+      acumulado[lesion].lt3 += Number(item.lt3) || 0;
+      acumulado[lesion].gt3 += Number(item.gt3) || 0;
+      acumulado[lesion].sinTiempo += Number(item.sin_tiempo) || 0;
+    });
+
+    const orden = [
+      'Úlcera',
+      'Leucoplasia bucal',
+      'Eritroplasia',
+      'Lesión mixta',
+      'Aumento de volumen',
+    ];
+
+    return Object.values(acumulado).sort((a, b) => {
+      const ia = orden.indexOf(a.lesion);
+      const ib = orden.indexOf(b.lesion);
+
+      if (ia === -1 && ib === -1) {
+        return a.lesion.localeCompare(b.lesion, 'es');
+      }
+
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+
+      return ia - ib;
+    });
+  }, [otrasLesionesTiempoFiltrado]);
+
+  const maxLesionesTiempo = Math.max(
+    1,
+    ...lesionesTiempoData.map((item) => item.total || 0)
+  );
+
   const catalogoOtrasMap = useMemo(() => {
     const mapaCatalogo = {};
 
@@ -2275,26 +2887,17 @@ function App() {
 
         const coberturaMeta =
           esperado > 0
-            ? Math.min(
-                100,
-                (100 * item.registrados) / esperado
-              )
+            ? (100 * item.registrados) / esperado
             : null;
 
         const consistencia =
           esperado > 0
-            ? Math.min(
-                100,
-                (100 * item.oportunos) / esperado
-              )
+            ? (100 * item.oportunos) / esperado
             : null;
 
         const calidad =
           esperado > 0
-            ? Math.min(
-                100,
-                (100 * item.sinInconsistencias) / esperado
-              )
+            ? (100 * item.sinInconsistencias) / esperado
             : null;
 
         return {
@@ -2368,6 +2971,65 @@ function App() {
     evaluacionFiltrada,
     evaluacionCompletaFiltrada,
   ]);
+
+  const indicadorOficialEvaluacion = useMemo(() => {
+    const rows =
+      evaluacionData?.indicadoresOficialesDecoded || [];
+
+    if (!rows.length) return null;
+
+    const entidadDeUnidad =
+      unidad
+        ? unidadesCatalogo.find(
+            (item) =>
+              Number(item.unidad_id) === Number(unidad)
+          )?.entidad || ''
+        : '';
+
+    const entidadObjetivo =
+      entidad || entidadDeUnidad || 'IMSS-BIENESTAR';
+
+    const claveObjetivo =
+      claveEntidadComparacion(entidadObjetivo);
+
+    const encontrado = rows.find(
+      (item) =>
+        claveEntidadComparacion(item.entidad) ===
+        claveObjetivo
+    );
+
+    return encontrado || null;
+  }, [
+    evaluacionData,
+    entidad,
+    unidad,
+    unidadesCatalogo,
+  ]);
+
+  const ponderadoOficialEvaluacion = useMemo(() => {
+    if (!indicadorOficialEvaluacion) return null;
+
+    const cobertura =
+      Number(indicadorOficialEvaluacion.cobertura);
+    const consistencia =
+      Number(indicadorOficialEvaluacion.consistencia);
+    const calidad =
+      Number(indicadorOficialEvaluacion.calidad);
+
+    if (
+      !Number.isFinite(cobertura) ||
+      !Number.isFinite(consistencia) ||
+      !Number.isFinite(calidad)
+    ) {
+      return null;
+    }
+
+    return (
+      cobertura * 0.2 +
+      consistencia * 0.3 +
+      calidad * 0.5
+    );
+  }, [indicadorOficialEvaluacion]);
 
   const cambiarEntidad = (event) => {
     setEntidad(event.target.value);
@@ -2659,7 +3321,10 @@ function App() {
                         </CircleMarker>
                       ))}
 
-                      <MapAutoFit puntos={puntosMapa} />
+                      <MapAutoFit
+                        puntos={puntosMapa}
+                        vistaNacional={!entidad && !unidad}
+                      />
                     </MapContainer>
                   </div>
 
@@ -2873,19 +3538,6 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="free-caries-banner">
-                      <div className="free-caries-banner-value">
-                        {formatoPorcentaje(
-                          indicadoresCaries.librePct,
-                          1
-                        )}
-                      </div>
-
-                      <div className="free-caries-banner-label">
-                        Niños y adolescentes libres de caries dental.
-                      </div>
-                    </div>
-
                     <div className="proposal-index-row">
                       <div className="proposal-index-card proposal-index-CPOD">
                         <strong>
@@ -2899,6 +3551,19 @@ function App() {
                           {formatoNumero(indicadoresCaries.cpod)}
                         </strong>
                         <span>cpod</span>
+                      </div>
+                    </div>
+
+                    <div className="free-caries-banner">
+                      <div className="free-caries-banner-label">
+                        Niñas, niños y adolescentes libres de caries dental
+                      </div>
+
+                      <div className="free-caries-banner-value">
+                        {formatoPorcentaje(
+                          indicadoresCaries.librePct,
+                          1
+                        )}
                       </div>
                     </div>
                   </article>
@@ -3256,18 +3921,105 @@ function App() {
 
                   <article className="periodontal-state-panel">
                     <h2>Evaluación del estado periodontal</h2>
-                    <div className="periodontal-chart-block">
-                      <h3>Índice Periodontal Comunitario</h3>
 
-                      <div className="periodontal-chart-row">
-                        <div className="periodontal-pie-wrap">
-                          <div
-                            className="periodontal-pie"
-                            style={periodontalPieStyle}
-                          >
-                            {periodontalSegmentos
-                              .filter((item) => !item.esPequeno)
-                              .map((item) => (
+                    <div className="periodontal-epo-section">
+                      <h3>
+                        Enfermedad periodontal (EPO) en edades de referencia
+                      </h3>
+
+                      <div className="periodontal-epo-grid">
+                        <div className="periodontal-epo-card">
+                          <span>18 años</span>
+                          <strong>
+                            {formatoPorcentaje(
+                              periodontalEpoReferencia.epo18Pct,
+                              1
+                            )}
+                          </strong>
+                        </div>
+
+                        <div className="periodontal-epo-card">
+                          <span>35 a 44 años</span>
+                          <strong>
+                            {formatoPorcentaje(
+                              periodontalEpoReferencia.epo3544Pct,
+                              1
+                            )}
+                          </strong>
+                        </div>
+
+                        <div className="periodontal-epo-card">
+                          <span>60 años</span>
+                          <strong>
+                            {formatoPorcentaje(
+                              periodontalEpoReferencia.epo60Pct,
+                              1
+                            )}
+                          </strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="periodontal-distributions-grid">
+                      <div className="periodontal-chart-block periodontal-probe-block">
+                        <h3>Índice Periodontal Comunitario (sonda OMS)</h3>
+
+                        <div className="periodontal-chart-row">
+                          <div className="periodontal-pie-wrap">
+                            <div
+                              className="periodontal-pie"
+                              style={periodontalPieStyle}
+                            >
+                              {periodontalSegmentos
+                                .filter((item) => !item.esPequeno)
+                                .map((item) => (
+                                  <div
+                                    key={item.etiqueta}
+                                    className="periodontal-pie-label inside"
+                                    style={{
+                                      left: `calc(50% + ${item.x}px)`,
+                                      top: `calc(50% + ${item.y}px)`,
+                                    }}
+                                  >
+                                    <span className="periodontal-pie-label-value">
+                                      {formatoPorcentaje(item.valor, 1)}
+                                    </span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+
+                          <div className="periodontal-legend">
+                            {periodontalSegmentos.map((item) => (
+                              <div key={item.etiqueta}>
+                                <i style={{ background: item.color }}></i>
+
+                                <span className="periodontal-legend-label">
+                                  {item.etiqueta}
+
+                                  {item.esPequeno && (
+                                    <strong>
+                                      {' '}
+                                      ({formatoPorcentaje(item.valor, 1)})
+                                    </strong>
+                                  )}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="periodontal-chart-block periodontal-probe-block">
+                        <h3>Evaluación con otro tipo de sonda</h3>
+
+                        <div className="periodontal-chart-row">
+                          <div className="periodontal-pie-wrap">
+                            <div
+                              className="periodontal-probe-pie"
+                              style={periodontalSondaPieStyle}
+                            >
+                              {periodontalSondaSegmentos.map((item) => (
                                 <div
                                   key={item.etiqueta}
                                   className="periodontal-pie-label inside"
@@ -3281,42 +4033,44 @@ function App() {
                                   </span>
                                 </div>
                               ))}
-                          </div>
-                        </div>
-
-                        <div className="periodontal-legend">
-                          {periodontalSegmentos.map((item) => (
-                            <div key={item.etiqueta}>
-                              <i style={{ background: item.color }}></i>
-
-                              <span className="periodontal-legend-label">
-                                {item.etiqueta}
-
-                                {item.esPequeno && (
-                                  <strong>
-                                    {' '}
-                                    ({formatoPorcentaje(item.valor, 1)})
-                                  </strong>
-                                )}
-                              </span>
                             </div>
-                          ))}
+                          </div>
+
+                          <div className="periodontal-legend">
+                            {periodontalSondaSegmentos.map((item) => (
+                              <div key={item.etiqueta}>
+                                <i style={{ background: item.color }}></i>
+                                <span className="periodontal-legend-label">
+                                  {item.etiqueta}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="periodontal-reference">
-                      <strong>Índice Periodontal Comunitario (IPC)</strong>
-                      <span>0 = Sano</span>
-                      <span>1 = Hemorragia</span>
-                      <span>2 = Cálculo</span>
+                    <div className="periodontal-reference periodontal-reference-grid">
+                      <div className="periodontal-reference-card">
+                        <strong>Índice Periodontal Comunitario (IPC)</strong>
+                        <span>0 = Sano</span>
+                        <span>1 = Hemorragia</span>
+                        <span>2 = Cálculo</span>
 
-                      {!periodontalEdad7a14 && (
-                        <>
-                          <span>3 = Bolsa de 4-5 mm</span>
-                          <span>4 = Bolsa ≥ 6 mm</span>
-                        </>
-                      )}
+                        {!periodontalEdad7a14 && (
+                          <>
+                            <span>3 = Bolsa de 4-5 mm</span>
+                            <span>4 = Bolsa ≥ 6 mm</span>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="periodontal-reference-card">
+                        <strong>Otro tipo de sonda</strong>
+                        <span>0 = Normal</span>
+                        <span>1 = Gingivitis</span>
+                        <span>2 = Periodontitis</span>
+                      </div>
                     </div>
                   </article>
                 </div>
@@ -3455,184 +4209,215 @@ function App() {
                   </article>
 
                   <article className="otras-state-panel">
-                    <h2>Otras lesiones en mucosa bucal</h2>
+                    <h2>Patologías bucales identificadas</h2>
 
-                    <div className="otras-top-grid">
-                      <div className="otras-kpi-stack">
-                        <div className="otras-kpi-card">
-                          <strong>
-                            {formatoPorcentaje(
-                              indicadoresOtras.fluorPct,
-                              1
-                            )}
-                          </strong>
-                          <span>Con diagnóstico de fluorosis</span>
-                        </div>
+                    <div className="otras-section-group">
+                      <h3 className="otras-section-title">
+                        Lesiones de mucosa
+                      </h3>
 
-                        <div className="otras-kpi-card">
-                          <strong>
-                            {formatoPorcentaje(
-                              indicadoresOtras.otraPct,
-                              1
-                            )}
-                          </strong>
-                          <span>Reportó otras patologías</span>
-                        </div>
+                      <div className="lesion-time-legend">
+                        <span>
+                          <i style={{ background: '#701039' }}></i>
+                          Menos de tres semanas
+                        </span>
+
+                        <span>
+                          <i style={{ background: '#b38c2e' }}></i>
+                          Más de tres semanas
+                        </span>
+
+                        <span>
+                          <i style={{ background: '#8d8d8d' }}></i>
+                          Sin tiempo válido
+                        </span>
                       </div>
 
-                      <div className="otras-tiempo-block">
-                        <h3>
-                          Tiempo de evolución de lesiones
-                          <br />
-                          en mucosa bucal
-                        </h3>
-
-                        <div className="otras-tiempo-row">
-                          <div
-                            className="otras-tiempo-pie"
-                            style={otrasTiempoPieStyle}
-                          >
-                            {Number.isFinite(
-                              indicadoresOtras.tiempoLt3Pct
-                            ) && (
-                              <span className="otras-tiempo-label otras-tiempo-label-a">
-                                {formatoPorcentaje(
-                                  indicadoresOtras.tiempoLt3Pct,
-                                  0
-                                )}
-                              </span>
-                            )}
-
-                            {Number.isFinite(
-                              indicadoresOtras.tiempoGt3Pct
-                            ) && (
-                              <span className="otras-tiempo-label otras-tiempo-label-b">
-                                {formatoPorcentaje(
-                                  indicadoresOtras.tiempoGt3Pct,
-                                  0
-                                )}
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="otras-tiempo-legend">
-                            <div>
-                              <i className="otras-dot otras-dot-wine"></i>
-                              <span>Menos de tres semanas</span>
-                            </div>
-
-                            <div>
-                              <i className="otras-dot otras-dot-gold"></i>
-                              <span>Más de tres semanas</span>
-                            </div>
-                          </div>
+                      {lesionesTiempoData.length === 0 ? (
+                        <div className="otras-no-data">
+                          Sin lesiones registradas para la selección.
                         </div>
-                      </div>
-                    </div>
-
-                    <div className="otras-bottom-grid">
-                      <div className="otras-chart-card">
-                        <h3>Lesiones identificadas</h3>
-
-                        <div className="lesiones-bars">
-                          {lesionesData.map((item) => {
-                            const max = Math.max(
-                              1,
-                              ...lesionesData.map((x) => x.valor || 0)
+                      ) : (
+                        <div className="lesion-time-list">
+                          {lesionesTiempoData.map((item) => {
+                            const total = Math.max(
+                              0,
+                              Number(item.total) || 0
                             );
+
+                            const anchoTotal =
+                              maxLesionesTiempo > 0
+                                ? (100 * total) /
+                                  maxLesionesTiempo
+                                : 0;
+
+                            const pctLt3 =
+                              total > 0
+                                ? (100 * item.lt3) / total
+                                : 0;
+
+                            const pctGt3 =
+                              total > 0
+                                ? (100 * item.gt3) / total
+                                : 0;
+
+                            const pctSinTiempo =
+                              total > 0
+                                ? (100 * item.sinTiempo) / total
+                                : 0;
 
                             return (
                               <div
-                                className="lesion-bar-item"
-                                key={item.etiqueta}
+                                className="lesion-time-row"
+                                key={item.lesion}
                               >
-                                <div className="lesion-bar-value">
-                                  {Number(item.valor || 0).toLocaleString(
-                                    'es-MX'
-                                  )}
+                                <div className="lesion-time-name">
+                                  {item.lesion}
                                 </div>
 
-                                <div className="lesion-bar-track">
+                                <div className="lesion-time-track">
                                   <div
-                                    className="lesion-bar-fill"
+                                    className="lesion-time-total"
                                     style={{
-                                      height: `${Math.max(
-                                        item.valor > 0 ? 8 : 0,
-                                        ((item.valor || 0) / max) * 100
+                                      width: `${Math.max(
+                                        total > 0 ? 3 : 0,
+                                        anchoTotal
                                       )}%`,
-                                      background: item.color,
                                     }}
-                                  ></div>
+                                  >
+                                    <div
+                                      className="lesion-time-segment"
+                                      style={{
+                                        width: `${pctLt3}%`,
+                                        background: '#701039',
+                                      }}
+                                      title={`Menos de tres semanas: ${Number(
+                                        item.lt3 || 0
+                                      ).toLocaleString('es-MX')}`}
+                                    ></div>
+
+                                    <div
+                                      className="lesion-time-segment"
+                                      style={{
+                                        width: `${pctGt3}%`,
+                                        background: '#b38c2e',
+                                      }}
+                                      title={`Más de tres semanas: ${Number(
+                                        item.gt3 || 0
+                                      ).toLocaleString('es-MX')}`}
+                                    ></div>
+
+                                    <div
+                                      className="lesion-time-segment"
+                                      style={{
+                                        width: `${pctSinTiempo}%`,
+                                        background: '#8d8d8d',
+                                      }}
+                                      title={`Sin tiempo válido: ${Number(
+                                        item.sinTiempo || 0
+                                      ).toLocaleString('es-MX')}`}
+                                    ></div>
+                                  </div>
                                 </div>
 
-                                <div className="lesion-bar-label">
-                                  {item.etiqueta}
+                                <div className="lesion-time-count">
+                                  {total.toLocaleString('es-MX')}
                                 </div>
                               </div>
                             );
                           })}
                         </div>
+                      )}
 
-                        <div className="lesiones-no-lesion-note">
-                          <strong>
-                            {Number(
-                              indicadoresOtras.sinLesion || 0
-                            ).toLocaleString('es-MX')}
-                          </strong>{' '}
-                          pacientes no registraron lesión
-                        </div>
+                      <div className="lesiones-no-lesion-note">
+                        <strong>
+                          {Number(
+                            indicadoresOtras.sinLesion || 0
+                          ).toLocaleString('es-MX')}
+                        </strong>{' '}
+                        pacientes no registraron lesión
                       </div>
+                    </div>
 
-                      <div className="otras-chart-card">
-                        <h3>
-                          Otros diagnósticos y padecimientos registrados
-                        </h3>
+                    <div className="otras-section-group">
+                      <h3 className="otras-section-title">
+                        Otras patologías bucales (fluorosis y otras)
+                      </h3>
 
-                        <div className="diagnosticos-bars">
-                          {otrasTopDiagnosticos.length === 0 ? (
-                            <div className="otras-no-data">
-                              Sin registros para la selección.
-                            </div>
-                          ) : (
-                            otrasTopDiagnosticos.map((item) => {
-                              const max = Math.max(
-                                1,
-                                ...otrasTopDiagnosticos.map(
-                                  (x) => x.n || 0
-                                )
-                              );
+                      <div className="otras-top-grid">
+                        <div className="otras-kpi-stack">
+                          <div className="otras-kpi-card fluorosis-card">
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresOtras.fluorPct,
+                                1
+                              )}
+                            </strong>
+                            <span>Con diagnóstico de fluorosis</span>
+                          </div>
 
-                              return (
-                                <div
-                                  className="diagnostico-row"
-                                  key={item.codigo}
-                                >
-                                  <div className="diagnostico-label">
-                                    <strong>{item.codigo}</strong>
-                                    <span>{item.descripcion}</span>
+                          <div className="otras-kpi-card">
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresOtras.otraPct,
+                                1
+                              )}
+                            </strong>
+                            <span>Reportó otras patologías</span>
+                          </div>
+                        </div>
+
+                        <div className="otras-chart-card">
+                          <h3>
+                            Otros diagnósticos y padecimientos registrados
+                          </h3>
+
+                          <div className="diagnosticos-bars">
+                            {otrasTopDiagnosticos.length === 0 ? (
+                              <div className="otras-no-data">
+                                Sin registros para la selección.
+                              </div>
+                            ) : (
+                              otrasTopDiagnosticos.map((item) => {
+                                const max = Math.max(
+                                  1,
+                                  ...otrasTopDiagnosticos.map(
+                                    (x) => x.n || 0
+                                  )
+                                );
+
+                                return (
+                                  <div
+                                    className="diagnostico-row"
+                                    key={item.codigo}
+                                  >
+                                    <div className="diagnostico-label">
+                                      <strong>{item.codigo}</strong>
+                                      <span>{item.descripcion}</span>
+                                    </div>
+
+                                    <div className="diagnostico-track">
+                                      <div
+                                        className="diagnostico-fill"
+                                        style={{
+                                          width: `${Math.max(
+                                            item.n > 0 ? 2 : 0,
+                                            ((item.n || 0) / max) * 100
+                                          )}%`,
+                                        }}
+                                      ></div>
+                                    </div>
+
+                                    <div className="diagnostico-value">
+                                      {Number(item.n || 0).toLocaleString(
+                                        'es-MX'
+                                      )}
+                                    </div>
                                   </div>
-
-                                  <div className="diagnostico-track">
-                                    <div
-                                      className="diagnostico-fill"
-                                      style={{
-                                        width: `${Math.max(
-                                          item.n > 0 ? 2 : 0,
-                                          ((item.n || 0) / max) * 100
-                                        )}%`,
-                                      }}
-                                    ></div>
-                                  </div>
-
-                                  <div className="diagnostico-value">
-                                    {Number(item.n || 0).toLocaleString(
-                                      'es-MX'
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })
-                          )}
+                                );
+                              })
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -3667,14 +4452,31 @@ function App() {
                     cuestionariosSinInconsistencias={
                       indicadoresEvaluacion.sinInconsistencias
                     }
+                    formatosEsperados={
+                      indicadoresEvaluacion.formatosEsperados
+                    }
                   />
+
+                  <div className="evaluation-official-note">
+                    <strong>
+                      Indicadores oficiales de evaluación:
+                    </strong>{' '}
+                    {indicadorOficialEvaluacion?.periodo ||
+                      'Enero-junio 2026'}.
+                    Los valores de Cobertura, Consistencia y Calidad
+                    corresponden al nivel nacional o a la entidad
+                    seleccionada y no cambian por el filtro de mes o
+                    unidad centinela.
+                  </div>
 
                   <div className="evaluation-content-card final-evaluation-card">
                     <div className="evaluation-row">
                       <div className="evaluation-score-card eval-wine">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresEvaluacion.cobertura,
+                            Number(
+                              indicadorOficialEvaluacion?.cobertura
+                            ),
                             1
                           )}
                         </strong>
@@ -3699,7 +4501,9 @@ function App() {
                       <div className="evaluation-score-card eval-gold">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresEvaluacion.consistencia,
+                            Number(
+                              indicadorOficialEvaluacion?.consistencia
+                            ),
                             1
                           )}
                         </strong>
@@ -3724,7 +4528,9 @@ function App() {
                       <div className="evaluation-score-card eval-gray">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresEvaluacion.calidad,
+                            Number(
+                              indicadorOficialEvaluacion?.calidad
+                            ),
                             1
                           )}
                         </strong>
@@ -3746,25 +4552,10 @@ function App() {
                     </div>
 
                     <div className="evaluation-right-column final-evaluation-right">
-                      <div className="evaluation-pending-card evaluation-formats-card">
-                        <strong>
-                          {indicadoresEvaluacion.formatosEsperados === null
-                            ? '—'
-                            : Number(
-                                indicadoresEvaluacion.formatosEsperados
-                              ).toLocaleString('es-MX')}
-                        </strong>
-                        <span>
-                          Formatos
-                          <br />
-                          esperados
-                        </span>
-                      </div>
-
                       <div className="evaluation-pending-card">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresEvaluacion.ponderado,
+                            ponderadoOficialEvaluacion,
                             1
                           )}
                         </strong>

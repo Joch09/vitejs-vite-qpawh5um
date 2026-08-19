@@ -27,15 +27,46 @@
     },
     "fecha_corte": "2026-07-15",
     "ultimo_mes_completo": 6,
-    "meses_observados": [1, 2, 3, 4, 5, 6, 7],
-    "meses_evaluables": [1, 2, 3, 4, 5, 6],
+    "meses_observados": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "meses_evaluables": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "criterio_registrados": "Base original completa.",
     "criterio_oportunidad": "Base original: OPORTUNO=1 y EXTEMP distinto de 1, igual a la lógica de preparación SIVEPAB.",
     "criterio_calidad": "Pertenencia a la base oficial limpia SIVEPAB.",
-    "tratamiento_sobrecumplimiento": "Consistencia y Calidad conservan valor bruto; para tablero y ponderado se topan en 100%."
+    "tratamiento_sobrecumplimiento": "Consistencia y Calidad conservan valor bruto; para tablero y ponderado se topan en 100%.",
+    "indicadores_oficiales": {
+      "incorporados": true,
+      "periodo": "Enero-junio 2026",
+      "nivel_disponible": ["Nacional", "Entidad"],
+      "total_entidades": 23,
+      "fila_nacional": true,
+      "fuente": "Valores de referencia proporcionados por el equipo responsable del SIVEPAB.",
+      "uso_tablero": "Tarjetas de Cobertura, Consistencia y Calidad para el periodo oficial enero-junio 2026 a nivel nacional y por entidad.",
+      "nota_metodologica": "Los valores oficiales se conservan como fuente de referencia. Los conteos dinámicos por unidad y mes permanecen en el dataset evaluacion generado por el Paso 29.",
+      "tolerancia_auditoria": "En las auditorías metodológicas, diferencias de hasta 0.1 puntos porcentuales se consideraron compatibles con redondeo a una decimal; diferencias mayores no se atribuyeron automáticamente a redondeo."
+    }
   },
   "unidades": {
-    "schema": ["unidad_id", "clues", "entidad", "unidad"],
+    "schema": [
+      "unidad_id",
+      "clues",
+      "entidad",
+      "unidad"
+    ],
     "rows": [
       [
         1,
@@ -982,7 +1013,27 @@
     ]
   },
   "evaluacion": {
-    "schema": ["unidad_id", "clues", "entidad", "unidad", "mes", "mes_nombre", "periodo_completo", "formatos_registrados", "formatos_oportunos", "cuestionarios_sin_inconsistencias", "meta_formatos_esperados", "umbral_cobertura", "cumple_cobertura", "cobertura_score", "consistencia_bruta", "consistencia_score", "calidad_bruta", "calidad_score", "ponderado_score"],
+    "schema": [
+      "unidad_id",
+      "clues",
+      "entidad",
+      "unidad",
+      "mes",
+      "mes_nombre",
+      "periodo_completo",
+      "formatos_registrados",
+      "formatos_oportunos",
+      "cuestionarios_sin_inconsistencias",
+      "meta_formatos_esperados",
+      "umbral_cobertura",
+      "cumple_cobertura",
+      "cobertura_score",
+      "consistencia_bruta",
+      "consistencia_score",
+      "calidad_bruta",
+      "calidad_score",
+      "ponderado_score"
+    ],
     "rows": [
       [
         1,
@@ -24078,5 +24129,298 @@
     "calidad_bruta": 82.0452937,
     "calidad": 82.0452937,
     "ponderado": 83.51999292
+  },
+  "indicadores_oficiales": {
+    "schema": ["nivel", "entidad", "periodo", "mes_inicio", "mes_fin", "cobertura", "consistencia", "calidad", "fuente", "estado"],
+    "rows": [
+      [
+        "Entidad",
+        "Baja California",
+        "Enero-junio 2026",
+        1,
+        6,
+        66.7,
+        72.6,
+        72.8,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Baja California Sur",
+        "Enero-junio 2026",
+        1,
+        6,
+        100,
+        72.7,
+        89,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Campeche",
+        "Enero-junio 2026",
+        1,
+        6,
+        33.3,
+        19.4,
+        23.8,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Chiapas",
+        "Enero-junio 2026",
+        1,
+        6,
+        22.2,
+        26,
+        26.6,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "CDMX",
+        "Enero-junio 2026",
+        1,
+        6,
+        75,
+        45.8,
+        60.2,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Colima",
+        "Enero-junio 2026",
+        1,
+        6,
+        93.8,
+        85.1,
+        88,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Guerrero",
+        "Enero-junio 2026",
+        1,
+        6,
+        50,
+        62.6,
+        64.2,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Hidalgo",
+        "Enero-junio 2026",
+        1,
+        6,
+        94.4,
+        97.2,
+        98.3,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "México",
+        "Enero-junio 2026",
+        1,
+        6,
+        100,
+        85,
+        90,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Michoacán",
+        "Enero-junio 2026",
+        1,
+        6,
+        85.7,
+        73.2,
+        91.7,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Morelos",
+        "Enero-junio 2026",
+        1,
+        6,
+        40,
+        34.8,
+        41.2,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Nayarit",
+        "Enero-junio 2026",
+        1,
+        6,
+        71.4,
+        64,
+        64.5,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Oaxaca",
+        "Enero-junio 2026",
+        1,
+        6,
+        33.3,
+        29.6,
+        29.7,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Puebla",
+        "Enero-junio 2026",
+        1,
+        6,
+        75,
+        65.3,
+        65.5,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Quintana Roo",
+        "Enero-junio 2026",
+        1,
+        6,
+        0,
+        9.9,
+        10.5,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "San Luis Potosí",
+        "Enero-junio 2026",
+        1,
+        6,
+        33.3,
+        39.9,
+        39.9,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Sinaloa",
+        "Enero-junio 2026",
+        1,
+        6,
+        100,
+        91.9,
+        92.4,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Sonora",
+        "Enero-junio 2026",
+        1,
+        6,
+        20,
+        48.2,
+        53.7,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Tabasco",
+        "Enero-junio 2026",
+        1,
+        6,
+        72.7,
+        69.6,
+        72.4,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Tamaulipas",
+        "Enero-junio 2026",
+        1,
+        6,
+        66.7,
+        57.6,
+        65.1,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Tlaxcala",
+        "Enero-junio 2026",
+        1,
+        6,
+        83.3,
+        103.3,
+        103.4,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Veracruz",
+        "Enero-junio 2026",
+        1,
+        6,
+        84.6,
+        79.3,
+        87.4,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Entidad",
+        "Zacatecas",
+        "Enero-junio 2026",
+        1,
+        6,
+        100,
+        91.5,
+        92.9,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ],
+      [
+        "Nacional",
+        "IMSS-BIENESTAR",
+        "Enero-junio 2026",
+        1,
+        6,
+        71.8,
+        68.5,
+        72.8,
+        "Valores de referencia proporcionados por el equipo responsable del SIVEPAB",
+        "Oficial de referencia"
+      ]
+    ]
   }
 }
