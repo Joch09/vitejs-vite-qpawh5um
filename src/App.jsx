@@ -829,7 +829,7 @@ function EvaluationFilterStrip({
           </div>
         </div>
 
-        <div className="evaluation-top-kpi evaluation-top-kpi-clean">
+        <div className="evaluation-top-kpi evaluation-top-kpi-green">
           <div className="evaluation-top-kpi-value">
             {mostrarEntero(cuestionariosSinInconsistencias)}
           </div>
@@ -5447,18 +5447,6 @@ function App() {
                       indicadoresEvaluacion.formatosEsperados
                     }
                   />
-
-                  <div className="evaluation-official-note">
-                    <strong>
-                      Indicadores oficiales de evaluación:
-                    </strong>{' '}
-                    {indicadorOficialEvaluacion?.periodo ||
-                      'Enero-junio 2026'}.
-                    Los valores de Cobertura, Consistencia y Calidad
-                    corresponden al nivel nacional o a la entidad
-                    seleccionada y no cambian por el filtro de mes o
-                    unidad centinela.
-                  </div>
 
                   <div className="evaluation-content-card final-evaluation-card">
                     <div className="evaluation-row">
