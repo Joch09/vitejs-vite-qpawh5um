@@ -48,7 +48,130 @@ const ANTECEDENTES = [
   { campo: 'inmuno', etiqueta: 'Inmunodeficiencia' },
 ];
 
-function MapAutoFit({ puntos, vistaNacional }) {
+
+function claveEntidadMapa(valor) {
+  const normalizado = String(valor ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+
+  const equivalencias = {
+    'CIUDAD DE MEXICO': 'CDMX',
+    'DISTRITO FEDERAL': 'CDMX',
+    CDMX: 'CDMX',
+
+    'ESTADO DE MEXICO': 'MEXICO',
+    MEXICO: 'MEXICO',
+
+    'MICHOACAN DE OCAMPO': 'MICHOACAN',
+    MICHOACAN: 'MICHOACAN',
+
+    'VERACRUZ DE IGNACIO DE LA LLAVE': 'VERACRUZ',
+    VERACRUZ: 'VERACRUZ',
+
+    'COAHUILA DE ZARAGOZA': 'COAHUILA',
+    COAHUILA: 'COAHUILA',
+
+    'QUERETARO DE ARTEAGA': 'QUERETARO',
+    QUERETARO: 'QUERETARO',
+  };
+
+  return equivalencias[normalizado] || normalizado;
+}
+
+const CENTROS_ENTIDADES_MEXICO = {
+  'AGUASCALIENTES': { center: [21.88, -102.30], zoom: 8 },
+  'BAJA CALIFORNIA': { center: [30.55, -115.17], zoom: 6 },
+  'BAJA CALIFORNIA SUR': { center: [25.03, -111.67], zoom: 6 },
+  'CAMPECHE': { center: [19.00, -90.50], zoom: 7 },
+  'CHIAPAS': { center: [16.75, -93.10], zoom: 7 },
+  'CHIHUAHUA': { center: [28.63, -106.08], zoom: 6 },
+  'CDMX': { center: [19.43, -99.13], zoom: 10 },
+  'COAHUILA': { center: [27.30, -102.05], zoom: 6 },
+  'COLIMA': { center: [19.24, -103.72], zoom: 8 },
+  'DURANGO': { center: [24.03, -104.67], zoom: 6 },
+  'GUANAJUATO': { center: [21.02, -101.25], zoom: 7 },
+  'GUERRERO': { center: [17.55, -99.50], zoom: 7 },
+  'HIDALGO': { center: [20.10, -98.75], zoom: 8 },
+  'JALISCO': { center: [20.67, -103.35], zoom: 7 },
+  'MEXICO': { center: [19.35, -99.65], zoom: 8 },
+  'MICHOACAN': { center: [19.60, -101.80], zoom: 7 },
+  'MORELOS': { center: [18.75, -99.10], zoom: 9 },
+  'NAYARIT': { center: [21.75, -104.85], zoom: 7 },
+  'NUEVO LEON': { center: [25.67, -100.31], zoom: 7 },
+  'OAXACA': { center: [17.05, -96.72], zoom: 7 },
+  'PUEBLA': { center: [19.05, -98.20], zoom: 8 },
+  'QUERETARO': { center: [20.59, -100.39], zoom: 8 },
+  'QUINTANA ROO': { center: [19.50, -88.30], zoom: 7 },
+  'SAN LUIS POTOSI': { center: [22.15, -100.97], zoom: 7 },
+  'SINALOA': { center: [24.80, -107.40], zoom: 7 },
+  'SONORA': { center: [29.10, -110.95], zoom: 6 },
+  'TABASCO': { center: [17.95, -92.95], zoom: 8 },
+  'TAMAULIPAS': { center: [23.75, -98.90], zoom: 7 },
+  'TLAXCALA': { center: [19.32, -98.24], zoom: 9 },
+  'VERACRUZ': { center: [19.20, -96.80], zoom: 7 },
+  'YUCATAN': { center: [20.97, -89.62], zoom: 7 },
+  'ZACATECAS': { center: [22.77, -102.58], zoom: 7 },
+};
+
+function coordenadasMapaNormalizadas(item) {
+  const latRaw = item?.lat;
+  const lonRaw = item?.lon;
+
+  if (
+    latRaw === null ||
+    latRaw === undefined ||
+    latRaw === '' ||
+    lonRaw === null ||
+    lonRaw === undefined ||
+    lonRaw === ''
+  ) {
+    return null;
+  }
+
+  let lat = Number(latRaw);
+  let lon = Number(lonRaw);
+
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lon)
+  ) {
+    return null;
+  }
+
+  const enMexico = (latitud, longitud) =>
+    latitud >= 14 &&
+    latitud <= 33.5 &&
+    longitud >= -119 &&
+    longitud <= -86;
+
+  if (enMexico(lat, lon)) {
+    return { lat, lon };
+  }
+
+  // Corrección defensiva si latitud y longitud vinieran intercambiadas.
+  if (enMexico(lon, lat)) {
+    return {
+      lat: lon,
+      lon: lat,
+    };
+  }
+
+  return null;
+}
+
+function coordenadasMapaValidas(item) {
+  return coordenadasMapaNormalizadas(item) !== null;
+}
+
+function MapAutoFit({
+  puntos,
+  vistaNacional,
+  entidadSeleccionada,
+}) {
   const map = useMap();
 
   useEffect(() => {
@@ -59,28 +182,61 @@ function MapAutoFit({ puntos, vistaNacional }) {
       return;
     }
 
-    const puntosValidos = puntos.filter(
-      (item) =>
-        Number.isFinite(Number(item.lat)) &&
-        Number.isFinite(Number(item.lon))
-    );
+    const puntosValidos = puntos
+      .map((item) => {
+        const coords =
+          coordenadasMapaNormalizadas(item);
 
-    if (puntosValidos.length === 0) return;
+        if (!coords) return null;
+
+        return {
+          ...item,
+          ...coords,
+        };
+      })
+      .filter(Boolean);
+
+    if (puntosValidos.length === 0) {
+      const clave =
+        claveEntidadMapa(entidadSeleccionada);
+
+      const respaldo =
+        CENTROS_ENTIDADES_MEXICO[clave];
+
+      if (respaldo) {
+        map.setView(
+          respaldo.center,
+          respaldo.zoom,
+          { animate: false }
+        );
+      } else {
+        map.setView(
+          [23.7, -102.5],
+          5,
+          { animate: false }
+        );
+      }
+
+      return;
+    }
 
     if (puntosValidos.length === 1) {
       map.setView(
         [
-          Number(puntosValidos[0].lat),
-          Number(puntosValidos[0].lon),
+          puntosValidos[0].lat,
+          puntosValidos[0].lon,
         ],
-        11,
+        10,
         { animate: false }
       );
       return;
     }
 
     const bounds = latLngBounds(
-      puntosValidos.map((item) => [Number(item.lat), Number(item.lon)])
+      puntosValidos.map((item) => [
+        item.lat,
+        item.lon,
+      ])
     );
 
     map.fitBounds(bounds, {
@@ -88,7 +244,12 @@ function MapAutoFit({ puntos, vistaNacional }) {
       maxZoom: 10,
       animate: false,
     });
-  }, [puntos, vistaNacional, map]);
+  }, [
+    puntos,
+    vistaNacional,
+    entidadSeleccionada,
+    map,
+  ]);
 
   return null;
 }
@@ -2586,20 +2747,38 @@ function App() {
     let resultado = mapa;
 
     if (entidad) {
-      resultado = resultado.filter((item) => item.entidad === entidad);
+      const claveSeleccionada =
+        claveEntidadMapa(entidad);
+
+      resultado = resultado.filter(
+        (item) =>
+          claveEntidadMapa(item.entidad) ===
+          claveSeleccionada
+      );
     }
 
     if (unidad) {
       resultado = resultado.filter(
-        (item) => String(item.unidad_id) === String(unidad)
+        (item) =>
+          String(item.unidad_id) ===
+          String(unidad)
       );
     }
 
-    return resultado.filter(
-      (item) =>
-        Number.isFinite(Number(item.lat)) &&
-        Number.isFinite(Number(item.lon))
-    );
+    return resultado
+      .map((item) => {
+        const coords =
+          coordenadasMapaNormalizadas(item);
+
+        if (!coords) return null;
+
+        return {
+          ...item,
+          lat: coords.lat,
+          lon: coords.lon,
+        };
+      })
+      .filter(Boolean);
   }, [mapa, entidad, unidad]);
 
   const cariesFiltrada = useMemo(
@@ -4398,13 +4577,14 @@ function App() {
                       <MapAutoFit
                         puntos={puntosMapa}
                         vistaNacional={!entidad && !unidad}
+                        entidadSeleccionada={entidad}
                       />
                     </MapContainer>
                   </div>
 
                   <div className="map-footer">
                     <span>
-                      Unidades mostradas: {puntosMapa.length}
+                      Unidades con coordenadas mostradas: {puntosMapa.length}
                     </span>
                   </div>
                 </article>
