@@ -1742,7 +1742,8 @@ const AJUSTES_VISUALES_20260817 = `
     min-height: 94px;
     border-radius: 8px;
     padding: 16px 18px;
-    background: #f6f0db;
+    background: #ffffff;
+    border: 1px solid rgba(23,63,58,0.08);
     display: flex;
     flex-direction: column;
     justify-content: center;
