@@ -3597,7 +3597,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              higieneSociales.migrantePct,
+                              indicadoresSociales.migrantePct,
                               1
                             )}
                           </strong>
@@ -3617,7 +3617,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              higieneSociales.indigenaPct,
+                              indicadoresSociales.indigenaPct,
                               1
                             )}
                           </strong>
@@ -3625,7 +3625,7 @@ function App() {
                         </div>
                       </div>
 
-                      <PregnancySummaryCard valor={higieneEmbarazoPct} />
+                      <PregnancySummaryCard valor={embarazoPct} />
 
 
                       <div className="mini-section proposal-sex-section">
@@ -3634,21 +3634,21 @@ function App() {
                         <div className="sex-chart-wrap">
                           <div
                             className="sex-pie"
-                            style={higieneSexoPieStyle}
+                            style={sexoPieStyle}
                           >
-                            {higieneSexoData.items[0] && (
+                            {sexoData.items[0] && (
                               <span className="sex-pie-label sex-pie-label-a">
                                 {formatoPorcentaje(
-                                  higieneSexoData.items[0].valor,
+                                  sexoData.items[0].valor,
                                   1
                                 )}
                               </span>
                             )}
 
-                            {higieneSexoData.items[1] && (
+                            {sexoData.items[1] && (
                               <span className="sex-pie-label sex-pie-label-b">
                                 {formatoPorcentaje(
-                                  higieneSexoData.items[1].valor,
+                                  sexoData.items[1].valor,
                                   1
                                 )}
                               </span>
@@ -3656,7 +3656,7 @@ function App() {
                           </div>
 
                           <div className="sex-legend">
-                            {higieneSexoData.items.map((item, index) => (
+                            {sexoData.items.map((item, index) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -3687,7 +3687,7 @@ function App() {
                         <h3>Antecedentes patológicos</h3>
 
                         <HorizontalBars
-                          items={higieneAntecedentesData}
+                          items={antecedentesData}
                           variant="green"
                         />
                       </div>
@@ -3696,7 +3696,7 @@ function App() {
                         <h3>Ocupación actual</h3>
 
                         <HorizontalBars
-                          items={higieneOcupacionData}
+                          items={ocupacionData}
                           variant="burgundy"
                         />
                       </div>
@@ -3825,7 +3825,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              periodontalSociales.migrantePct,
+                              indicadoresSociales.migrantePct,
                               1
                             )}
                           </strong>
@@ -3844,7 +3844,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              periodontalSociales.indigenaPct,
+                              indicadoresSociales.indigenaPct,
                               1
                             )}
                           </strong>
@@ -3852,24 +3852,24 @@ function App() {
                         </div>
                       </div>
 
-                      <PregnancySummaryCard valor={periodontalEmbarazoPct} />
+                      <PregnancySummaryCard valor={embarazoPct} />
 
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
                         <div className="sex-chart-wrap">
-                          <div className="sex-pie" style={periodontalSexoPieStyle}>
-                            {periodontalSexoData.items[0] && (
+                          <div className="sex-pie" style={sexoPieStyle}>
+                            {sexoData.items[0] && (
                               <span className="sex-pie-label sex-pie-label-a">
                                 {formatoPorcentaje(
-                                  periodontalSexoData.items[0].valor,
+                                  sexoData.items[0].valor,
                                   1
                                 )}
                               </span>
                             )}
-                            {periodontalSexoData.items[1] && (
+                            {sexoData.items[1] && (
                               <span className="sex-pie-label sex-pie-label-b">
                                 {formatoPorcentaje(
-                                  periodontalSexoData.items[1].valor,
+                                  sexoData.items[1].valor,
                                   1
                                 )}
                               </span>
@@ -3877,7 +3877,7 @@ function App() {
                           </div>
 
                           <div className="sex-legend">
-                            {periodontalSexoData.items.map((item, index) => (
+                            {sexoData.items.map((item, index) => (
                               <div className="sex-legend-row" key={item.etiqueta}>
                                 <span
                                   className="sex-legend-dot"
@@ -3904,7 +3904,7 @@ function App() {
                       <div className="mini-section proposal-bars-section">
                         <h3>Antecedentes patológicos</h3>
                         <HorizontalBars
-                          items={periodontalAntecedentesData}
+                          items={antecedentesData}
                           variant="green"
                         />
                       </div>
@@ -3912,7 +3912,7 @@ function App() {
                       <div className="mini-section occupation-section proposal-bars-section">
                         <h3>Ocupación actual</h3>
                         <HorizontalBars
-                          items={periodontalOcupacionData}
+                          items={ocupacionData}
                           variant="burgundy"
                         />
                       </div>
@@ -4102,7 +4102,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              otrasSociales.migrantePct,
+                              indicadoresSociales.migrantePct,
                               1
                             )}
                           </strong>
@@ -4122,7 +4122,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              otrasSociales.indigenaPct,
+                              indicadoresSociales.indigenaPct,
                               1
                             )}
                           </strong>
@@ -4130,7 +4130,7 @@ function App() {
                         </div>
                       </div>
 
-                      <PregnancySummaryCard valor={otrasEmbarazoPct} />
+                      <PregnancySummaryCard valor={embarazoPct} />
 
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
@@ -4138,21 +4138,21 @@ function App() {
                         <div className="sex-chart-wrap">
                           <div
                             className="sex-pie"
-                            style={otrasSexoPieStyle}
+                            style={sexoPieStyle}
                           >
-                            {otrasSexoData.items[0] && (
+                            {sexoData.items[0] && (
                               <span className="sex-pie-label sex-pie-label-a">
                                 {formatoPorcentaje(
-                                  otrasSexoData.items[0].valor,
+                                  sexoData.items[0].valor,
                                   1
                                 )}
                               </span>
                             )}
 
-                            {otrasSexoData.items[1] && (
+                            {sexoData.items[1] && (
                               <span className="sex-pie-label sex-pie-label-b">
                                 {formatoPorcentaje(
-                                  otrasSexoData.items[1].valor,
+                                  sexoData.items[1].valor,
                                   1
                                 )}
                               </span>
@@ -4160,7 +4160,7 @@ function App() {
                           </div>
 
                           <div className="sex-legend">
-                            {otrasSexoData.items.map((item, index) => (
+                            {sexoData.items.map((item, index) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -4192,7 +4192,7 @@ function App() {
                         <h3>Antecedentes patológicos</h3>
 
                         <HorizontalBars
-                          items={otrasAntecedentesData}
+                          items={antecedentesData}
                           variant="green"
                         />
                       </div>
@@ -4201,7 +4201,7 @@ function App() {
                         <h3>Ocupación actual</h3>
 
                         <HorizontalBars
-                          items={otrasOcupacionData}
+                          items={ocupacionData}
                           variant="burgundy"
                         />
                       </div>
