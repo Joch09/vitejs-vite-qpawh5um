@@ -138,6 +138,154 @@ function formatoPorcentaje(valor, decimales = 1) {
   return `${formatoNumero(valor, decimales)}%`;
 }
 
+
+function calcularSegmentosPie(
+  items,
+  {
+    radioInterior = 29,
+    radioExterior = 58,
+    umbralExterior = 6,
+    umbralOcultar = 0,
+    separacionExterior = 12,
+  } = {}
+) {
+  const validos = (items || [])
+    .map((item) => ({
+      ...item,
+      valor: Number(item.valor),
+    }))
+    .filter(
+      (item) =>
+        Number.isFinite(item.valor) &&
+        item.valor > 0
+    );
+
+  const total = validos.reduce(
+    (acum, item) => acum + item.valor,
+    0
+  );
+
+  if (!total) return [];
+
+  let acumulado = 0;
+
+  const segmentos = validos.map((item) => {
+    const inicio = (acumulado / total) * 100;
+    acumulado += item.valor;
+    const fin = (acumulado / total) * 100;
+    const medio = (inicio + fin) / 2;
+
+    const rad =
+      ((medio * 3.6 - 90) * Math.PI) / 180;
+
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
+
+    const ocultarEtiqueta =
+      item.valor < umbralOcultar;
+
+    const esExterior =
+      !ocultarEtiqueta &&
+      item.valor < umbralExterior;
+
+    const radio =
+      esExterior
+        ? radioExterior
+        : radioInterior;
+
+    return {
+      ...item,
+      inicio,
+      fin,
+      medio,
+      ocultarEtiqueta,
+      esExterior,
+      lado: cos >= 0 ? 'derecha' : 'izquierda',
+      x: 50 + cos * radio,
+      y: 50 + sin * radio,
+    };
+  });
+
+  // Separa etiquetas exteriores pequeñas que queden en el mismo lado.
+  ['izquierda', 'derecha'].forEach((lado) => {
+    const exteriores = segmentos
+      .filter(
+        (item) =>
+          item.esExterior &&
+          item.lado === lado
+      )
+      .sort((a, b) => a.y - b.y);
+
+    if (!exteriores.length) return;
+
+    exteriores.forEach((item) => {
+      item.y = Math.max(5, Math.min(95, item.y));
+    });
+
+    for (let i = 1; i < exteriores.length; i += 1) {
+      const minimo =
+        exteriores[i - 1].y +
+        separacionExterior;
+
+      if (exteriores[i].y < minimo) {
+        exteriores[i].y = minimo;
+      }
+    }
+
+    const ultimo =
+      exteriores[exteriores.length - 1];
+
+    if (ultimo.y > 95) {
+      const desplazamiento = ultimo.y - 95;
+
+      exteriores.forEach((item) => {
+        item.y -= desplazamiento;
+      });
+    }
+
+    const primero = exteriores[0];
+
+    if (primero.y < 5) {
+      const desplazamiento = 5 - primero.y;
+
+      exteriores.forEach((item) => {
+        item.y += desplazamiento;
+      });
+    }
+  });
+
+  return segmentos;
+}
+
+function PieLabels({
+  segmentos,
+  decimales = 1,
+}) {
+  return (
+    <>
+      {(segmentos || [])
+        .filter((item) => !item.ocultarEtiqueta)
+        .map((item) => (
+          <span
+            key={item.etiqueta}
+            className={`smart-pie-label ${
+              item.esExterior ? 'outside' : 'inside'
+            } ${item.lado}`}
+            style={{
+              left: `${item.x}%`,
+              top: `${item.y}%`,
+            }}
+          >
+            {formatoPorcentaje(
+              item.valor,
+              decimales
+            )}
+          </span>
+        ))}
+    </>
+  );
+}
+
 function claveEntidadComparacion(valor) {
   const texto = String(valor || '')
     .normalize('NFD')
@@ -1279,6 +1427,92 @@ const AJUSTES_VISUALES_20260817 = `
       text-align: left;
     }
   }
+
+  /* ==========================================================
+     Etiquetas inteligentes para TODOS los gráficos de pastel
+     ========================================================== */
+
+  .sex-pie,
+  .proposal-solid-pie,
+  .hygiene-pie,
+  .periodontal-pie,
+  .periodontal-probe-pie {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  .sex-chart-wrap,
+  .proposal-pie-block,
+  .dental-pies-row,
+  .hygiene-pie-wrap,
+  .hygiene-chart-row,
+  .periodontal-pie-wrap,
+  .periodontal-chart-row {
+    overflow: visible !important;
+  }
+
+  .smart-pie-label {
+    position: absolute;
+    z-index: 8;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    white-space: nowrap;
+    font-weight: 800;
+    line-height: 1;
+    box-sizing: border-box;
+  }
+
+  .smart-pie-label.inside {
+    color: #ffffff;
+    font-size: 0.82rem;
+    padding: 5px 7px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.17);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.34);
+  }
+
+  .smart-pie-label.outside {
+    color: #173f3a;
+    font-size: 0.76rem;
+    padding: 5px 7px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid rgba(23,63,58,0.18);
+    box-shadow: 0 2px 6px rgba(30,48,55,0.18);
+    text-shadow: none;
+  }
+
+  .smart-pie-label.outside::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 18px;
+    border-top: 1.5px solid rgba(23,63,58,0.55);
+    transform: translateY(-50%);
+  }
+
+  .smart-pie-label.outside.derecha::after {
+    right: 100%;
+  }
+
+  .smart-pie-label.outside.izquierda::after {
+    left: 100%;
+  }
+
+  .proposal-solid-pie .smart-pie-label.inside {
+    font-size: 0.9rem;
+  }
+
+  .sex-pie .smart-pie-label.inside {
+    font-size: 0.82rem;
+  }
+
+  .periodontal-pie .smart-pie-label.inside,
+  .periodontal-probe-pie .smart-pie-label.inside,
+  .hygiene-pie .smart-pie-label.inside {
+    font-size: 0.78rem;
+  }
+
 `;
 
 function App() {
@@ -2186,58 +2420,45 @@ function App() {
     };
   })();
 
-  const higieneSegmentos = useMemo(() => {
-    const base = [
-      {
-        etiqueta: 'Excelente',
-        valor: indicadoresHigiene.excelentePct,
-        color: higieneColores[0],
-      },
-      {
-        etiqueta: 'Buena',
-        valor: indicadoresHigiene.buenaPct,
-        color: higieneColores[1],
-      },
-      {
-        etiqueta: 'Regular',
-        valor: indicadoresHigiene.regularPct,
-        color: higieneColores[2],
-      },
-      {
-        etiqueta: 'Mala',
-        valor: indicadoresHigiene.malaPct,
-        color: higieneColores[3],
-      },
-    ].filter((item) => Number.isFinite(item.valor) && item.valor > 0);
-
-    let acumulado = 0;
-
-    return base.map((item) => {
-      const inicio = acumulado;
-      const fin = acumulado + item.valor;
-      const medio = (inicio + fin) / 2;
-      acumulado = fin;
-
-      const angle = medio * 3.6 - 90;
-      const rad = (angle * Math.PI) / 180;
-
-      const esPequeno = item.valor < 8;
-      const radio = esPequeno ? 108 : 63;
-
-      return {
-        ...item,
-        esPequeno,
-        x: Math.cos(rad) * radio,
-        y: Math.sin(rad) * radio,
-        lado: Math.cos(rad) >= 0 ? 'derecha' : 'izquierda',
-      };
-    });
-  }, [
-    indicadoresHigiene.excelentePct,
-    indicadoresHigiene.buenaPct,
-    indicadoresHigiene.regularPct,
-    indicadoresHigiene.malaPct,
-  ]);
+  const higieneSegmentos = useMemo(
+    () =>
+      calcularSegmentosPie(
+        [
+          {
+            etiqueta: 'Excelente',
+            valor: indicadoresHigiene.excelentePct,
+            color: higieneColores[0],
+          },
+          {
+            etiqueta: 'Buena',
+            valor: indicadoresHigiene.buenaPct,
+            color: higieneColores[1],
+          },
+          {
+            etiqueta: 'Regular',
+            valor: indicadoresHigiene.regularPct,
+            color: higieneColores[2],
+          },
+          {
+            etiqueta: 'Mala',
+            valor: indicadoresHigiene.malaPct,
+            color: higieneColores[3],
+          },
+        ],
+        {
+          radioInterior: 30,
+          radioExterior: 57,
+          umbralExterior: 5,
+          separacionExterior: 13,
+        }
+      ),
+    [
+      indicadoresHigiene.excelentePct,
+      indicadoresHigiene.buenaPct,
+      indicadoresHigiene.regularPct,
+      indicadoresHigiene.malaPct,
+    ]
+  );
 
   const periodontalEdad7a14 = useMemo(() => {
     if (!edad) return false;
@@ -2409,31 +2630,23 @@ function App() {
       );
     }
 
-    const base = categoriasBase
-      .map(([etiqueta, valor, color]) => ({ etiqueta, valor, color }))
-      .filter((item) => Number.isFinite(item.valor) && item.valor > 0);
-
-    let acumulado = 0;
-
-    return base.map((item) => {
-      const inicio = acumulado;
-      const fin = acumulado + item.valor;
-      const medio = (inicio + fin) / 2;
-      acumulado = fin;
-
-      const rad = ((medio * 3.6 - 90) * Math.PI) / 180;
-      const esPequeno = item.valor < 4;
-      const radio = 77;
-
-      return {
-        ...item,
-        inicio,
-        fin,
-        esPequeno,
-        x: Math.cos(rad) * radio,
-        y: Math.sin(rad) * radio,
-      };
-    });
+    return calcularSegmentosPie(
+      categoriasBase.map(
+        ([etiqueta, valor, color]) => ({
+          etiqueta,
+          valor,
+          color,
+        })
+      ),
+      {
+        radioInterior: 30,
+        radioExterior: 57,
+        umbralExterior: 0,
+        // Los segmentos muy pequeños se muestran con valor
+        // en la leyenda para no encimar etiquetas sobre el pastel.
+        umbralOcultar: 4,
+      }
+    );
   }, [
     indicadoresPeriodontal.sanoPct,
     indicadoresPeriodontal.hemPct,
@@ -2451,48 +2664,39 @@ function App() {
       }
     : { background: '#e7e7e7' };
 
-  const periodontalSondaSegmentos = useMemo(() => {
-    const base = [
-      {
-        etiqueta: 'Normal',
-        valor: indicadoresPeriodontalSonda.normalPct,
-        color: '#173f3a',
-      },
-      {
-        etiqueta: 'Gingivitis',
-        valor: indicadoresPeriodontalSonda.gingivitisPct,
-        color: '#b38c2e',
-      },
-      {
-        etiqueta: 'Periodontitis',
-        valor: indicadoresPeriodontalSonda.periodontitisPct,
-        color: '#701039',
-      },
-    ].filter((item) => Number.isFinite(item.valor) && item.valor > 0);
-
-    let acumulado = 0;
-
-    return base.map((item) => {
-      const inicio = acumulado;
-      const fin = acumulado + item.valor;
-      const medio = (inicio + fin) / 2;
-      acumulado = fin;
-
-      const rad = ((medio * 3.6 - 90) * Math.PI) / 180;
-
-      return {
-        ...item,
-        inicio,
-        fin,
-        x: Math.cos(rad) * 58,
-        y: Math.sin(rad) * 58,
-      };
-    });
-  }, [
-    indicadoresPeriodontalSonda.normalPct,
-    indicadoresPeriodontalSonda.gingivitisPct,
-    indicadoresPeriodontalSonda.periodontitisPct,
-  ]);
+  const periodontalSondaSegmentos = useMemo(
+    () =>
+      calcularSegmentosPie(
+        [
+          {
+            etiqueta: 'Normal',
+            valor: indicadoresPeriodontalSonda.normalPct,
+            color: '#173f3a',
+          },
+          {
+            etiqueta: 'Gingivitis',
+            valor: indicadoresPeriodontalSonda.gingivitisPct,
+            color: '#b38c2e',
+          },
+          {
+            etiqueta: 'Periodontitis',
+            valor: indicadoresPeriodontalSonda.periodontitisPct,
+            color: '#701039',
+          },
+        ],
+        {
+          radioInterior: 30,
+          radioExterior: 57,
+          umbralExterior: 6,
+          separacionExterior: 13,
+        }
+      ),
+    [
+      indicadoresPeriodontalSonda.normalPct,
+      indicadoresPeriodontalSonda.gingivitisPct,
+      indicadoresPeriodontalSonda.periodontitisPct,
+    ]
+  );
 
   const periodontalSondaPieStyle = periodontalSondaSegmentos.length
     ? {
@@ -3157,6 +3361,66 @@ function App() {
     };
   })();
 
+  const sexoSegmentos = calcularSegmentosPie(
+    sexoData.items.map((item, index) => ({
+      etiqueta: item.etiqueta,
+      valor: item.valor,
+      color:
+        sexoColores[
+          index % sexoColores.length
+        ],
+    })),
+    {
+      radioInterior: 28,
+      radioExterior: 57,
+      umbralExterior: 7,
+      separacionExterior: 13,
+    }
+  );
+
+  const cariesSegmentos = calcularSegmentosPie(
+    [
+      {
+        etiqueta: 'Con caries',
+        valor: indicadoresCaries.cariesPct,
+        color: '#701039',
+      },
+      {
+        etiqueta: 'Sanos',
+        valor: indicadoresCaries.sanosPct,
+        color: '#173f3a',
+      },
+    ],
+    {
+      radioInterior: 29,
+      radioExterior: 57,
+      umbralExterior: 7,
+    }
+  );
+
+  const edentulismoSegmentos = calcularSegmentosPie(
+    [
+      {
+        etiqueta: 'Sí',
+        valor: indicadoresCaries.edentPct,
+        color: '#b38c2e',
+      },
+      {
+        etiqueta: 'No',
+        valor:
+          indicadoresCaries.edentPct === null
+            ? null
+            : 100 - indicadoresCaries.edentPct,
+        color: '#173f3a',
+      },
+    ],
+    {
+      radioInterior: 29,
+      radioExterior: 57,
+      umbralExterior: 7,
+    }
+  );
+
   return (
     <div className="app">
       <style>{AJUSTES_VISUALES_20260817}</style>
@@ -3400,23 +3664,10 @@ function App() {
                             className="sex-pie"
                             style={sexoPieStyle}
                           >
-                            {sexoData.items[0] && (
-                              <span className="sex-pie-label sex-pie-label-a">
-                                {formatoPorcentaje(
-                                  sexoData.items[0].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
-
-                            {sexoData.items[1] && (
-                              <span className="sex-pie-label sex-pie-label-b">
-                                {formatoPorcentaje(
-                                  sexoData.items[1].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
+                            <PieLabels
+                              segmentos={sexoSegmentos}
+                              decimales={1}
+                            />
                           </div>
 
                           <div className="sex-legend">
@@ -3474,19 +3725,10 @@ function App() {
                           className="proposal-solid-pie"
                           style={pieStyle}
                         >
-                          <span className="proposal-pie-label proposal-pie-label-main">
-                            {formatoPorcentaje(
-                              indicadoresCaries.cariesPct,
-                              0
-                            )}
-                          </span>
-
-                          <span className="proposal-pie-label proposal-pie-label-secondary">
-                            {formatoPorcentaje(
-                              indicadoresCaries.sanosPct,
-                              0
-                            )}
-                          </span>
+                          <PieLabels
+                            segmentos={cariesSegmentos}
+                            decimales={0}
+                          />
                         </div>
 
                         <div className="proposal-pie-legend">
@@ -3508,21 +3750,10 @@ function App() {
                           className="proposal-solid-pie"
                           style={edentStyle}
                         >
-                          <span className="proposal-pie-label proposal-pie-label-main">
-                            {formatoPorcentaje(
-                              indicadoresCaries.edentPct === null
-                                ? null
-                                : 100 - indicadoresCaries.edentPct,
-                              0
-                            )}
-                          </span>
-
-                          <span className="proposal-pie-label proposal-pie-label-secondary">
-                            {formatoPorcentaje(
-                              indicadoresCaries.edentPct,
-                              0
-                            )}
-                          </span>
+                          <PieLabels
+                            segmentos={edentulismoSegmentos}
+                            decimales={0}
+                          />
                         </div>
 
                         <div className="proposal-pie-legend">
@@ -3636,23 +3867,10 @@ function App() {
                             className="sex-pie"
                             style={sexoPieStyle}
                           >
-                            {sexoData.items[0] && (
-                              <span className="sex-pie-label sex-pie-label-a">
-                                {formatoPorcentaje(
-                                  sexoData.items[0].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
-
-                            {sexoData.items[1] && (
-                              <span className="sex-pie-label sex-pie-label-b">
-                                {formatoPorcentaje(
-                                  sexoData.items[1].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
+                            <PieLabels
+                              segmentos={sexoSegmentos}
+                              decimales={1}
+                            />
                           </div>
 
                           <div className="sex-legend">
@@ -3715,25 +3933,10 @@ function App() {
                             className="hygiene-pie"
                             style={higienePieStyle}
                           >
-                            {higieneSegmentos.map((item) => (
-                              <div
-                                key={item.etiqueta}
-                                className={`hygiene-pie-label ${
-                                  item.esPequeno ? 'outside' : 'inside'
-                                } ${item.lado}`}
-                                style={{
-                                  left: `calc(50% + ${item.x}px)`,
-                                  top: `calc(50% + ${item.y}px)`,
-                                }}
-                              >
-                                {item.esPequeno && (
-                                  <span className="hygiene-pie-callout-line"></span>
-                                )}
-                                <span className="hygiene-pie-label-value">
-                                  {formatoPorcentaje(item.valor, 1)}
-                                </span>
-                              </div>
-                            ))}
+                            <PieLabels
+                              segmentos={higieneSegmentos}
+                              decimales={1}
+                            />
                           </div>
                         </div>
 
@@ -3858,22 +4061,10 @@ function App() {
                         <h3>Sexo</h3>
                         <div className="sex-chart-wrap">
                           <div className="sex-pie" style={sexoPieStyle}>
-                            {sexoData.items[0] && (
-                              <span className="sex-pie-label sex-pie-label-a">
-                                {formatoPorcentaje(
-                                  sexoData.items[0].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
-                            {sexoData.items[1] && (
-                              <span className="sex-pie-label sex-pie-label-b">
-                                {formatoPorcentaje(
-                                  sexoData.items[1].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
+                            <PieLabels
+                              segmentos={sexoSegmentos}
+                              decimales={1}
+                            />
                           </div>
 
                           <div className="sex-legend">
@@ -3970,22 +4161,10 @@ function App() {
                               className="periodontal-pie"
                               style={periodontalPieStyle}
                             >
-                              {periodontalSegmentos
-                                .filter((item) => !item.esPequeno)
-                                .map((item) => (
-                                  <div
-                                    key={item.etiqueta}
-                                    className="periodontal-pie-label inside"
-                                    style={{
-                                      left: `calc(50% + ${item.x}px)`,
-                                      top: `calc(50% + ${item.y}px)`,
-                                    }}
-                                  >
-                                    <span className="periodontal-pie-label-value">
-                                      {formatoPorcentaje(item.valor, 1)}
-                                    </span>
-                                  </div>
-                                ))}
+                              <PieLabels
+                                segmentos={periodontalSegmentos}
+                                decimales={1}
+                              />
                             </div>
                           </div>
 
@@ -3997,7 +4176,7 @@ function App() {
                                 <span className="periodontal-legend-label">
                                   {item.etiqueta}
 
-                                  {item.esPequeno && (
+                                  {item.ocultarEtiqueta && (
                                     <strong>
                                       {' '}
                                       ({formatoPorcentaje(item.valor, 1)})
@@ -4019,20 +4198,10 @@ function App() {
                               className="periodontal-probe-pie"
                               style={periodontalSondaPieStyle}
                             >
-                              {periodontalSondaSegmentos.map((item) => (
-                                <div
-                                  key={item.etiqueta}
-                                  className="periodontal-pie-label inside"
-                                  style={{
-                                    left: `calc(50% + ${item.x}px)`,
-                                    top: `calc(50% + ${item.y}px)`,
-                                  }}
-                                >
-                                  <span className="periodontal-pie-label-value">
-                                    {formatoPorcentaje(item.valor, 1)}
-                                  </span>
-                                </div>
-                              ))}
+                              <PieLabels
+                                segmentos={periodontalSondaSegmentos}
+                                decimales={1}
+                              />
                             </div>
                           </div>
 
@@ -4140,23 +4309,10 @@ function App() {
                             className="sex-pie"
                             style={sexoPieStyle}
                           >
-                            {sexoData.items[0] && (
-                              <span className="sex-pie-label sex-pie-label-a">
-                                {formatoPorcentaje(
-                                  sexoData.items[0].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
-
-                            {sexoData.items[1] && (
-                              <span className="sex-pie-label sex-pie-label-b">
-                                {formatoPorcentaje(
-                                  sexoData.items[1].valor,
-                                  1
-                                )}
-                              </span>
-                            )}
+                            <PieLabels
+                              segmentos={sexoSegmentos}
+                              decimales={1}
+                            />
                           </div>
 
                           <div className="sex-legend">
