@@ -2194,6 +2194,119 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+
+
+  /* ==========================================================
+     OTRAS PATOLOGÍAS - ajuste final de etiquetas del eje X
+     ========================================================== */
+
+  .otras-boceto-grid {
+    grid-template-columns:
+      minmax(0, 1.62fr)
+      minmax(255px, 0.68fr) !important;
+    gap: 16px !important;
+  }
+
+  .otras-boceto-col.left {
+    min-width: 0 !important;
+    padding-right: 4px !important;
+  }
+
+  .lesion-grouped-plot {
+    grid-template-columns: repeat(5, minmax(72px, 1fr)) !important;
+    gap: 10px !important;
+    padding-left: 8px !important;
+    padding-right: 4px !important;
+    min-height: 320px !important;
+  }
+
+  .lesion-grouped-plot::before {
+    left: 8px !important;
+    right: 4px !important;
+  }
+
+  .lesion-group {
+    min-width: 0 !important;
+  }
+
+  .lesion-bars {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+    gap: 4px !important;
+  }
+
+  .lesion-group-label {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 64px !important;
+    margin-top: 8px !important;
+    padding: 0 2px !important;
+
+    font-size: 0.62rem !important;
+    line-height: 1.08 !important;
+    font-weight: 650 !important;
+
+    text-align: center !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+  }
+
+  .lesion-vbar-value {
+    font-size: 0.60rem !important;
+  }
+
+  .lesion-grouped-note {
+    padding-left: 8px !important;
+    padding-right: 4px !important;
+  }
+
+  /* Mantener la columna derecha compacta para privilegiar la gráfica */
+  .otras-boceto-title.right {
+    font-size: 1rem !important;
+  }
+
+  .otras-boceto-kpi {
+    min-height: 82px !important;
+    padding: 12px 13px !important;
+  }
+
+  .otras-boceto-kpi strong {
+    font-size: 1.55rem !important;
+  }
+
+  .otras-boceto-kpi span {
+    font-size: 0.66rem !important;
+  }
+
+  .otras-boceto-diagnosticos {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  @media (max-width: 1200px) and (min-width: 651px) {
+    .otras-boceto-grid {
+      grid-template-columns:
+        minmax(0, 1.58fr)
+        minmax(245px, 0.72fr) !important;
+      gap: 14px !important;
+    }
+
+    .lesion-grouped-plot {
+      grid-template-columns: repeat(5, minmax(66px, 1fr)) !important;
+      gap: 8px !important;
+    }
+
+    .lesion-group-label {
+      font-size: 0.59rem !important;
+    }
+  }
+
 `;
 
 function App() {
