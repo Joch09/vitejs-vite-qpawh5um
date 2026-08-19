@@ -1838,6 +1838,210 @@ const AJUSTES_VISUALES_20260817 = `
       flex-basis: 18px;
     }
   }
+
+
+  /* ==========================================================
+     OTRAS PATOLOGÍAS - corrección de desbordamiento de columnas
+     ========================================================== */
+
+  .otras-state-panel.boceto-otras {
+    overflow: hidden !important;
+  }
+
+  .otras-boceto-grid {
+    grid-template-columns:
+      minmax(0, 1.28fr)
+      minmax(0, 0.92fr) !important;
+    gap: 24px !important;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .otras-boceto-col {
+    min-width: 0 !important;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .otras-boceto-col.left {
+    padding-right: 0 !important;
+  }
+
+  .lesion-grouped-chart {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 360px;
+    overflow: hidden;
+  }
+
+  .lesion-grouped-legend {
+    justify-content: center;
+    gap: 10px 18px;
+    margin-bottom: 12px;
+  }
+
+  .lesion-grouped-plot {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 280px;
+    box-sizing: border-box;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    padding: 12px 4px 0 24px !important;
+    overflow: hidden !important;
+  }
+
+  .lesion-grouped-plot::before {
+    left: 24px !important;
+    right: 4px !important;
+  }
+
+  .lesion-group {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .lesion-bars {
+    width: 100%;
+    min-width: 0;
+    gap: 4px !important;
+    padding: 0 2px !important;
+  }
+
+  .lesion-vbar-wrap {
+    flex: 0 1 18px !important;
+    width: 18px;
+    max-width: 18px;
+    min-width: 10px;
+  }
+
+  .lesion-vbar-value {
+    font-size: 0.62rem !important;
+    top: -15px !important;
+  }
+
+  .lesion-group-label {
+    min-width: 0;
+    min-height: 54px;
+    padding: 0 2px;
+    font-size: 0.68rem !important;
+    line-height: 1.08 !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .lesion-grouped-note {
+    padding-left: 24px !important;
+    padding-right: 8px;
+    margin-top: 10px;
+    font-size: 0.7rem !important;
+  }
+
+  .otras-boceto-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 15px !important;
+  }
+
+  .otras-boceto-title.right {
+    max-width: 100% !important;
+  }
+
+  .otras-right-stack {
+    width: 100%;
+    min-width: 0;
+    gap: 11px;
+  }
+
+  .otras-boceto-kpi {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 88px;
+    padding: 14px 16px;
+    overflow: hidden;
+  }
+
+  .otras-boceto-kpi strong {
+    font-size: 1.75rem !important;
+  }
+
+  .otras-boceto-kpi span {
+    font-size: 0.7rem !important;
+  }
+
+  .otras-boceto-diagnosticos {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 14px 10px 12px !important;
+    overflow: hidden;
+  }
+
+  .otras-boceto-diagnosticos h3 {
+    font-size: 0.74rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 12px !important;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-row {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns:
+      minmax(82px, 1.25fr)
+      minmax(62px, 1fr)
+      40px !important;
+    gap: 6px !important;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-label {
+    min-width: 0;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-label strong {
+    font-size: 0.66rem !important;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-label span {
+    font-size: 0.59rem !important;
+    line-height: 1.08 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-track {
+    min-width: 0;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-value {
+    font-size: 0.66rem !important;
+  }
+
+  /*
+    En pantallas realmente angostas sí conviene apilar.
+    Se baja el breakpoint para conservar las dos columnas
+    en el tamaño mostrado en la captura.
+  */
+  @media (max-width: 650px) {
+    .otras-boceto-grid {
+      grid-template-columns: 1fr !important;
+      overflow: visible;
+    }
+
+    .otras-state-panel.boceto-otras,
+    .otras-boceto-col {
+      overflow: visible !important;
+    }
+
+    .lesion-grouped-plot {
+      grid-template-columns: repeat(5, minmax(54px, 1fr)) !important;
+      overflow-x: auto !important;
+    }
+  }
+
 `;
 
 function App() {
