@@ -1552,6 +1552,292 @@ const AJUSTES_VISUALES_20260817 = `
     align-items: center !important;
   }
 
+
+
+  /* ==========================================================
+     OTRAS PATOLOGÍAS - composición basada en boceto SIVEPAB
+     ========================================================== */
+
+  .otras-state-panel.boceto-otras {
+    display: block !important;
+    padding: 18px 20px 20px !important;
+  }
+
+  .otras-state-panel.boceto-otras > h2 {
+    display: none !important;
+  }
+
+  .otras-boceto-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.9fr);
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .otras-boceto-col {
+    min-width: 0;
+  }
+
+  .otras-boceto-col.left {
+    padding-right: 10px;
+  }
+
+  .otras-boceto-title {
+    margin: 0 0 18px 0 !important;
+    text-align: left !important;
+    font-size: 1.25rem !important;
+    line-height: 1.15 !important;
+    color: #b07c13 !important;
+    font-weight: 800 !important;
+  }
+
+  .otras-boceto-title.right {
+    max-width: 320px;
+  }
+
+  .lesion-grouped-chart {
+    min-height: 390px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lesion-grouped-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    margin: 0 0 14px;
+    font-size: 0.8rem;
+  }
+
+  .lesion-grouped-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .lesion-grouped-legend i {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+  }
+
+  .lesion-grouped-plot {
+    flex: 1;
+    min-height: 300px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(72px, 1fr));
+    align-items: end;
+    gap: 10px;
+    padding: 12px 8px 0 48px;
+    position: relative;
+    border-bottom: 1px solid #cfd4d2;
+  }
+
+  .lesion-grouped-plot::before {
+    content: "";
+    position: absolute;
+    left: 48px;
+    right: 8px;
+    top: 12px;
+    bottom: 0;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(23,63,58,0.12) 0,
+        rgba(23,63,58,0.12) 1px,
+        transparent 1px,
+        transparent 20%
+      );
+    pointer-events: none;
+  }
+
+  .lesion-group {
+    min-width: 0;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: end;
+    position: relative;
+    z-index: 1;
+  }
+
+  .lesion-bars {
+    height: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 5px;
+  }
+
+  .lesion-vbar-wrap {
+    flex: 0 0 22px;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    position: relative;
+  }
+
+  .lesion-vbar {
+    width: 100%;
+    min-height: 0;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+
+  .lesion-vbar.lt3 {
+    background: #a71f4d;
+  }
+
+  .lesion-vbar.gt3 {
+    background: #235d53;
+  }
+
+  .lesion-vbar-value {
+    position: absolute;
+    left: 50%;
+    top: -18px;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    font-weight: 750;
+    color: #173f3a;
+    white-space: nowrap;
+  }
+
+  .lesion-group-label {
+    min-height: 48px;
+    margin-top: 8px;
+    text-align: center;
+    font-size: 0.76rem;
+    line-height: 1.15;
+    font-weight: 650;
+    color: #555;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .lesion-grouped-note {
+    margin-top: 12px;
+    padding-left: 48px;
+    text-align: left;
+    font-size: 0.74rem;
+    line-height: 1.35;
+    color: #6c6c6c;
+  }
+
+  .lesion-grouped-note strong {
+    color: #701039;
+  }
+
+  .otras-right-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .otras-boceto-kpi {
+    min-height: 94px;
+    border-radius: 8px;
+    padding: 16px 18px;
+    background: #f6f0db;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    box-shadow: none;
+  }
+
+  .otras-boceto-kpi strong {
+    font-size: 1.95rem;
+    line-height: 1;
+    color: #a71f4d;
+    font-weight: 850;
+  }
+
+  .otras-boceto-kpi span {
+    margin-top: 7px;
+    font-size: 0.74rem;
+    line-height: 1.2;
+    color: #173f3a;
+    font-weight: 700;
+  }
+
+  .otras-boceto-diagnosticos {
+    margin-top: 8px;
+    padding: 16px 16px 12px;
+    border-radius: 8px;
+    background: #f6f6f4;
+  }
+
+  .otras-boceto-diagnosticos h3 {
+    margin: 0 0 14px !important;
+    text-align: center !important;
+    font-size: 0.82rem !important;
+    color: #173f3a !important;
+  }
+
+  .otras-boceto-diagnosticos .diagnosticos-bars {
+    gap: 9px;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-row {
+    grid-template-columns: minmax(115px, 1.2fr) minmax(90px, 1fr) 44px;
+    gap: 8px;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-label {
+    text-align: right;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-label strong {
+    font-size: 0.72rem;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-label span {
+    font-size: 0.66rem;
+    line-height: 1.12;
+  }
+
+  .otras-boceto-diagnosticos .diagnostico-value {
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 980px) {
+    .otras-boceto-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .otras-boceto-col.left {
+      padding-right: 0;
+    }
+
+    .otras-boceto-title.right {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .lesion-grouped-plot {
+      grid-template-columns: repeat(5, minmax(58px, 1fr));
+      padding-left: 24px;
+      overflow-x: auto;
+    }
+
+    .lesion-grouped-plot::before {
+      left: 24px;
+    }
+
+    .lesion-grouped-note {
+      padding-left: 24px;
+    }
+
+    .lesion-vbar-wrap {
+      flex-basis: 18px;
+    }
+  }
 `;
 
 function App() {
@@ -4398,215 +4684,207 @@ function App() {
                     </div>
                   </article>
 
-                  <article className="otras-state-panel">
-                    <h2>Patologías bucales identificadas</h2>
+                  <article className="otras-state-panel boceto-otras">
+                    <div className="otras-boceto-grid">
+                      <div className="otras-boceto-col left">
+                        <h3 className="otras-boceto-title">
+                          Lesiones en mucosa bucal
+                        </h3>
 
-                    <div className="otras-section-group">
-                      <h3 className="otras-section-title">
-                        Lesiones de mucosa
-                      </h3>
+                        {lesionesTiempoData.length === 0 ? (
+                          <div className="otras-no-data">
+                            Sin lesiones registradas para la selección.
+                          </div>
+                        ) : (
+                          <div className="lesion-grouped-chart">
+                            <div className="lesion-grouped-legend">
+                              <span>
+                                <i style={{ background: '#a71f4d' }}></i>
+                                Menos de 3 semanas
+                              </span>
 
-                      <div className="lesion-time-legend">
-                        <span>
-                          <i style={{ background: '#701039' }}></i>
-                          Menos de tres semanas
-                        </span>
+                              <span>
+                                <i style={{ background: '#235d53' }}></i>
+                                Más de 3 semanas
+                              </span>
+                            </div>
 
-                        <span>
-                          <i style={{ background: '#b38c2e' }}></i>
-                          Más de tres semanas
-                        </span>
+                            <div className="lesion-grouped-plot">
+                              {lesionesTiempoData.map((item) => {
+                                const maxValor = Math.max(
+                                  1,
+                                  ...lesionesTiempoData.flatMap((x) => [
+                                    Number(x.lt3 || 0),
+                                    Number(x.gt3 || 0),
+                                  ])
+                                );
 
-                        <span>
-                          <i style={{ background: '#8d8d8d' }}></i>
-                          Sin tiempo válido
-                        </span>
-                      </div>
+                                const lt3 = Number(item.lt3 || 0);
+                                const gt3 = Number(item.gt3 || 0);
 
-                      {lesionesTiempoData.length === 0 ? (
-                        <div className="otras-no-data">
-                          Sin lesiones registradas para la selección.
-                        </div>
-                      ) : (
-                        <div className="lesion-time-list">
-                          {lesionesTiempoData.map((item) => {
-                            const total = Math.max(
-                              0,
-                              Number(item.total) || 0
-                            );
+                                const altoLt3 =
+                                  maxValor > 0
+                                    ? (100 * lt3) / maxValor
+                                    : 0;
 
-                            const anchoTotal =
-                              maxLesionesTiempo > 0
-                                ? (100 * total) /
-                                  maxLesionesTiempo
-                                : 0;
+                                const altoGt3 =
+                                  maxValor > 0
+                                    ? (100 * gt3) / maxValor
+                                    : 0;
 
-                            const pctLt3 =
-                              total > 0
-                                ? (100 * item.lt3) / total
-                                : 0;
-
-                            const pctGt3 =
-                              total > 0
-                                ? (100 * item.gt3) / total
-                                : 0;
-
-                            const pctSinTiempo =
-                              total > 0
-                                ? (100 * item.sinTiempo) / total
-                                : 0;
-
-                            return (
-                              <div
-                                className="lesion-time-row"
-                                key={item.lesion}
-                              >
-                                <div className="lesion-time-name">
-                                  {item.lesion}
-                                </div>
-
-                                <div className="lesion-time-track">
+                                return (
                                   <div
-                                    className="lesion-time-total"
-                                    style={{
-                                      width: `${Math.max(
-                                        total > 0 ? 3 : 0,
-                                        anchoTotal
-                                      )}%`,
-                                    }}
+                                    className="lesion-group"
+                                    key={item.lesion}
                                   >
-                                    <div
-                                      className="lesion-time-segment"
-                                      style={{
-                                        width: `${pctLt3}%`,
-                                        background: '#701039',
-                                      }}
-                                      title={`Menos de tres semanas: ${Number(
-                                        item.lt3 || 0
-                                      ).toLocaleString('es-MX')}`}
-                                    ></div>
+                                    <div className="lesion-bars">
+                                      <div className="lesion-vbar-wrap">
+                                        <div
+                                          className="lesion-vbar lt3"
+                                          style={{
+                                            height: `${Math.max(
+                                              lt3 > 0 ? 2 : 0,
+                                              altoLt3
+                                            )}%`,
+                                          }}
+                                          title={`Menos de 3 semanas: ${lt3.toLocaleString(
+                                            'es-MX'
+                                          )}`}
+                                        >
+                                          {lt3 > 0 && (
+                                            <span className="lesion-vbar-value">
+                                              {lt3.toLocaleString('es-MX')}
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
 
-                                    <div
-                                      className="lesion-time-segment"
-                                      style={{
-                                        width: `${pctGt3}%`,
-                                        background: '#b38c2e',
-                                      }}
-                                      title={`Más de tres semanas: ${Number(
-                                        item.gt3 || 0
-                                      ).toLocaleString('es-MX')}`}
-                                    ></div>
+                                      <div className="lesion-vbar-wrap">
+                                        <div
+                                          className="lesion-vbar gt3"
+                                          style={{
+                                            height: `${Math.max(
+                                              gt3 > 0 ? 2 : 0,
+                                              altoGt3
+                                            )}%`,
+                                          }}
+                                          title={`Más de 3 semanas: ${gt3.toLocaleString(
+                                            'es-MX'
+                                          )}`}
+                                        >
+                                          {gt3 > 0 && (
+                                            <span className="lesion-vbar-value">
+                                              {gt3.toLocaleString('es-MX')}
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
 
-                                    <div
-                                      className="lesion-time-segment"
-                                      style={{
-                                        width: `${pctSinTiempo}%`,
-                                        background: '#8d8d8d',
-                                      }}
-                                      title={`Sin tiempo válido: ${Number(
-                                        item.sinTiempo || 0
-                                      ).toLocaleString('es-MX')}`}
-                                    ></div>
+                                    <div className="lesion-group-label">
+                                      {item.lesion}
+                                    </div>
                                   </div>
-                                </div>
+                                );
+                              })}
+                            </div>
 
-                                <div className="lesion-time-count">
-                                  {total.toLocaleString('es-MX')}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
-
-                      <div className="lesiones-no-lesion-note">
-                        <strong>
-                          {Number(
-                            indicadoresOtras.sinLesion || 0
-                          ).toLocaleString('es-MX')}
-                        </strong>{' '}
-                        pacientes no registraron lesión
+                            <div className="lesion-grouped-note">
+                              <strong>
+                                {Number(
+                                  indicadoresOtras.sinLesion || 0
+                                ).toLocaleString('es-MX')}
+                              </strong>{' '}
+                              pacientes no registraron lesión.
+                              {' '}
+                              Los registros sin tiempo de evolución válido
+                              no se representan en las barras por temporalidad.
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
 
-                    <div className="otras-section-group">
-                      <h3 className="otras-section-title">
-                        Otras patologías bucales (fluorosis y otras)
-                      </h3>
+                      <div className="otras-boceto-col right">
+                        <h3 className="otras-boceto-title right">
+                          Otras patologías presentes en la cavidad bucal
+                        </h3>
 
-                      <div className="otras-top-grid">
-                        <div className="otras-kpi-stack">
-                          <div className="otras-kpi-card fluorosis-card">
+                        <div className="otras-right-stack">
+                          <div className="otras-boceto-kpi">
                             <strong>
                               {formatoPorcentaje(
                                 indicadoresOtras.fluorPct,
                                 1
                               )}
                             </strong>
-                            <span>Con diagnóstico de fluorosis</span>
+                            <span>
+                              Con diagnóstico de fluorosis
+                            </span>
                           </div>
 
-                          <div className="otras-kpi-card">
+                          <div className="otras-boceto-kpi">
                             <strong>
                               {formatoPorcentaje(
                                 indicadoresOtras.otraPct,
                                 1
                               )}
                             </strong>
-                            <span>Reportó otras patologías</span>
+                            <span>
+                              Reportó otras patologías
+                            </span>
                           </div>
-                        </div>
 
-                        <div className="otras-chart-card">
-                          <h3>
-                            Otros diagnósticos y padecimientos registrados
-                          </h3>
+                          <div className="otras-boceto-diagnosticos">
+                            <h3>
+                              Otros diagnósticos y padecimientos registrados
+                            </h3>
 
-                          <div className="diagnosticos-bars">
-                            {otrasTopDiagnosticos.length === 0 ? (
-                              <div className="otras-no-data">
-                                Sin registros para la selección.
-                              </div>
-                            ) : (
-                              otrasTopDiagnosticos.map((item) => {
-                                const max = Math.max(
-                                  1,
-                                  ...otrasTopDiagnosticos.map(
-                                    (x) => x.n || 0
-                                  )
-                                );
+                            <div className="diagnosticos-bars">
+                              {otrasTopDiagnosticos.length === 0 ? (
+                                <div className="otras-no-data">
+                                  Sin registros para la selección.
+                                </div>
+                              ) : (
+                                otrasTopDiagnosticos.map((item) => {
+                                  const max = Math.max(
+                                    1,
+                                    ...otrasTopDiagnosticos.map(
+                                      (x) => x.n || 0
+                                    )
+                                  );
 
-                                return (
-                                  <div
-                                    className="diagnostico-row"
-                                    key={item.codigo}
-                                  >
-                                    <div className="diagnostico-label">
-                                      <strong>{item.codigo}</strong>
-                                      <span>{item.descripcion}</span>
+                                  return (
+                                    <div
+                                      className="diagnostico-row"
+                                      key={item.codigo}
+                                    >
+                                      <div className="diagnostico-label">
+                                        <strong>{item.codigo}</strong>
+                                        <span>{item.descripcion}</span>
+                                      </div>
+
+                                      <div className="diagnostico-track">
+                                        <div
+                                          className="diagnostico-fill"
+                                          style={{
+                                            width: `${Math.max(
+                                              item.n > 0 ? 2 : 0,
+                                              ((item.n || 0) / max) * 100
+                                            )}%`,
+                                          }}
+                                        ></div>
+                                      </div>
+
+                                      <div className="diagnostico-value">
+                                        {Number(
+                                          item.n || 0
+                                        ).toLocaleString('es-MX')}
+                                      </div>
                                     </div>
-
-                                    <div className="diagnostico-track">
-                                      <div
-                                        className="diagnostico-fill"
-                                        style={{
-                                          width: `${Math.max(
-                                            item.n > 0 ? 2 : 0,
-                                            ((item.n || 0) / max) * 100
-                                          )}%`,
-                                        }}
-                                      ></div>
-                                    </div>
-
-                                    <div className="diagnostico-value">
-                                      {Number(item.n || 0).toLocaleString(
-                                        'es-MX'
-                                      )}
-                                    </div>
-                                  </div>
-                                );
-                              })
-                            )}
+                                  );
+                                })
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
