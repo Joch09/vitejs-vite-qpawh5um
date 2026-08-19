@@ -286,6 +286,24 @@ function PieLabels({
   );
 }
 
+
+function PieLegendText({
+  item,
+  decimales = 1,
+}) {
+  return (
+    <>
+      {item.etiqueta}
+      {item.ocultarEtiqueta && (
+        <strong className="pie-legend-small-value">
+          {' '}
+          ({formatoPorcentaje(item.valor, decimales)})
+        </strong>
+      )}
+    </>
+  );
+}
+
 function claveEntidadComparacion(valor) {
   const texto = String(valor || '')
     .normalize('NFD')
@@ -1513,6 +1531,27 @@ const AJUSTES_VISUALES_20260817 = `
     font-size: 0.78rem;
   }
 
+
+  .pie-legend-small-value {
+    color: #701039;
+    font-weight: 800;
+  }
+
+  /* IPC y otro tipo de sonda con el mismo peso visual */
+  .periodontal-distributions-grid .periodontal-pie,
+  .periodontal-distributions-grid .periodontal-probe-pie {
+    width: 200px !important;
+    height: 200px !important;
+    min-width: 200px !important;
+    min-height: 200px !important;
+    max-width: 200px !important;
+    max-height: 200px !important;
+  }
+
+  .periodontal-distributions-grid .periodontal-chart-row {
+    align-items: center !important;
+  }
+
 `;
 
 function App() {
@@ -2448,8 +2487,8 @@ function App() {
         {
           radioInterior: 30,
           radioExterior: 57,
-          umbralExterior: 5,
-          separacionExterior: 13,
+          umbralExterior: 0,
+          umbralOcultar: 5,
         }
       ),
     [
@@ -2644,7 +2683,7 @@ function App() {
         umbralExterior: 0,
         // Los segmentos muy pequeños se muestran con valor
         // en la leyenda para no encimar etiquetas sobre el pastel.
-        umbralOcultar: 4,
+        umbralOcultar: 5,
       }
     );
   }, [
@@ -2687,8 +2726,8 @@ function App() {
         {
           radioInterior: 30,
           radioExterior: 57,
-          umbralExterior: 6,
-          separacionExterior: 13,
+          umbralExterior: 0,
+          umbralOcultar: 5,
         }
       ),
     [
@@ -3373,8 +3412,8 @@ function App() {
     {
       radioInterior: 28,
       radioExterior: 57,
-      umbralExterior: 7,
-      separacionExterior: 13,
+      umbralExterior: 0,
+      umbralOcultar: 5,
     }
   );
 
@@ -3394,7 +3433,8 @@ function App() {
     {
       radioInterior: 29,
       radioExterior: 57,
-      umbralExterior: 7,
+      umbralExterior: 0,
+      umbralOcultar: 5,
     }
   );
 
@@ -3417,7 +3457,8 @@ function App() {
     {
       radioInterior: 29,
       radioExterior: 57,
-      umbralExterior: 7,
+      umbralExterior: 0,
+      umbralOcultar: 5,
     }
   );
 
@@ -3671,7 +3712,7 @@ function App() {
                           </div>
 
                           <div className="sex-legend">
-                            {sexoData.items.map((item, index) => (
+                            {sexoSegmentos.map((item) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -3679,13 +3720,15 @@ function App() {
                                 <span
                                   className="sex-legend-dot"
                                   style={{
-                                    background:
-                                      sexoColores[
-                                        index % sexoColores.length
-                                      ],
+                                    background: item.color,
                                   }}
                                 ></span>
-                                <span>{item.etiqueta}</span>
+                                <span>
+                                  <PieLegendText
+                                    item={item}
+                                    decimales={1}
+                                  />
+                                </span>
                               </div>
                             ))}
                           </div>
@@ -3732,14 +3775,18 @@ function App() {
                         </div>
 
                         <div className="proposal-pie-legend">
-                          <span>
-                            <i className="legend-square legend-burgundy"></i>
-                            Con caries
-                          </span>
-                          <span>
-                            <i className="legend-square legend-green"></i>
-                            Sanos
-                          </span>
+                          {cariesSegmentos.map((item) => (
+                            <span key={item.etiqueta}>
+                              <i
+                                className="legend-square"
+                                style={{ background: item.color }}
+                              ></i>
+                              <PieLegendText
+                                item={item}
+                                decimales={0}
+                              />
+                            </span>
+                          ))}
                         </div>
                       </div>
 
@@ -3757,14 +3804,26 @@ function App() {
                         </div>
 
                         <div className="proposal-pie-legend">
-                          <span>
-                            <i className="legend-square legend-green"></i>
-                            No
-                          </span>
-                          <span>
-                            <i className="legend-square legend-gold"></i>
-                            Sí
-                          </span>
+                          {['No', 'Sí'].map((etiqueta) => {
+                            const item = edentulismoSegmentos.find(
+                              (segmento) => segmento.etiqueta === etiqueta
+                            );
+
+                            if (!item) return null;
+
+                            return (
+                              <span key={item.etiqueta}>
+                                <i
+                                  className="legend-square"
+                                  style={{ background: item.color }}
+                                ></i>
+                                <PieLegendText
+                                  item={item}
+                                  decimales={0}
+                                />
+                              </span>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
@@ -3874,7 +3933,7 @@ function App() {
                           </div>
 
                           <div className="sex-legend">
-                            {sexoData.items.map((item, index) => (
+                            {sexoSegmentos.map((item) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -3882,17 +3941,15 @@ function App() {
                                 <span
                                   className="sex-legend-dot"
                                   style={{
-                                    background:
-                                      index === 0
-                                        ? '#701039'
-                                        : index === 1
-                                        ? '#173f3a'
-                                        : index === 2
-                                        ? '#b38c2e'
-                                        : '#8b8b8b',
+                                    background: item.color,
                                   }}
                                 ></span>
-                                <span>{item.etiqueta}</span>
+                                <span>
+                                  <PieLegendText
+                                    item={item}
+                                    decimales={1}
+                                  />
+                                </span>
                               </div>
                             ))}
                           </div>
@@ -3941,41 +3998,21 @@ function App() {
                         </div>
 
                         <div className="hygiene-legend">
-                          <div>
-                            <i
-                              style={{
-                                background: higieneColores[0],
-                              }}
-                            ></i>
-                            <span>Excelente</span>
-                          </div>
-
-                          <div>
-                            <i
-                              style={{
-                                background: higieneColores[1],
-                              }}
-                            ></i>
-                            <span>Buena</span>
-                          </div>
-
-                          <div>
-                            <i
-                              style={{
-                                background: higieneColores[2],
-                              }}
-                            ></i>
-                            <span>Regular</span>
-                          </div>
-
-                          <div>
-                            <i
-                              style={{
-                                background: higieneColores[3],
-                              }}
-                            ></i>
-                            <span>Mala</span>
-                          </div>
+                          {higieneSegmentos.map((item) => (
+                            <div key={item.etiqueta}>
+                              <i
+                                style={{
+                                  background: item.color,
+                                }}
+                              ></i>
+                              <span>
+                                <PieLegendText
+                                  item={item}
+                                  decimales={1}
+                                />
+                              </span>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -4068,22 +4105,23 @@ function App() {
                           </div>
 
                           <div className="sex-legend">
-                            {sexoData.items.map((item, index) => (
-                              <div className="sex-legend-row" key={item.etiqueta}>
+                            {sexoSegmentos.map((item) => (
+                              <div
+                                className="sex-legend-row"
+                                key={item.etiqueta}
+                              >
                                 <span
                                   className="sex-legend-dot"
                                   style={{
-                                    background:
-                                      index === 0
-                                        ? '#701039'
-                                        : index === 1
-                                        ? '#173f3a'
-                                        : index === 2
-                                        ? '#b38c2e'
-                                        : '#8b8b8b',
+                                    background: item.color,
                                   }}
                                 ></span>
-                                <span>{item.etiqueta}</span>
+                                <span>
+                                  <PieLegendText
+                                    item={item}
+                                    decimales={1}
+                                  />
+                                </span>
                               </div>
                             ))}
                           </div>
@@ -4174,14 +4212,10 @@ function App() {
                                 <i style={{ background: item.color }}></i>
 
                                 <span className="periodontal-legend-label">
-                                  {item.etiqueta}
-
-                                  {item.ocultarEtiqueta && (
-                                    <strong>
-                                      {' '}
-                                      ({formatoPorcentaje(item.valor, 1)})
-                                    </strong>
-                                  )}
+                                  <PieLegendText
+                                    item={item}
+                                    decimales={1}
+                                  />
                                 </span>
                               </div>
                             ))}
@@ -4210,7 +4244,10 @@ function App() {
                               <div key={item.etiqueta}>
                                 <i style={{ background: item.color }}></i>
                                 <span className="periodontal-legend-label">
-                                  {item.etiqueta}
+                                  <PieLegendText
+                                    item={item}
+                                    decimales={1}
+                                  />
                                 </span>
                               </div>
                             ))}
@@ -4316,7 +4353,7 @@ function App() {
                           </div>
 
                           <div className="sex-legend">
-                            {sexoData.items.map((item, index) => (
+                            {sexoSegmentos.map((item) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -4324,18 +4361,15 @@ function App() {
                                 <span
                                   className="sex-legend-dot"
                                   style={{
-                                    background:
-                                      index === 0
-                                        ? '#701039'
-                                        : index === 1
-                                        ? '#173f3a'
-                                        : index === 2
-                                        ? '#b38c2e'
-                                        : '#8b8b8b',
+                                    background: item.color,
                                   }}
                                 ></span>
-
-                                <span>{item.etiqueta}</span>
+                                <span>
+                                  <PieLegendText
+                                    item={item}
+                                    decimales={1}
+                                  />
+                                </span>
                               </div>
                             ))}
                           </div>
