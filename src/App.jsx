@@ -5284,10 +5284,15 @@ function App() {
                     <div className="proposal-index-row dental-index-row-three">
                       <div className="proposal-index-card proposal-index-edent-total">
                         <strong>
-                          {formatoPorcentaje(
-                            indicadoresCaries.edentTotalPct,
-                            1
-                          )}
+                          {Number.isFinite(
+                            Number(indicadoresCaries.edentTotalPct)
+                          ) &&
+                          Number(indicadoresCaries.edentTotalPct) > 0
+                            ? formatoPorcentaje(
+                                indicadoresCaries.edentTotalPct,
+                                1
+                              )
+                            : '—'}
                         </strong>
                         <span>Edentulismo total</span>
                       </div>
