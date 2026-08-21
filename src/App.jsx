@@ -5288,36 +5288,31 @@ function App() {
                       </div>
                     </div>
 
-                    <div
-                      className={`proposal-index-row dental-index-row-three ${
-                        String(edad).trim() === '6'
-                          ? 'dental-index-row-two'
-                          : ''
-                      }`}
-                    >
+                    <div className="proposal-index-row dental-index-row-three">
                       <div className="proposal-index-card proposal-index-edent-total">
                         <strong>
-                          {Number.isFinite(
+                          {indicadoresCaries.edentTotalPct === null ||
+                          indicadoresCaries.edentTotalPct === undefined ||
+                          !Number.isFinite(
                             Number(indicadoresCaries.edentTotalPct)
-                          ) &&
-                          Number(indicadoresCaries.edentTotalPct) > 0
-                            ? formatoPorcentaje(
-                                indicadoresCaries.edentTotalPct,
+                          )
+                            ? '—'
+                            : formatoPorcentaje(
+                                Number(indicadoresCaries.edentTotalPct),
                                 1
-                              )
-                            : '—'}
+                              )}
                         </strong>
                         <span>Edentulismo total</span>
                       </div>
 
-                      {String(edad).trim() !== '6' && (
-                        <div className="proposal-index-card proposal-index-CPOD">
-                          <strong>
-                            {formatoNumero(indicadoresCaries.CPOD)}
-                          </strong>
-                          <span>CPOD</span>
-                        </div>
-                      )}
+                      <div className="proposal-index-card proposal-index-CPOD">
+                        <strong>
+                          {String(edad).trim() === '6'
+                            ? '—'
+                            : formatoNumero(indicadoresCaries.CPOD)}
+                        </strong>
+                        <span>CPOD</span>
+                      </div>
 
                       <div className="proposal-index-card proposal-index-cpod">
                         <strong>
