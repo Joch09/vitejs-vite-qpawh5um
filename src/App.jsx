@@ -3342,6 +3342,97 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     Responsive v3 — corrige solapamiento en sociales
+     ========================================================== */
+
+  .social-panel.proposal-social-panel {
+    display: grid !important;
+    grid-template-columns: minmax(300px, 0.95fr) minmax(340px, 1.05fr) !important;
+    gap: 18px !important;
+    align-items: start !important;
+    min-width: 0 !important;
+  }
+
+  .social-left-column,
+  .social-right-column {
+    min-width: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+  }
+
+  .proposal-bars-section {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .proposal-bars-section .horizontal-bars {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .proposal-bars-section .bar-row {
+    display: grid !important;
+    grid-template-columns: minmax(150px, 1.35fr) minmax(120px, 2fr) minmax(52px, auto) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .proposal-bars-section .bar-label,
+  .proposal-bars-section .bar-track,
+  .proposal-bars-section .bar-value {
+    min-width: 0 !important;
+  }
+
+  .proposal-bars-section .bar-label {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+  }
+
+  .proposal-bars-section .bar-value {
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  @media (max-width: 1450px) {
+    .caries-proposal-grid,
+    .higiene-proposal-grid,
+    .periodontal-proposal-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .social-panel.proposal-social-panel {
+      grid-template-columns: 1fr !important;
+    }
+
+    .proposal-bars-section .bar-row {
+      grid-template-columns: minmax(120px, 1.25fr) minmax(100px, 2fr) minmax(48px, auto) !important;
+      gap: 10px !important;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .proposal-bars-section .bar-row {
+      grid-template-columns: 1fr !important;
+      gap: 6px !important;
+    }
+
+    .proposal-bars-section .bar-value {
+      text-align: left !important;
+    }
+  }
+
 `;
 
 function App() {
