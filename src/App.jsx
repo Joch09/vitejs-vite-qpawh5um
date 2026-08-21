@@ -1901,6 +1901,13 @@ const AJUSTES_VISUALES_20260817 = `
     gap: 12px !important;
   }
 
+  .dental-index-row-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    max-width: 360px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
   .proposal-index-edent-total {
     background: #b38c2e !important;
     color: #ffffff !important;
@@ -5281,7 +5288,13 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="proposal-index-row dental-index-row-three">
+                    <div
+                      className={`proposal-index-row dental-index-row-three ${
+                        String(edad).trim() === '6'
+                          ? 'dental-index-row-two'
+                          : ''
+                      }`}
+                    >
                       <div className="proposal-index-card proposal-index-edent-total">
                         <strong>
                           {Number.isFinite(
@@ -5297,12 +5310,14 @@ function App() {
                         <span>Edentulismo total</span>
                       </div>
 
-                      <div className="proposal-index-card proposal-index-CPOD">
-                        <strong>
-                          {formatoNumero(indicadoresCaries.CPOD)}
-                        </strong>
-                        <span>CPOD</span>
-                      </div>
+                      {String(edad).trim() !== '6' && (
+                        <div className="proposal-index-card proposal-index-CPOD">
+                          <strong>
+                            {formatoNumero(indicadoresCaries.CPOD)}
+                          </strong>
+                          <span>CPOD</span>
+                        </div>
+                      )}
 
                       <div className="proposal-index-card proposal-index-cpod">
                         <strong>
