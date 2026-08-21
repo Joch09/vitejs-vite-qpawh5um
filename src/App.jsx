@@ -2939,6 +2939,229 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     Ajustes responsivos generales para pantallas pequeñas
+     ========================================================== */
+
+  @media (max-width: 1100px) {
+    .top-header {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 16px !important;
+      padding: 18px 20px !important;
+    }
+
+    .top-header-title {
+      width: 100% !important;
+      text-align: center !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .top-header-logos {
+      width: 100% !important;
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 14px !important;
+      align-items: center !important;
+      justify-items: center !important;
+    }
+
+    .top-header-logos .logo-imss-bienestar,
+    .top-header-logos .logo-coordinacion,
+    .top-header-logos .logo-vigilancia {
+      width: 100% !important;
+      max-width: 180px !important;
+      height: auto !important;
+      max-height: 74px !important;
+      object-fit: contain !important;
+    }
+
+    .app-body {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+    }
+
+    .sidebar {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .sidebar-menu {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .dashboard-content {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .home-main-grid,
+    .caries-proposal-grid,
+    .higiene-proposal-grid,
+    .periodontal-proposal-grid,
+    .otras-proposal-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .social-panel,
+    .proposal-social-panel {
+      grid-template-columns: 1fr !important;
+    }
+
+    .shared-filter-strip,
+    .evaluation-filter-strip {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 14px !important;
+    }
+
+    .shared-filters,
+    .evaluation-filters {
+      width: 100% !important;
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+      align-items: end !important;
+    }
+
+    .shared-filters > .clear-filters,
+    .evaluation-filters > .clear-filters {
+      width: 100% !important;
+      min-height: 44px !important;
+      justify-self: stretch !important;
+    }
+
+    .shared-kpi {
+      width: 100% !important;
+      max-width: 280px !important;
+      margin: 0 auto !important;
+    }
+
+    .evaluation-top-kpis {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .top-header {
+      padding: 16px !important;
+    }
+
+    .top-header-title h1 {
+      font-size: 1.9rem !important;
+    }
+
+    .top-header-title p {
+      font-size: 0.92rem !important;
+    }
+
+    .top-header-logos {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+    }
+
+    .top-header-logos .logo-imss-bienestar,
+    .top-header-logos .logo-coordinacion,
+    .top-header-logos .logo-vigilancia {
+      max-width: 190px !important;
+      max-height: 64px !important;
+    }
+
+    .sidebar-menu {
+      grid-template-columns: 1fr !important;
+    }
+
+    .sidebar-menu .menu-item {
+      min-height: 78px !important;
+      padding: 12px 14px !important;
+      gap: 14px !important;
+    }
+
+    .sidebar-menu .menu-item img {
+      width: 54px !important;
+      height: 54px !important;
+      min-width: 54px !important;
+      transform: scale(1.08) !important;
+    }
+
+    .sidebar-source {
+      display: none !important;
+    }
+
+    .shared-filters,
+    .evaluation-filters,
+    .evaluation-top-kpis,
+    .periodontal-epo-grid,
+    .periodontal-reference-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .shared-kpi {
+      max-width: 100% !important;
+    }
+
+    .shared-kpi-value,
+    .evaluation-top-kpi-value {
+      min-width: 0 !important;
+      width: min(100%, 140px) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .shared-kpi-label,
+    .evaluation-top-kpi-label {
+      text-align: center !important;
+    }
+
+    .home-text-card,
+    .home-map-card,
+    .proposal-social-panel,
+    .proposal-bars-section,
+    .periodontal-state-panel,
+    .otras-state-panel {
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+    }
+
+    .dental-index-row-three,
+    .dental-index-row-two {
+      width: 100% !important;
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .shared-filters,
+    .evaluation-filters {
+      gap: 10px !important;
+    }
+
+    .filter-group label {
+      font-size: 0.84rem !important;
+    }
+
+    .filter-group select,
+    .clear-filters {
+      font-size: 0.94rem !important;
+    }
+
+    .shared-kpi-value,
+    .evaluation-top-kpi-value {
+      font-size: 0.95rem !important;
+    }
+
+    .shared-kpi-label,
+    .evaluation-top-kpi-label {
+      font-size: 0.78rem !important;
+      line-height: 1.05 !important;
+    }
+  }
+
 `;
 
 function App() {
