@@ -4251,7 +4251,7 @@ function App() {
             color: '#701039',
           },
           {
-            etiqueta: 'Sin edentulismo parcial',
+            etiqueta: 'Dentadura completa',
             valor: indicadoresCaries.sinEdentParcialPct,
             color: '#173f3a',
           },
@@ -5604,24 +5604,25 @@ function App() {
                 <article className="home-text-card">
                   <p>
                     El Sistema de Vigilancia Epidemiológica de Patologías
-                    Bucales tiene por objetivo la captación de información
-                    sobre enfermedades y padecimientos bucales en la
-                    población mexicana.
-                  </p>
-
-                  <p>
-                    Funciona como un sistema de vigilancia centinela, con
-                    unidades en las 32 entidades del país, con el fin de
-                    optimizar recursos para la obtención de información.
+                    Bucales (SIVEPAB) tiene por objetivo la captación de
+                    información sobre enfermedades y padecimientos bucales
+                    en la población mexicana, funciona como un sistema de
+                    vigilancia centinela, con unidades en las 32 entidades
+                    del país.
                   </p>
 
                   <p>
                     En este tablero interactivo encontrará información de
-                    interés epidemiológico proveniente de las unidades
-                    centinela de IMSS-BIENESTAR en las 24 Coordinaciones
-                    Estatales. Seleccione de los filtros la entidad, unidad
-                    centinela, mes y grupo de edad de interés. En el menú del
-                    lado izquierdo puede seleccionar el apartado de interés.
+                    interés epidemiológico sobre la salud bucal de la
+                    población usuaria de las unidades centinela en las 24
+                    Coordinaciones Estatales de IMSS-BIENESTAR.
+                  </p>
+
+                  <p>
+                    En los filtros de la parte superior puede seleccionar la
+                    entidad, unidad centinela, mes y grupo de edad de interés;
+                    en el menú del lado izquierdo puede seleccionar los
+                    eventos bajo vigilancia por este sistema.
                   </p>
                 </article>
 
