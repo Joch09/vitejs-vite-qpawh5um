@@ -1658,6 +1658,33 @@ const AJUSTES_VISUALES_20260817 = `
     justify-content: center;
   }
 
+  .periodontal-inline-legend {
+    margin-top: 10px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px 14px !important;
+  }
+
+  .periodontal-inline-legend-row {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 0.9rem !important;
+    color: #143f3a !important;
+  }
+
+  .periodontal-inline-legend-dot {
+    width: 11px !important;
+    height: 11px !important;
+    border-radius: 0 !important;
+    flex: 0 0 11px !important;
+  }
+
+  .periodontal-inline-legend-text {
+    line-height: 1.15 !important;
+  }
+
 
   .smart-pie-label {
     position: absolute;
@@ -5497,6 +5524,26 @@ function App() {
                                 decimales={1}
                               />
                             </div>
+
+                            <div className="periodontal-inline-legend">
+                              {periodontalSegmentos.map((item) => (
+                                <div
+                                  className="periodontal-inline-legend-row"
+                                  key={item.etiqueta}
+                                >
+                                  <span
+                                    className="periodontal-inline-legend-dot"
+                                    style={{ background: item.color }}
+                                  ></span>
+                                  <span className="periodontal-inline-legend-text">
+                                    <PieLegendText
+                                      item={item}
+                                      decimales={1}
+                                    />
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -5514,6 +5561,26 @@ function App() {
                                 segmentos={periodontalSondaSegmentos}
                                 decimales={1}
                               />
+                            </div>
+
+                            <div className="periodontal-inline-legend">
+                              {periodontalSondaSegmentos.map((item) => (
+                                <div
+                                  className="periodontal-inline-legend-row"
+                                  key={item.etiqueta}
+                                >
+                                  <span
+                                    className="periodontal-inline-legend-dot"
+                                    style={{ background: item.color }}
+                                  ></span>
+                                  <span className="periodontal-inline-legend-text">
+                                    <PieLegendText
+                                      item={item}
+                                      decimales={1}
+                                    />
+                                  </span>
+                                </div>
+                              ))}
                             </div>
                           </div>
                         </div>
