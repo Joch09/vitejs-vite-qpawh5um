@@ -6040,7 +6040,7 @@ function App() {
                                 )}
                               </strong>
                               <span>
-                                Con diagnóstico de fluorosis
+                                Porcentaje de población usuaria con diagnóstico de fluorosis
                               </span>
                             </div>
 
@@ -6052,7 +6052,7 @@ function App() {
                                 )}
                               </strong>
                               <span>
-                                Reportó otras patologías
+                                Porcentaje de población usuaria en el que se identificaron otras patologías
                               </span>
                             </div>
                           </div>
