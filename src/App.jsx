@@ -3652,7 +3652,7 @@ function App() {
           {
             etiqueta: 'Con edentulismo parcial',
             valor: indicadoresCaries.edentParcialPct,
-            color: '#c39a2c',
+            color: '#701039',
           },
           {
             etiqueta: 'Sin edentulismo parcial',
@@ -3686,7 +3686,7 @@ function App() {
 
     return {
       background: `conic-gradient(
-        #c39a2c 0% ${finParcial}%,
+        #701039 0% ${finParcial}%,
         #173f3a ${finParcial}% 100%
       )`,
     };
