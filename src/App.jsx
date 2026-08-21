@@ -465,6 +465,27 @@ function PieLegendText({
   );
 }
 
+function PeriodontalLegendText({ item, decimales = 1 }) {
+  const etiquetaCompacta =
+    item.etiqueta === 'Bolsa de 4-5 mm'
+      ? 'Bolsa 4-5 mm'
+      : item.etiqueta === 'Bolsa ≥ 6 mm'
+      ? 'Bolsa ≥6 mm'
+      : item.etiqueta;
+
+  return (
+    <>
+      {etiquetaCompacta}
+      {item.ocultarEtiqueta && (
+        <strong className="pie-legend-small-value">
+          {' '}
+          ({formatoPorcentaje(item.valor, decimales)})
+        </strong>
+      )}
+    </>
+  );
+}
+
 function claveEntidadComparacion(valor) {
   const texto = String(valor || '')
     .normalize('NFD')
@@ -1658,33 +1679,57 @@ const AJUSTES_VISUALES_20260817 = `
     justify-content: center;
   }
 
+  .periodontal-distributions-grid .periodontal-pie-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
   .periodontal-inline-legend {
-    margin-top: 10px !important;
+    width: auto !important;
+    max-width: 390px !important;
+    margin: 12px auto 0 !important;
     display: flex !important;
     flex-wrap: wrap !important;
+    align-items: center !important;
     justify-content: center !important;
-    gap: 8px 14px !important;
+    column-gap: 13px !important;
+    row-gap: 7px !important;
+    padding: 0 6px !important;
+  }
+
+  .periodontal-probe-block:nth-child(2) .periodontal-inline-legend {
+    max-width: 350px !important;
   }
 
   .periodontal-inline-legend-row {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 6px !important;
-    font-size: 0.9rem !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+    font-size: 0.64rem !important;
+    font-weight: 650 !important;
     color: #143f3a !important;
+    text-align: left !important;
+    white-space: nowrap !important;
   }
 
   .periodontal-inline-legend-dot {
-    width: 11px !important;
-    height: 11px !important;
+    width: 8px !important;
+    height: 8px !important;
     border-radius: 0 !important;
-    flex: 0 0 11px !important;
+    flex: 0 0 8px !important;
   }
 
   .periodontal-inline-legend-text {
-    line-height: 1.15 !important;
+    min-width: 0 !important;
+    line-height: 1.05 !important;
+    white-space: nowrap !important;
   }
-
 
   .smart-pie-label {
     position: absolute;
@@ -5536,7 +5581,7 @@ function App() {
                                     style={{ background: item.color }}
                                   ></span>
                                   <span className="periodontal-inline-legend-text">
-                                    <PieLegendText
+                                    <PeriodontalLegendText
                                       item={item}
                                       decimales={1}
                                     />
@@ -5574,7 +5619,7 @@ function App() {
                                     style={{ background: item.color }}
                                   ></span>
                                   <span className="periodontal-inline-legend-text">
-                                    <PieLegendText
+                                    <PeriodontalLegendText
                                       item={item}
                                       decimales={1}
                                     />
