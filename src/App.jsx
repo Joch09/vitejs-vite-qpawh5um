@@ -3535,6 +3535,31 @@ function App() {
     [indicadoresCaries.edentParcialPct, indicadoresCaries.sinEdentParcialPct]
   );
 
+  const edentulismoParcialPieStyle = useMemo(() => {
+    const parcial = Number(indicadoresCaries.edentParcialPct);
+    const sinParcial = Number(indicadoresCaries.sinEdentParcialPct);
+
+    if (
+      !Number.isFinite(parcial) ||
+      !Number.isFinite(sinParcial)
+    ) {
+      return { background: '#e7e7e7' };
+    }
+
+    const parcialSeguro = Math.max(0, Math.min(100, parcial));
+    const finParcial = parcialSeguro;
+
+    return {
+      background: `conic-gradient(
+        #173f3a 0% ${finParcial}%,
+        #cfcfcf ${finParcial}% 100%
+      )`,
+    };
+  }, [
+    indicadoresCaries.edentParcialPct,
+    indicadoresCaries.sinEdentParcialPct,
+  ]);
+
   const indicadoresSociales = useMemo(() => {
     const migranteN = sumar(socialFiltrado, 'migrante_N');
     const migranteNume = sumar(socialFiltrado, 'migrante_n');
@@ -5096,11 +5121,11 @@ function App() {
 
                         <div
                           className="proposal-solid-pie"
-                          style={pieStyle}
+                          style={edentulismoParcialPieStyle}
                         >
                           <PieLabels
                             segmentos={edentulismoParcialSegmentos}
-                            decimales={0}
+                            decimales={1}
                           />
                         </div>
 
@@ -5113,7 +5138,7 @@ function App() {
                               ></i>
                               <PieLegendText
                                 item={item}
-                                decimales={0}
+                                decimales={1}
                               />
                             </span>
                           ))}
