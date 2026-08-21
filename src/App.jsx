@@ -2874,8 +2874,20 @@ const AJUSTES_VISUALES_20260817 = `
     background: #ffffff !important;
   }
 
+  .otras-layout-v2-kpis .otras-boceto-kpi {
+    align-items: center !important;
+    text-align: center !important;
+  }
+
   .otras-layout-v2-kpis .otras-boceto-kpi strong {
     font-size: 1.65rem !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .otras-layout-v2-kpis .otras-boceto-kpi span {
+    width: 100% !important;
+    text-align: center !important;
   }
 
   .otras-layout-v2-diagnosticos .otras-boceto-diagnosticos {
