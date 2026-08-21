@@ -1926,6 +1926,76 @@ const AJUSTES_VISUALES_20260817 = `
     opacity: 0.92;
   }
 
+  /* CARIES: proporciones y paleta homogéneas */
+  .dental-pies-row .proposal-pie-block {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+  }
+
+  .dental-pies-row .proposal-solid-pie {
+    width: 178px !important;
+    height: 178px !important;
+    min-width: 178px !important;
+    min-height: 178px !important;
+    max-width: 178px !important;
+    max-height: 178px !important;
+    border-radius: 50% !important;
+  }
+
+  .dental-pies-row .proposal-pie-legend {
+    width: 100% !important;
+    min-height: 30px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 6px 12px !important;
+    margin-top: 9px !important;
+    font-size: 0.69rem !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+  }
+
+  .dental-pies-row .proposal-pie-legend > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+  }
+
+  .dental-pies-row .legend-square {
+    width: 9px !important;
+    height: 9px !important;
+    min-width: 9px !important;
+    flex: 0 0 9px !important;
+  }
+
+  .dental-index-row-three .proposal-index-card {
+    min-height: 112px !important;
+    height: 112px !important;
+    padding: 12px 10px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+  }
+
+  .dental-index-row-three .proposal-index-card strong {
+    font-size: 1.7rem !important;
+    line-height: 1 !important;
+  }
+
+  .dental-index-row-three .proposal-index-card span {
+    font-size: 0.96rem !important;
+    line-height: 1.08 !important;
+    font-weight: 750 !important;
+    text-align: center !important;
+  }
+
   @media (max-width: 900px) {
     .dental-index-row-three {
       grid-template-columns: 1fr !important;
@@ -3240,19 +3310,19 @@ function App() {
     [cariesData, entidad, unidad, idsUnidadesEntidad]
   );
 
-  // Indicadores de edentulismo (parcial en todas las edades y total 65-74).
-  // Ignoran el filtro global de edad, pero conservan mes, entidad y unidad.
+  // Edentulismo disponible para todas las edades y sensible al filtro de edad.
+  // Conserva también mes, entidad y unidad centinela.
   const cariesEdentulismoFiltrada = useMemo(
     () =>
       filtrarPorLlave(
         cariesData?.coreDecoded || [],
-        '',
+        edad,
         mes,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
   );
 
   const higieneCoreFiltrada = useMemo(
@@ -3499,33 +3569,26 @@ function App() {
         sanosPct: null,
         edentParcialPct: null,
         sinEdentParcialPct: null,
-        edentTotal6574Pct: null,
+        edentTotalPct: null,
       };
     }
 
     const cpodN = sumar(cariesFiltrada, 'cpod_N');
     const cpodSum = sumar(cariesFiltrada, 'cpod_sum');
 
-    let CPODN = 0;
-    let CPODSum = 0;
+    // Los tres campos son mutuamente excluyentes por edad.
+    // Sumarlos sobre cariesFiltrada permite que CPOD funcione tanto
+    // con edades exactas (incluida 6 años) como con grupos adultos
+    // del tipo 45-49, 50-54, 80+, etc.
+    const CPODN =
+      sumar(cariesFiltrada, 'CPOD6_N') +
+      sumar(cariesFiltrada, 'CPOD713_N') +
+      sumar(cariesFiltrada, 'CPOD14_N');
 
-    if (edad) {
-      const edadNum = Number(edad);
-
-      if (edadNum === 6) {
-        CPODN = sumar(cariesFiltrada, 'CPOD6_N');
-        CPODSum = sumar(cariesFiltrada, 'CPOD6_sum');
-      } else if (edadNum >= 7 && edadNum <= 13) {
-        CPODN = sumar(cariesFiltrada, 'CPOD713_N');
-        CPODSum = sumar(cariesFiltrada, 'CPOD713_sum');
-      } else if (edadNum >= 14) {
-        CPODN = sumar(cariesFiltrada, 'CPOD14_N');
-        CPODSum = sumar(cariesFiltrada, 'CPOD14_sum');
-      }
-    } else {
-      CPODN = sumar(cariesFiltrada, 'CPOD14_N');
-      CPODSum = sumar(cariesFiltrada, 'CPOD14_sum');
-    }
+    const CPODSum =
+      sumar(cariesFiltrada, 'CPOD6_sum') +
+      sumar(cariesFiltrada, 'CPOD713_sum') +
+      sumar(cariesFiltrada, 'CPOD14_sum');
 
     const libreN = sumar(cariesLibreFiltrada, 'libre_N');
     const libreNume = sumar(cariesLibreFiltrada, 'libre_n');
@@ -3542,13 +3605,13 @@ function App() {
       'edentParcial_n'
     );
 
-    const edent6574N = sumar(
+    const edentTotalN = sumar(
       cariesEdentulismoFiltrada,
-      'edent6574_N'
+      'edent_N'
     );
-    const edent6574Nume = sumar(
+    const edentTotalNume = sumar(
       cariesEdentulismoFiltrada,
-      'edent6574_n'
+      'edent_n'
     );
 
     const cariesPct = porcentaje(carNume, carN);
@@ -3569,9 +3632,9 @@ function App() {
         edentParcialPct === null
           ? null
           : Math.max(0, 100 - edentParcialPct),
-      edentTotal6574Pct: porcentaje(
-        edent6574Nume,
-        edent6574N
+      edentTotalPct: porcentaje(
+        edentTotalNume,
+        edentTotalN
       ),
     };
   }, [
@@ -3589,12 +3652,12 @@ function App() {
           {
             etiqueta: 'Con edentulismo parcial',
             valor: indicadoresCaries.edentParcialPct,
-            color: '#173f3a',
+            color: '#c39a2c',
           },
           {
             etiqueta: 'Sin edentulismo parcial',
             valor: indicadoresCaries.sinEdentParcialPct,
-            color: '#cfcfcf',
+            color: '#173f3a',
           },
         ],
         {
@@ -3623,8 +3686,8 @@ function App() {
 
     return {
       background: `conic-gradient(
-        #173f3a 0% ${finParcial}%,
-        #cfcfcf ${finParcial}% 100%
+        #c39a2c 0% ${finParcial}%,
+        #173f3a ${finParcial}% 100%
       )`,
     };
   }, [
@@ -5222,14 +5285,11 @@ function App() {
                       <div className="proposal-index-card proposal-index-edent-total">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresCaries.edentTotal6574Pct,
+                            indicadoresCaries.edentTotalPct,
                             1
                           )}
                         </strong>
-                        <span>
-                          Edentulismo total
-                          <small>65 a 74 años</small>
-                        </span>
+                        <span>Edentulismo total</span>
                       </div>
 
                       <div className="proposal-index-card proposal-index-CPOD">
