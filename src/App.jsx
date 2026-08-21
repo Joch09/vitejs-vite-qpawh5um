@@ -3162,6 +3162,186 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     Responsive v2 — evita solapamiento real de filtros y KPI
+     ========================================================== */
+
+  .shared-filter-strip {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 190px !important;
+    gap: 16px !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .shared-filters {
+    display: grid !important;
+    grid-template-columns:
+      minmax(170px, 1.1fr)
+      minmax(260px, 1.7fr)
+      minmax(130px, 0.8fr)
+      minmax(150px, 0.9fr)
+      minmax(90px, auto) !important;
+    gap: 12px !important;
+    align-items: end !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .shared-filters .filter-group {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .shared-filters .filter-group select {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .shared-filters .clear-filters {
+    width: 100% !important;
+    min-width: 90px !important;
+    max-width: 130px !important;
+    min-height: 44px !important;
+    align-self: end !important;
+    justify-self: stretch !important;
+    box-sizing: border-box !important;
+  }
+
+  .shared-kpi {
+    width: 190px !important;
+    min-width: 190px !important;
+    max-width: 190px !important;
+    margin: 0 !important;
+    align-self: center !important;
+    justify-self: end !important;
+    box-sizing: border-box !important;
+  }
+
+  .shared-kpi-value {
+    width: 100% !important;
+    max-width: 190px !important;
+    box-sizing: border-box !important;
+  }
+
+  .shared-kpi-label {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* En pantallas medianas o con zoom, el KPI baja a una fila propia.
+     Así nunca invade Edad ni el botón Limpiar. */
+  @media (max-width: 1500px) {
+    .shared-filter-strip {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+    }
+
+    .shared-kpi {
+      width: 190px !important;
+      min-width: 190px !important;
+      max-width: 190px !important;
+      justify-self: end !important;
+    }
+
+    .shared-filters {
+      grid-template-columns:
+        minmax(160px, 1.1fr)
+        minmax(230px, 1.7fr)
+        minmax(120px, 0.8fr)
+        minmax(140px, 0.9fr)
+        minmax(90px, 0.55fr) !important;
+    }
+  }
+
+  /* Tablet / zoom alto */
+  @media (max-width: 1050px) {
+    .shared-filters {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .shared-filters .clear-filters {
+      grid-column: 1 / -1 !important;
+      width: 100% !important;
+      max-width: none !important;
+    }
+
+    .shared-kpi {
+      justify-self: center !important;
+    }
+
+    .evaluation-filter-strip {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 14px !important;
+    }
+
+    .evaluation-filters {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .evaluation-filters .filter-group,
+    .evaluation-filters .filter-group select {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .evaluation-filters .clear-filters {
+      grid-column: 1 / -1 !important;
+      width: 100% !important;
+      max-width: none !important;
+    }
+
+    .evaluation-top-kpis {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+  }
+
+  /* Móvil */
+  @media (max-width: 650px) {
+    .shared-filters,
+    .evaluation-filters {
+      grid-template-columns: 1fr !important;
+    }
+
+    .shared-filters .clear-filters,
+    .evaluation-filters .clear-filters {
+      grid-column: auto !important;
+    }
+
+    .shared-kpi {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      justify-self: stretch !important;
+    }
+
+    .shared-kpi-value {
+      width: min(100%, 170px) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .evaluation-top-kpis {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
 `;
 
 function App() {
