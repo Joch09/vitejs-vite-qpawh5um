@@ -3433,6 +3433,88 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     Responsive v4 — filtros de Evaluación sin compresión
+     ========================================================== */
+
+  .evaluation-filter-strip {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    container-type: inline-size;
+  }
+
+  .evaluation-filters {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+    gap: 12px !important;
+    align-items: end !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .evaluation-filters .filter-group {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .evaluation-filters .filter-group label {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 7px !important;
+    text-align: center !important;
+    white-space: normal !important;
+    line-height: 1.15 !important;
+  }
+
+  .evaluation-filters .filter-group select {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 46px !important;
+    box-sizing: border-box !important;
+  }
+
+  .evaluation-filters .clear-filters {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 46px !important;
+    box-sizing: border-box !important;
+    align-self: end !important;
+  }
+
+  .evaluation-top-kpis {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  @container (max-width: 720px) {
+    .evaluation-filters {
+      grid-template-columns: 1fr 1fr !important;
+    }
+
+    .evaluation-filters .clear-filters {
+      grid-column: 1 / -1 !important;
+    }
+  }
+
+  @container (max-width: 470px) {
+    .evaluation-filters {
+      grid-template-columns: 1fr !important;
+    }
+
+    .evaluation-filters .clear-filters {
+      grid-column: auto !important;
+    }
+  }
+
 `;
 
 function App() {
