@@ -976,7 +976,9 @@ function EvaluationFilterStrip({
           </div>
 
           <div className="evaluation-top-kpi-label">
-            Formatos esperados
+            Formatos
+            <br />
+            esperados
           </div>
         </div>
 
@@ -986,7 +988,9 @@ function EvaluationFilterStrip({
           </div>
 
           <div className="evaluation-top-kpi-label">
-            Cuestionarios registrados
+            Cuestionarios
+            <br />
+            registrados
           </div>
         </div>
 
@@ -996,7 +1000,11 @@ function EvaluationFilterStrip({
           </div>
 
           <div className="evaluation-top-kpi-label">
-            Cuestionarios registrados sin inconsistencias
+            Cuestionarios
+            <br />
+            registrados sin
+            <br />
+            inconsistencias
           </div>
         </div>
       </div>
@@ -1526,20 +1534,21 @@ const AJUSTES_VISUALES_20260817 = `
 
   .evaluation-top-kpis {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(150px, 1fr)) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(3, minmax(190px, 1fr)) !important;
+    gap: 12px !important;
     align-items: stretch !important;
   }
 
   .evaluation-top-kpi {
     min-width: 0 !important;
-    min-height: 86px !important;
+    min-height: 92px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
     text-align: center !important;
-    padding: 10px 12px !important;
+    padding: 8px 12px 10px !important;
+    border-radius: 0 !important;
   }
 
   .evaluation-top-kpi-green {
@@ -1552,10 +1561,26 @@ const AJUSTES_VISUALES_20260817 = `
     color: #ffffff !important;
   }
 
+  .evaluation-top-kpi-value {
+    min-width: 132px !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    border: 3px solid #8a0f49 !important;
+    color: #111111 !important;
+    font-weight: 800 !important;
+    font-size: 0.95rem !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
+  }
+
   .evaluation-top-kpi-label {
     white-space: normal !important;
-    line-height: 1.15 !important;
-    margin-top: 4px !important;
+    line-height: 1.05 !important;
+    margin-top: 8px !important;
+    color: #c7961f !important;
+    font-weight: 700 !important;
+    font-size: 0.84rem !important;
   }
 
   .evaluation-official-note {
@@ -1629,6 +1654,10 @@ const AJUSTES_VISUALES_20260817 = `
   .periodontal-chart-row {
     overflow: visible !important;
   }
+  .periodontal-chart-row-centered {
+    justify-content: center;
+  }
+
 
   .smart-pie-label {
     position: absolute;
@@ -1714,6 +1743,127 @@ const AJUSTES_VISUALES_20260817 = `
   }
 
 
+
+  /* ==========================================================
+     CARIES - edentulismo parcial + edentulismo total como %
+     ========================================================== */
+
+  .edent-partial-block {
+    min-width: 0 !important;
+  }
+
+  .edent-partial-subtitle {
+    margin: -2px 0 10px !important;
+    color: #58656a !important;
+    font-size: 0.72rem !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    font-weight: 650 !important;
+  }
+
+  .edent-partial-chart {
+    width: 100%;
+    min-height: 176px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(42px, 1fr));
+    gap: 9px;
+    align-items: end;
+    padding: 12px 8px 0;
+    border-bottom: 1px solid rgba(23, 63, 58, 0.22);
+    box-sizing: border-box;
+  }
+
+  .edent-partial-group {
+    height: 164px;
+    display: grid;
+    grid-template-rows: 24px 112px 28px;
+    align-items: end;
+    min-width: 0;
+  }
+
+  .edent-partial-value {
+    text-align: center;
+    color: #173f3a;
+    font-size: 0.76rem;
+    line-height: 1;
+    font-weight: 800;
+  }
+
+  .edent-partial-bar-area {
+    height: 112px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-bottom: 1px solid rgba(23, 63, 58, 0.10);
+  }
+
+  .edent-partial-bar {
+    width: min(32px, 68%);
+    min-height: 2px;
+    border-radius: 7px 7px 2px 2px;
+    background: #173f3a;
+    box-shadow: 0 3px 8px rgba(23, 63, 58, 0.16);
+  }
+
+  .edent-partial-label {
+    align-self: start;
+    padding-top: 7px;
+    text-align: center;
+    color: #4b585d;
+    font-size: 0.66rem;
+    line-height: 1.05;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .edent-partial-footnote {
+    margin-top: 8px;
+    text-align: center;
+    color: #6a7478;
+    font-size: 0.66rem;
+    line-height: 1.2;
+  }
+
+  .dental-index-row-three {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  .proposal-index-edent-total {
+    background: #b38c2e !important;
+    color: #ffffff !important;
+  }
+
+  .proposal-index-edent-total strong,
+  .proposal-index-edent-total span,
+  .proposal-index-edent-total small {
+    color: #ffffff !important;
+  }
+
+  .proposal-index-edent-total span {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2px !important;
+  }
+
+  .proposal-index-edent-total small {
+    font-size: 0.64rem !important;
+    line-height: 1 !important;
+    font-weight: 650 !important;
+    opacity: 0.92;
+  }
+
+  @media (max-width: 900px) {
+    .dental-index-row-three {
+      grid-template-columns: 1fr !important;
+    }
+
+    .edent-partial-chart {
+      grid-template-columns: repeat(5, minmax(38px, 1fr));
+      gap: 6px;
+    }
+  }
 
   /* ==========================================================
      OTRAS PATOLOGÍAS - composición basada en boceto SIVEPAB
@@ -2468,6 +2618,165 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+
+  /* ==========================================================
+     OTRAS PATOLOGÍAS - distribución vertical solicitada 20/08
+     Lesiones arriba; patologías + diagnósticos abajo.
+     ========================================================== */
+  .otras-layout-v2 {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .otras-layout-v2-top {
+    width: 100%;
+    min-width: 0;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(23, 63, 58, 0.12);
+  }
+
+  .otras-layout-v2-top .otras-boceto-title {
+    margin-bottom: 14px !important;
+  }
+
+  .otras-layout-v2-top .lesion-grouped-chart {
+    width: 100% !important;
+    min-height: 360px !important;
+  }
+
+  .otras-layout-v2-top .lesion-grouped-plot {
+    width: 100% !important;
+    min-height: 285px !important;
+    grid-template-columns: repeat(5, minmax(105px, 1fr)) !important;
+    gap: 18px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    overflow: visible !important;
+  }
+
+  .otras-layout-v2-top .lesion-grouped-plot::before {
+    left: 14px !important;
+    right: 14px !important;
+  }
+
+  .otras-layout-v2-top .lesion-vbar-wrap {
+    flex-basis: 26px !important;
+    width: 26px !important;
+    max-width: 26px !important;
+  }
+
+  .otras-layout-v2-top .lesion-group-label {
+    min-height: 44px !important;
+    font-size: 0.72rem !important;
+    line-height: 1.1 !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+  }
+
+  .otras-layout-v2-top .lesion-grouped-legend-bottom {
+    margin-top: 12px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .otras-layout-v2-top .lesion-grouped-note {
+    max-width: 920px;
+    margin: 8px auto 0 !important;
+    padding: 0 14px !important;
+    text-align: left;
+  }
+
+  .otras-layout-v2-bottom {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(250px, 0.82fr) minmax(360px, 1.35fr);
+    gap: 34px;
+    align-items: start;
+  }
+
+  .otras-layout-v2-summary,
+  .otras-layout-v2-diagnosticos {
+    min-width: 0;
+  }
+
+  .otras-layout-v2-summary .otras-boceto-title.right {
+    margin: 0 0 14px !important;
+    max-width: 280px !important;
+    font-size: 1rem !important;
+    line-height: 1.18 !important;
+    text-align: left !important;
+  }
+
+  .otras-layout-v2-kpis {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .otras-layout-v2-kpis .otras-boceto-kpi {
+    width: 100% !important;
+    min-height: 86px !important;
+    padding: 14px 16px !important;
+    background: #ffffff !important;
+  }
+
+  .otras-layout-v2-kpis .otras-boceto-kpi strong {
+    font-size: 1.65rem !important;
+  }
+
+  .otras-layout-v2-diagnosticos .otras-boceto-diagnosticos {
+    width: 100% !important;
+    min-height: 230px;
+    padding: 12px 18px 16px !important;
+    background: #ffffff;
+  }
+
+  .otras-layout-v2-diagnosticos .otras-boceto-diagnosticos h3 {
+    margin-bottom: 16px !important;
+    font-size: 0.82rem !important;
+    line-height: 1.22 !important;
+    text-align: center;
+  }
+
+  .otras-layout-v2-diagnosticos .diagnostico-row {
+    grid-template-columns: minmax(120px, 1.2fr) minmax(150px, 1.35fr) 52px !important;
+    gap: 10px !important;
+  }
+
+  .otras-layout-v2-diagnosticos .diagnostico-label strong {
+    font-size: 0.70rem !important;
+  }
+
+  .otras-layout-v2-diagnosticos .diagnostico-label span {
+    font-size: 0.64rem !important;
+    line-height: 1.12 !important;
+  }
+
+  .otras-layout-v2-diagnosticos .diagnostico-value {
+    font-size: 0.70rem !important;
+  }
+
+  @media (max-width: 900px) {
+    .otras-layout-v2-bottom {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .otras-layout-v2-summary .otras-boceto-title.right {
+      max-width: none !important;
+    }
+
+    .otras-layout-v2-top .lesion-grouped-plot {
+      grid-template-columns: repeat(5, minmax(76px, 1fr)) !important;
+      gap: 10px !important;
+      overflow-x: auto !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -2859,6 +3168,21 @@ function App() {
     [cariesData, entidad, unidad, idsUnidadesEntidad]
   );
 
+  // Indicadores de edentulismo (parcial en todas las edades y total 65-74).
+  // Ignoran el filtro global de edad, pero conservan mes, entidad y unidad.
+  const cariesEdentulismoFiltrada = useMemo(
+    () =>
+      filtrarPorLlave(
+        cariesData?.coreDecoded || [],
+        '',
+        mes,
+        entidad,
+        unidad,
+        idsUnidadesEntidad
+      ),
+    [cariesData, mes, entidad, unidad, idsUnidadesEntidad]
+  );
+
   const higieneCoreFiltrada = useMemo(
     () =>
       filtrarPorLlave(
@@ -3101,7 +3425,9 @@ function App() {
         librePct: null,
         cariesPct: null,
         sanosPct: null,
-        edentPct: null,
+        edentParcialPct: null,
+        sinEdentParcialPct: null,
+        edentTotal6574Pct: null,
       };
     }
 
@@ -3135,10 +3461,29 @@ function App() {
     const carN = sumar(cariesFiltrada, 'car_N');
     const carNume = sumar(cariesFiltrada, 'car_n');
 
-    const edentN = sumar(cariesFiltrada, 'edent_N');
-    const edentNume = sumar(cariesFiltrada, 'edent_n');
+    const edentParcialN = sumar(
+      cariesEdentulismoFiltrada,
+      'edentParcial_N'
+    );
+    const edentParcialNume = sumar(
+      cariesEdentulismoFiltrada,
+      'edentParcial_n'
+    );
+
+    const edent6574N = sumar(
+      cariesEdentulismoFiltrada,
+      'edent6574_N'
+    );
+    const edent6574Nume = sumar(
+      cariesEdentulismoFiltrada,
+      'edent6574_n'
+    );
 
     const cariesPct = porcentaje(carNume, carN);
+    const edentParcialPct = porcentaje(
+      edentParcialNume,
+      edentParcialN
+    );
 
     return {
       cpod: cpodN > 0 ? cpodSum / cpodN : null,
@@ -3147,9 +3492,48 @@ function App() {
       cariesPct,
       sanosPct:
         cariesPct === null ? null : Math.max(0, 100 - cariesPct),
-      edentPct: porcentaje(edentNume, edentN),
+      edentParcialPct,
+      sinEdentParcialPct:
+        edentParcialPct === null
+          ? null
+          : Math.max(0, 100 - edentParcialPct),
+      edentTotal6574Pct: porcentaje(
+        edent6574Nume,
+        edent6574N
+      ),
     };
-  }, [cariesData, cariesFiltrada, cariesLibreFiltrada, edad]);
+  }, [
+    cariesData,
+    cariesFiltrada,
+    cariesLibreFiltrada,
+    cariesEdentulismoFiltrada,
+    edad,
+  ]);
+
+  const edentulismoParcialSegmentos = useMemo(
+    () =>
+      calcularSegmentosPie(
+        [
+          {
+            etiqueta: 'Con edentulismo parcial',
+            valor: indicadoresCaries.edentParcialPct,
+            color: '#173f3a',
+          },
+          {
+            etiqueta: 'Sin edentulismo parcial',
+            valor: indicadoresCaries.sinEdentParcialPct,
+            color: '#cfcfcf',
+          },
+        ],
+        {
+          radioInterior: 29,
+          radioExterior: 57,
+          umbralExterior: 0,
+          umbralOcultar: 5,
+        }
+      ),
+    [indicadoresCaries.edentParcialPct, indicadoresCaries.sinEdentParcialPct]
+  );
 
   const indicadoresSociales = useMemo(() => {
     const migranteN = sumar(socialFiltrado, 'migrante_N');
@@ -4316,16 +4700,6 @@ function App() {
           )`,
         };
 
-  const edentStyle =
-    indicadoresCaries.edentPct === null
-      ? { background: '#e7e7e7' }
-      : {
-          background: `conic-gradient(
-            #b38c2e 0 ${indicadoresCaries.edentPct}%,
-            #173f3a ${indicadoresCaries.edentPct}% 100%
-          )`,
-        };
-
   const sexoColores = ['#701039', '#173f3a', '#b38c2e', '#8d8d8d'];
 
   const sexoPieStyle = (() => {
@@ -4386,29 +4760,7 @@ function App() {
     }
   );
 
-  const edentulismoSegmentos = calcularSegmentosPie(
-    [
-      {
-        etiqueta: 'Sí',
-        valor: indicadoresCaries.edentPct,
-        color: '#b38c2e',
-      },
-      {
-        etiqueta: 'No',
-        valor:
-          indicadoresCaries.edentPct === null
-            ? null
-            : 100 - indicadoresCaries.edentPct,
-        color: '#173f3a',
-      },
-    ],
-    {
-      radioInterior: 29,
-      radioExterior: 57,
-      umbralExterior: 0,
-      umbralOcultar: 5,
-    }
-  );
+
 
   return (
     <div className="app">
@@ -4739,45 +5091,50 @@ function App() {
                         </div>
                       </div>
 
-                      <div className="proposal-pie-block">
-                        <h3>Frecuencia de edentulismo total</h3>
+                      <div className="proposal-pie-block edent-partial-block">
+                        <h3>Frecuencia de edentulismo parcial</h3>
 
                         <div
                           className="proposal-solid-pie"
-                          style={edentStyle}
+                          style={pieStyle}
                         >
                           <PieLabels
-                            segmentos={edentulismoSegmentos}
+                            segmentos={edentulismoParcialSegmentos}
                             decimales={0}
                           />
                         </div>
 
                         <div className="proposal-pie-legend">
-                          {['No', 'Sí'].map((etiqueta) => {
-                            const item = edentulismoSegmentos.find(
-                              (segmento) => segmento.etiqueta === etiqueta
-                            );
-
-                            if (!item) return null;
-
-                            return (
-                              <span key={item.etiqueta}>
-                                <i
-                                  className="legend-square"
-                                  style={{ background: item.color }}
-                                ></i>
-                                <PieLegendText
-                                  item={item}
-                                  decimales={0}
-                                />
-                              </span>
-                            );
-                          })}
+                          {edentulismoParcialSegmentos.map((item) => (
+                            <span key={item.etiqueta}>
+                              <i
+                                className="legend-square"
+                                style={{ background: item.color }}
+                              ></i>
+                              <PieLegendText
+                                item={item}
+                                decimales={0}
+                              />
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </div>
 
-                    <div className="proposal-index-row">
+                    <div className="proposal-index-row dental-index-row-three">
+                      <div className="proposal-index-card proposal-index-edent-total">
+                        <strong>
+                          {formatoPorcentaje(
+                            indicadoresCaries.edentTotal6574Pct,
+                            1
+                          )}
+                        </strong>
+                        <span>
+                          Edentulismo total
+                          <small>65 a 74 años</small>
+                        </span>
+                      </div>
+
                       <div className="proposal-index-card proposal-index-CPOD">
                         <strong>
                           {formatoNumero(indicadoresCaries.CPOD)}
@@ -5100,9 +5457,47 @@ function App() {
                   <article className="periodontal-state-panel">
                     <h2>Evaluación del estado periodontal</h2>
 
+                    <div className="periodontal-distributions-grid">
+                      <div className="periodontal-chart-block periodontal-probe-block">
+                        <h3>Índice Periodontal Comunitario (sonda OMS)</h3>
+
+                        <div className="periodontal-chart-row periodontal-chart-row-centered">
+                          <div className="periodontal-pie-wrap">
+                            <div
+                              className="periodontal-pie"
+                              style={periodontalPieStyle}
+                            >
+                              <PieLabels
+                                segmentos={periodontalSegmentos}
+                                decimales={1}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="periodontal-chart-block periodontal-probe-block">
+                        <h3>Evaluación con otro tipo de sonda</h3>
+
+                        <div className="periodontal-chart-row periodontal-chart-row-centered">
+                          <div className="periodontal-pie-wrap">
+                            <div
+                              className="periodontal-probe-pie"
+                              style={periodontalSondaPieStyle}
+                            >
+                              <PieLabels
+                                segmentos={periodontalSondaSegmentos}
+                                decimales={1}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="periodontal-epo-section">
                       <h3>
-                        Enfermedad periodontal (EPO) en edades de referencia
+                        Porcentaje de usuarios con enfermedad periodontal a la edad de:
                       </h3>
 
                       <div className="periodontal-epo-grid">
@@ -5135,96 +5530,6 @@ function App() {
                             )}
                           </strong>
                         </div>
-                      </div>
-                    </div>
-
-                    <div className="periodontal-distributions-grid">
-                      <div className="periodontal-chart-block periodontal-probe-block">
-                        <h3>Índice Periodontal Comunitario (sonda OMS)</h3>
-
-                        <div className="periodontal-chart-row">
-                          <div className="periodontal-pie-wrap">
-                            <div
-                              className="periodontal-pie"
-                              style={periodontalPieStyle}
-                            >
-                              <PieLabels
-                                segmentos={periodontalSegmentos}
-                                decimales={1}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="periodontal-legend">
-                            {periodontalSegmentos.map((item) => (
-                              <div key={item.etiqueta}>
-                                <i style={{ background: item.color }}></i>
-
-                                <span className="periodontal-legend-label">
-                                  <PieLegendText
-                                    item={item}
-                                    decimales={1}
-                                  />
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="periodontal-chart-block periodontal-probe-block">
-                        <h3>Evaluación con otro tipo de sonda</h3>
-
-                        <div className="periodontal-chart-row">
-                          <div className="periodontal-pie-wrap">
-                            <div
-                              className="periodontal-probe-pie"
-                              style={periodontalSondaPieStyle}
-                            >
-                              <PieLabels
-                                segmentos={periodontalSondaSegmentos}
-                                decimales={1}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="periodontal-legend">
-                            {periodontalSondaSegmentos.map((item) => (
-                              <div key={item.etiqueta}>
-                                <i style={{ background: item.color }}></i>
-                                <span className="periodontal-legend-label">
-                                  <PieLegendText
-                                    item={item}
-                                    decimales={1}
-                                  />
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="periodontal-reference periodontal-reference-grid">
-                      <div className="periodontal-reference-card">
-                        <strong>Índice Periodontal Comunitario (IPC)</strong>
-                        <span>0 = Sano</span>
-                        <span>1 = Hemorragia</span>
-                        <span>2 = Cálculo</span>
-
-                        {!periodontalEdad7a14 && (
-                          <>
-                            <span>3 = Bolsa de 4-5 mm</span>
-                            <span>4 = Bolsa ≥ 6 mm</span>
-                          </>
-                        )}
-                      </div>
-
-                      <div className="periodontal-reference-card">
-                        <strong>Otro tipo de sonda</strong>
-                        <span>0 = Normal</span>
-                        <span>1 = Gingivitis</span>
-                        <span>2 = Periodontitis</span>
                       </div>
                     </div>
                   </article>
@@ -5348,8 +5653,8 @@ function App() {
                   </article>
 
                   <article className="otras-state-panel boceto-otras">
-                    <div className="otras-boceto-grid">
-                      <div className="otras-boceto-col left">
+                    <div className="otras-layout-v2">
+                      <div className="otras-layout-v2-top">
                         <h3 className="otras-boceto-title">
                           Lesiones en mucosa bucal
                         </h3>
@@ -5507,36 +5812,40 @@ function App() {
                         )}
                       </div>
 
-                      <div className="otras-boceto-col right">
-                        <h3 className="otras-boceto-title right">
-                          Otras patologías presentes en la cavidad bucal
-                        </h3>
+                      <div className="otras-layout-v2-bottom">
+                        <div className="otras-layout-v2-summary">
+                          <h3 className="otras-boceto-title right">
+                            Otras patologías presentes en la cavidad bucal
+                          </h3>
 
-                        <div className="otras-right-stack">
-                          <div className="otras-boceto-kpi">
-                            <strong>
-                              {formatoPorcentaje(
-                                indicadoresOtras.fluorPct,
-                                1
-                              )}
-                            </strong>
-                            <span>
-                              Con diagnóstico de fluorosis
-                            </span>
+                          <div className="otras-layout-v2-kpis">
+                            <div className="otras-boceto-kpi">
+                              <strong>
+                                {formatoPorcentaje(
+                                  indicadoresOtras.fluorPct,
+                                  1
+                                )}
+                              </strong>
+                              <span>
+                                Con diagnóstico de fluorosis
+                              </span>
+                            </div>
+
+                            <div className="otras-boceto-kpi">
+                              <strong>
+                                {formatoPorcentaje(
+                                  indicadoresOtras.otraPct,
+                                  1
+                                )}
+                              </strong>
+                              <span>
+                                Reportó otras patologías
+                              </span>
+                            </div>
                           </div>
+                        </div>
 
-                          <div className="otras-boceto-kpi">
-                            <strong>
-                              {formatoPorcentaje(
-                                indicadoresOtras.otraPct,
-                                1
-                              )}
-                            </strong>
-                            <span>
-                              Reportó otras patologías
-                            </span>
-                          </div>
-
+                        <div className="otras-layout-v2-diagnosticos">
                           <div className="otras-boceto-diagnosticos">
                             <h3>
                               Otros diagnósticos y padecimientos registrados
