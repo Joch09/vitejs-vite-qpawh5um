@@ -3752,6 +3752,28 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     HOMOLOGACIÓN TIPOGRÁFICA — ETIQUETAS DE SEXO
+     ========================================================== */
+
+  .proposal-social-panel .sex-legend,
+  .proposal-social-panel .sex-legend-row,
+  .proposal-social-panel .sex-legend-row > span:last-child {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    font-weight: 650 !important;
+  }
+
+  .proposal-social-panel .sex-legend-row {
+    gap: 7px !important;
+  }
+
+  .proposal-social-panel .sex-legend-dot {
+    width: 11px !important;
+    height: 11px !important;
+    flex: 0 0 11px !important;
+  }
+
 `;
 
 function App() {
