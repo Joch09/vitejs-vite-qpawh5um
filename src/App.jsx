@@ -3515,6 +3515,140 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     CARIES — reacomodo solicitado por revisión
+     ========================================================== */
+
+  .caries-gravity-section {
+    margin-top: 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+
+  .caries-gravity-title {
+    margin: 0 0 2px !important;
+    text-align: center !important;
+    color: #b98212 !important;
+    font-size: 1.45rem !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+  }
+
+  .caries-gravity-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 124px !important;
+    gap: 18px !important;
+    align-items: center !important;
+    width: min(100%, 460px) !important;
+    margin: 0 auto !important;
+  }
+
+  .caries-gravity-copy {
+    text-align: center !important;
+    color: #1f2a2d !important;
+    font-size: 0.9rem !important;
+    line-height: 1.15 !important;
+    font-weight: 700 !important;
+  }
+
+  .caries-gravity-bullet {
+    width: 124px !important;
+    min-width: 124px !important;
+    min-height: 92px !important;
+    margin: 0 !important;
+  }
+
+  .caries-summary-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: min(100%, 540px) !important;
+    margin: 4px auto 0 !important;
+  }
+
+  .caries-summary-card {
+    display: grid !important;
+    grid-template-columns: 74px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    align-items: center !important;
+    min-height: 98px !important;
+    padding: 12px 18px !important;
+    border-radius: 16px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(23, 63, 58, 0.08) !important;
+    box-shadow: 0 8px 20px rgba(30, 48, 55, 0.11) !important;
+    box-sizing: border-box !important;
+  }
+
+  .caries-summary-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .caries-summary-icon img {
+    width: 58px !important;
+    height: 58px !important;
+    object-fit: contain !important;
+  }
+
+  .caries-summary-content {
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 5px !important;
+  }
+
+  .caries-summary-content strong {
+    color: #a91f4b !important;
+    font-size: 1.7rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+  }
+
+  .caries-summary-content span {
+    color: #1b5a50 !important;
+    font-size: 0.78rem !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+
+  .caries-gravity-footnote {
+    width: min(100%, 540px) !important;
+    margin: 3px auto 0 !important;
+    color: #3f4b4f !important;
+    font-size: 0.7rem !important;
+    line-height: 1.25 !important;
+    font-weight: 650 !important;
+    text-align: left !important;
+  }
+
+  @media (max-width: 620px) {
+    .caries-gravity-title {
+      font-size: 1.2rem !important;
+    }
+
+    .caries-gravity-row {
+      grid-template-columns: 1fr !important;
+      justify-items: center !important;
+      gap: 9px !important;
+    }
+
+    .caries-summary-card {
+      grid-template-columns: 60px minmax(0, 1fr) !important;
+      padding: 11px 13px !important;
+    }
+
+    .caries-summary-icon img {
+      width: 50px !important;
+      height: 50px !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -5878,50 +6012,91 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="proposal-index-row dental-index-row-three">
-                      <div className="proposal-index-card proposal-index-edent-total">
-                        <strong>
-                          {indicadoresCaries.edentTotalPct === null ||
-                          indicadoresCaries.edentTotalPct === undefined ||
-                          !Number.isFinite(
-                            Number(indicadoresCaries.edentTotalPct)
-                          )
-                            ? '—'
-                            : formatoPorcentaje(
-                                Number(indicadoresCaries.edentTotalPct),
+                    <div className="caries-gravity-section">
+                      <h3 className="caries-gravity-title">
+                        Gravedad de caries dental:
+                      </h3>
+
+                      <div className="caries-gravity-row">
+                        <div className="caries-gravity-copy">
+                          En pacientes con dentición
+                          <br />
+                          permanente*:
+                        </div>
+
+                        <div className="proposal-index-card proposal-index-CPOD caries-gravity-bullet">
+                          <strong>
+                            {String(edad).trim() === '6'
+                              ? '—'
+                              : formatoNumero(indicadoresCaries.CPOD)}
+                          </strong>
+                          <span>CPOD</span>
+                        </div>
+                      </div>
+
+                      <div className="caries-gravity-row">
+                        <div className="caries-gravity-copy">
+                          En pacientes con dentición
+                          <br />
+                          temporal:
+                        </div>
+
+                        <div className="proposal-index-card proposal-index-cpod caries-gravity-bullet">
+                          <strong>
+                            {formatoNumero(indicadoresCaries.cpod)}
+                          </strong>
+                          <span>cpod</span>
+                        </div>
+                      </div>
+
+                      <div className="caries-summary-stack">
+                        <div className="caries-summary-card">
+                          <div className="caries-summary-icon" aria-hidden="true">
+                            <img src={iconCaries} alt="" />
+                          </div>
+
+                          <div className="caries-summary-content">
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresCaries.librePct,
                                 1
                               )}
-                        </strong>
-                        <span>Edentulismo total</span>
+                            </strong>
+                            <span>
+                              de las niñas, niños y adolescentes están libres
+                              de caries dental
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="caries-summary-card">
+                          <div className="caries-summary-icon" aria-hidden="true">
+                            <img src={iconCaries} alt="" />
+                          </div>
+
+                          <div className="caries-summary-content">
+                            <strong>
+                              {indicadoresCaries.edentTotalPct === null ||
+                              indicadoresCaries.edentTotalPct === undefined ||
+                              !Number.isFinite(
+                                Number(indicadoresCaries.edentTotalPct)
+                              )
+                                ? '—'
+                                : formatoPorcentaje(
+                                    Number(indicadoresCaries.edentTotalPct),
+                                    1
+                                  )}
+                            </strong>
+                            <span>
+                              de los usuarios presentan edentulismo total
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="proposal-index-card proposal-index-CPOD">
-                        <strong>
-                          {String(edad).trim() === '6'
-                            ? '—'
-                            : formatoNumero(indicadoresCaries.CPOD)}
-                        </strong>
-                        <span>CPOD</span>
-                      </div>
-
-                      <div className="proposal-index-card proposal-index-cpod">
-                        <strong>
-                          {formatoNumero(indicadoresCaries.cpod)}
-                        </strong>
-                        <span>cpod</span>
-                      </div>
-                    </div>
-
-                    <div className="free-caries-banner">
-                      <div className="free-caries-banner-label">
-                        Niñas, niños y adolescentes libres de caries dental
-                      </div>
-
-                      <div className="free-caries-banner-value">
-                        {formatoPorcentaje(
-                          indicadoresCaries.librePct,
-                          1
-                        )}
+                      <div className="caries-gravity-footnote">
+                        *Se incluyen personas a partir de los 6 años por el
+                        inicio del recambio dentario.
                       </div>
                     </div>
                   </article>
