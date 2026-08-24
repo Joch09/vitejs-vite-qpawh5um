@@ -3855,6 +3855,71 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     CARIES — ajuste fino de enunciados y alineación
+     ========================================================== */
+
+  /* Los enunciados de gravedad y los textos descriptivos de las
+     tarjetas resumen comparten exactamente la misma jerarquía. */
+  .dental-state-panel .caries-gravity-copy,
+  .dental-state-panel .caries-summary-content span {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Las dos filas de gravedad usan el mismo ancho visual que
+     las tarjetas inferiores para que el bloque se vea cuadrado. */
+  .dental-state-panel .caries-gravity-row {
+    grid-template-columns: minmax(0, 1fr) 124px !important;
+    gap: 14px !important;
+    width: min(100%, 540px) !important;
+    min-height: 92px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-items: center !important;
+  }
+
+  .dental-state-panel .caries-gravity-copy {
+    white-space: nowrap !important;
+    text-align: center !important;
+    padding: 0 10px !important;
+  }
+
+  .dental-state-panel .caries-gravity-bullet {
+    width: 124px !important;
+    min-width: 124px !important;
+    min-height: 92px !important;
+    justify-self: end !important;
+  }
+
+  .dental-state-panel .caries-summary-stack {
+    width: min(100%, 540px) !important;
+  }
+
+  @media (max-width: 620px) {
+    .dental-state-panel .caries-gravity-copy,
+    .dental-state-panel .caries-summary-content span {
+      font-size: 14px !important;
+    }
+
+    .dental-state-panel .caries-gravity-row {
+      grid-template-columns: 1fr !important;
+      width: 100% !important;
+      min-height: 0 !important;
+      justify-items: center !important;
+    }
+
+    .dental-state-panel .caries-gravity-copy {
+      white-space: normal !important;
+      padding: 0 !important;
+    }
+
+    .dental-state-panel .caries-gravity-bullet {
+      justify-self: center !important;
+    }
+  }
+
 `;
 
 function App() {
