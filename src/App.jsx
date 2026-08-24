@@ -3982,6 +3982,22 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     AJUSTE FINO — TÍTULOS DE GRÁFICAS DE CARIES
+     ========================================================== */
+
+  .dental-state-panel .dental-pies-row .proposal-pie-block > h3 {
+    font-size: 18px !important;
+    line-height: 1.15 !important;
+    font-weight: 700 !important;
+  }
+
+  @media (max-width: 620px) {
+    .dental-state-panel .dental-pies-row .proposal-pie-block > h3 {
+      font-size: 17px !important;
+    }
+  }
+
 `;
 
 function App() {
