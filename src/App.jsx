@@ -25,6 +25,9 @@ import logoImssBienestar from './assets/logos/Logo_imssb.png';
 import logoVigilancia from './assets/logos/LOGO_BLANCO_V.png';
 import logoCoordinacion from './assets/logos/logo_cordinacion.png';
 
+import iconNinosAdolescentes from './assets/caries/ninos_adolescentes.png';
+import iconEdentulismoTotal from './assets/caries/edentulismo_total.png';
+
 const MODULOS = [
   { id: 'caries', titulo: 'CARIES', icono: iconCaries },
   { id: 'higiene', titulo: 'HIGIENE BUCAL', icono: iconHigiene },
@@ -3998,6 +4001,69 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     CARIES — tarjetas resumen: icono | porcentaje | enunciado
+     ========================================================== */
+
+  .dental-state-panel .caries-summary-card {
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+    align-items: center !important;
+  }
+
+  .dental-state-panel .caries-summary-icon img {
+    width: 62px !important;
+    height: 62px !important;
+    object-fit: contain !important;
+  }
+
+  .dental-state-panel .caries-summary-content {
+    display: grid !important;
+    grid-template-columns: 104px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .dental-state-panel .caries-summary-content strong {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+  }
+
+  .dental-state-panel .caries-summary-content span {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+
+  @media (max-width: 620px) {
+    .dental-state-panel .caries-summary-card {
+      grid-template-columns: 58px minmax(0, 1fr) !important;
+    }
+
+    .dental-state-panel .caries-summary-icon img {
+      width: 50px !important;
+      height: 50px !important;
+    }
+
+    .dental-state-panel .caries-summary-content {
+      grid-template-columns: 1fr !important;
+      gap: 5px !important;
+    }
+
+    .dental-state-panel .caries-summary-content strong,
+    .dental-state-panel .caries-summary-content span {
+      text-align: left !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -6395,7 +6461,7 @@ function App() {
                       <div className="caries-summary-stack">
                         <div className="caries-summary-card">
                           <div className="caries-summary-icon" aria-hidden="true">
-                            <img src={iconCaries} alt="" />
+                            <img src={iconNinosAdolescentes} alt="" />
                           </div>
 
                           <div className="caries-summary-content">
@@ -6414,7 +6480,7 @@ function App() {
 
                         <div className="caries-summary-card">
                           <div className="caries-summary-icon" aria-hidden="true">
-                            <img src={iconCaries} alt="" />
+                            <img src={iconEdentulismoTotal} alt="" />
                           </div>
 
                           <div className="caries-summary-content">
