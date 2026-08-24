@@ -3793,6 +3793,68 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     HOMOLOGACIÓN TIPOGRÁFICA — EVALUACIÓN DEL ESTADO DENTARIO
+     ========================================================== */
+
+  /* Título principal y títulos de ambas gráficas al mismo tamaño. */
+  .dental-state-panel > h2,
+  .dental-state-panel .dental-pies-row .proposal-pie-block > h3 {
+    font-size: 20px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+  }
+
+  .dental-state-panel > h2 {
+    text-align: center !important;
+  }
+
+  .dental-state-panel .dental-pies-row .proposal-pie-block > h3 {
+    text-align: center !important;
+  }
+
+  /* "Gravedad de caries dental" queda dentro de la misma escala. */
+  .dental-state-panel .caries-gravity-title {
+    font-size: 20px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+  }
+
+  /* Textos descriptivos: misma jerarquía que el resto de etiquetas
+     homologadas del tablero. */
+  .dental-state-panel .caries-gravity-copy {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    font-weight: 650 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Más espacio horizontal para mantener la oración en una sola línea. */
+  .dental-state-panel .caries-gravity-row {
+    grid-template-columns: minmax(290px, 1fr) 124px !important;
+    width: min(100%, 520px) !important;
+  }
+
+  /* En pantallas pequeñas permitimos el salto natural para no romper
+     el responsive. */
+  @media (max-width: 620px) {
+    .dental-state-panel .caries-gravity-copy {
+      white-space: normal !important;
+      text-align: center !important;
+    }
+
+    .dental-state-panel .caries-gravity-row {
+      grid-template-columns: 1fr !important;
+      width: 100% !important;
+    }
+
+    .dental-state-panel > h2,
+    .dental-state-panel .dental-pies-row .proposal-pie-block > h3,
+    .dental-state-panel .caries-gravity-title {
+      font-size: 18px !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -6163,9 +6225,7 @@ function App() {
 
                       <div className="caries-gravity-row">
                         <div className="caries-gravity-copy">
-                          En pacientes con dentición
-                          <br />
-                          permanente*:
+                          En pacientes con dentición permanente*:
                         </div>
 
                         <div className="proposal-index-card proposal-index-CPOD caries-gravity-bullet">
@@ -6178,9 +6238,7 @@ function App() {
 
                       <div className="caries-gravity-row">
                         <div className="caries-gravity-copy">
-                          En pacientes con dentición
-                          <br />
-                          temporal:
+                          En pacientes con dentición temporal:
                         </div>
 
                         <div className="proposal-index-card proposal-index-cpod caries-gravity-bullet">
