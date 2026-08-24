@@ -3649,6 +3649,58 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     OTRAS PATOLOGÍAS — alineación y redacción solicitadas
+     ========================================================== */
+
+  .otras-patologias-title-final {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 0 10px !important;
+    text-align: left !important;
+    color: #b98212 !important;
+    font-size: 1.22rem !important;
+    line-height: 1.15 !important;
+    font-weight: 800 !important;
+  }
+
+  .otras-layout-v2-kpis .otras-boceto-kpi-redaccion {
+    min-height: 118px !important;
+    padding: 14px 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    text-align: center !important;
+  }
+
+  .otras-layout-v2-kpis .otras-boceto-kpi-redaccion strong {
+    margin: 0 !important;
+    color: #a91f4b !important;
+    font-size: 2rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+  }
+
+  .otras-layout-v2-kpis .otras-boceto-kpi-redaccion .otras-kpi-texto-superior,
+  .otras-layout-v2-kpis .otras-boceto-kpi-redaccion .otras-kpi-texto-inferior {
+    width: 100% !important;
+    margin: 0 !important;
+    color: #1b5a50 !important;
+    font-size: 0.76rem !important;
+    line-height: 1.18 !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+  }
+
+  @media (max-width: 900px) {
+    .otras-patologias-title-final {
+      text-align: center !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -6787,34 +6839,44 @@ function App() {
                         )}
                       </div>
 
+                      <h3 className="otras-boceto-title otras-patologias-title-final">
+                        Otras patologías presentes en la cavidad bucal
+                      </h3>
+
                       <div className="otras-layout-v2-bottom">
                         <div className="otras-layout-v2-summary">
-                          <h3 className="otras-boceto-title right">
-                            Otras patologías presentes en la cavidad bucal
-                          </h3>
-
                           <div className="otras-layout-v2-kpis">
-                            <div className="otras-boceto-kpi">
+                            <div className="otras-boceto-kpi otras-boceto-kpi-redaccion">
+                              <span className="otras-kpi-texto-superior">
+                                Se realizó el diagnóstico de fluorosis en el
+                              </span>
+
                               <strong>
                                 {formatoPorcentaje(
                                   indicadoresOtras.fluorPct,
                                   1
                                 )}
                               </strong>
-                              <span>
-                                Porcentaje de población usuaria con diagnóstico de fluorosis
+
+                              <span className="otras-kpi-texto-inferior">
+                                de los usuarios
                               </span>
                             </div>
 
-                            <div className="otras-boceto-kpi">
+                            <div className="otras-boceto-kpi otras-boceto-kpi-redaccion">
+                              <span className="otras-kpi-texto-superior">
+                                Se identificaron otras patologías en el
+                              </span>
+
                               <strong>
                                 {formatoPorcentaje(
                                   indicadoresOtras.otraPct,
                                   1
                                 )}
                               </strong>
-                              <span>
-                                Porcentaje de población usuaria en el que se identificaron otras patologías
+
+                              <span className="otras-kpi-texto-inferior">
+                                de los usuarios
                               </span>
                             </div>
                           </div>
