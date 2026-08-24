@@ -1611,7 +1611,7 @@ const AJUSTES_VISUALES_20260817 = `
     white-space: normal !important;
     line-height: 1.05 !important;
     margin-top: 7px !important;
-    color: #bd8612 !important;
+    color: #173f3a !important;
     font-weight: 700 !important;
     font-size: 0.82rem !important;
   }
@@ -6510,7 +6510,9 @@ function App() {
 
                         <div className="proposal-index-card proposal-index-cpod caries-gravity-bullet">
                           <strong>
-                            {formatoNumero(indicadoresCaries.cpod)}
+                            {String(edad).trim() === '6'
+                              ? '—'
+                              : formatoNumero(indicadoresCaries.cpod)}
                           </strong>
                           <span>cpod</span>
                         </div>
@@ -7250,9 +7252,9 @@ function App() {
                                       totalLesionesSinTiempoValido
                                     ).toLocaleString('es-MX')}
                                   </strong>{' '}
-                                  registros de lesión no contaron con tiempo
-                                  de evolución válido y no se representan en
-                                  las barras por temporalidad.
+                                  registros no se registró información en la
+                                  variable de tiempo de evolución, por lo que
+                                  no están representados en la gráfica.
                                 </>
                               )}
                             </div>
@@ -7269,7 +7271,7 @@ function App() {
                           <div className="otras-layout-v2-kpis">
                             <div className="otras-boceto-kpi otras-boceto-kpi-redaccion">
                               <span className="otras-kpi-texto-superior">
-                                Se realizó el diagnóstico de fluorosis en el
+                                Se realizó el diagnóstico de fluorosis dental en el
                               </span>
 
                               <strong>
