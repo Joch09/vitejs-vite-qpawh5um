@@ -651,6 +651,14 @@ function construirGruposEdad(vista, edadesFuente) {
   ].filter((grupo) => grupo.opciones.length > 0);
 }
 
+function aTipoOracion(texto) {
+  const limpio = String(texto || '').trim();
+  if (!limpio) return '';
+
+  const normalizado = limpio.toLowerCase();
+  return normalizado.charAt(0).toUpperCase() + normalizado.slice(1);
+}
+
 function acortarOcupacion(etiquetaOriginal) {
   const original =
     String(etiquetaOriginal || '').trim() || 'No especificado';
@@ -746,9 +754,9 @@ function acortarOcupacion(etiquetaOriginal) {
     return 'Trabajo doméstico';
   }
 
-  if (original.length <= 28) return original;
+  if (original.length <= 28) return aTipoOracion(original);
 
-  return `${original.slice(0, 25).trim()}…`;
+  return aTipoOracion(`${original.slice(0, 25).trim()}…`);
 }
 
 function filtrarPorLlave(
