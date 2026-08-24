@@ -3954,6 +3954,34 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     AJUSTE FINO — TÍTULOS DORADOS IGUALES
+     ========================================================== */
+
+  /* Ambos títulos comparten exactamente el mismo token tipográfico
+     y se eliminan variaciones de márgenes/anchos por etiqueta HTML. */
+  .dental-state-panel > h2,
+  .dental-state-panel .caries-gravity-title {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 auto 12px !important;
+    padding: 0 !important;
+    font-family: inherit !important;
+    font-size: 21px !important;
+    line-height: 1.12 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+    color: #b98212 !important;
+    text-align: center !important;
+  }
+
+  @media (max-width: 620px) {
+    .dental-state-panel > h2,
+    .dental-state-panel .caries-gravity-title {
+      font-size: 19px !important;
+    }
+  }
+
 `;
 
 function App() {
