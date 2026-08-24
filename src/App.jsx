@@ -3701,6 +3701,57 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     HOMOLOGACIÓN TIPOGRÁFICA — BLOQUE SOCIAL
+     Tarjetas + Antecedentes + Ocupación
+     ========================================================== */
+
+  /* Texto descriptivo de las tarjetas sociales:
+     "Se consideran migrantes", "Se consideran indígenas",
+     "Se encuentran embarazadas". */
+  .proposal-social-panel .social-summary-copy > span {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    font-weight: 650 !important;
+  }
+
+  /* Títulos de las gráficas sociales. */
+  .proposal-social-panel .proposal-bars-section > h3 {
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Etiquetas de Antecedentes patológicos y Ocupación:
+     mismo tamaño que el texto descriptivo de las tarjetas. */
+  .proposal-social-panel .proposal-bars-section .bar-label {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    font-weight: 650 !important;
+  }
+
+  /* Los porcentajes de las barras conservan jerarquía propia. */
+  .proposal-social-panel .proposal-bars-section .bar-value {
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    font-weight: 700 !important;
+  }
+
+  @media (max-width: 650px) {
+    .proposal-social-panel .social-summary-copy > span,
+    .proposal-social-panel .proposal-bars-section .bar-label {
+      font-size: 13px !important;
+    }
+
+    .proposal-social-panel .proposal-bars-section > h3 {
+      font-size: 16px !important;
+    }
+
+    .proposal-social-panel .proposal-bars-section .bar-value {
+      font-size: 12px !important;
+    }
+  }
+
 `;
 
 function App() {
