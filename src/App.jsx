@@ -6026,9 +6026,7 @@ function App() {
 
                         <div className="proposal-index-card proposal-index-CPOD caries-gravity-bullet">
                           <strong>
-                            {String(edad).trim() === '6'
-                              ? '—'
-                              : formatoNumero(indicadoresCaries.CPOD)}
+                            {formatoNumero(indicadoresCaries.CPOD)}
                           </strong>
                           <span>CPOD</span>
                         </div>
