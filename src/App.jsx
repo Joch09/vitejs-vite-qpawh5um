@@ -4085,6 +4085,35 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     OTRAS PATOLOGÍAS — etiquetas de datos en barras verticales
+     ========================================================== */
+
+  .lesion-vbar-value {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    white-space: nowrap !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+    z-index: 3 !important;
+  }
+
+  /* Barras altas: colocar dentro con contraste */
+  .lesion-vbar-value.inside {
+    top: 6px !important;
+    color: #ffffff !important;
+    font-size: 0.72rem !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  /* Barras bajas: colocar arriba, claras y legibles */
+  .lesion-vbar-value.outside {
+    top: -18px !important;
+    color: #073b46 !important;
+    font-size: 0.70rem !important;
+  }
+
 `;
 
 function App() {
@@ -7143,7 +7172,9 @@ function App() {
                                           )}`}
                                         >
                                           {lt3 > 0 && (
-                                            <span className="lesion-vbar-value">
+                                            <span
+                                              className={`lesion-vbar-value ${altoLt3 >= 18 ? 'inside' : 'outside'}`}
+                                            >
                                               {lt3.toLocaleString('es-MX')}
                                             </span>
                                           )}
@@ -7164,7 +7195,9 @@ function App() {
                                           )}`}
                                         >
                                           {gt3 > 0 && (
-                                            <span className="lesion-vbar-value">
+                                            <span
+                                              className={`lesion-vbar-value ${altoGt3 >= 18 ? 'inside' : 'outside'}`}
+                                            >
                                               {gt3.toLocaleString('es-MX')}
                                             </span>
                                           )}
