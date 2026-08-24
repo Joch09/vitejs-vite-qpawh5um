@@ -3774,6 +3774,25 @@ const AJUSTES_VISUALES_20260817 = `
     flex: 0 0 11px !important;
   }
 
+  /* ==========================================================
+     AJUSTE DE ALINEACIÓN — BLOQUE SOCIAL
+     ========================================================== */
+
+  /* En escritorio, la columna derecha (Antecedentes + Ocupación)
+     sube ligeramente para alinear su borde superior con las
+     tarjetas de Migrantes/Indígenas/Embarazadas. */
+  .proposal-social-panel .social-right-column {
+    transform: translateY(-10px) !important;
+  }
+
+  /* En pantallas donde el bloque social ya se apila,
+     se elimina el desplazamiento para conservar separación natural. */
+  @media (max-width: 900px) {
+    .proposal-social-panel .social-right-column {
+      transform: none !important;
+    }
+  }
+
 `;
 
 function App() {
