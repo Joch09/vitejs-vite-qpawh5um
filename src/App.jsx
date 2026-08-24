@@ -3920,6 +3920,40 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     AJUSTE FINO — TÍTULOS DORADOS Y ENUNCIADOS DE DENTICIÓN
+     ========================================================== */
+
+  /* Igualamos explícitamente los dos títulos dorados principales
+     para que compartan exactamente la misma jerarquía visual. */
+  .dental-state-panel > h2,
+  .dental-state-panel .caries-gravity-title {
+    font-size: 22px !important;
+    line-height: 1.15 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* Los enunciados de dentición suben de tamaño para que no se vean
+     pequeños respecto al resto del bloque. */
+  .dental-state-panel .caries-gravity-copy {
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+
+  /* En móvil bajan un poco, pero conservan jerarquía. */
+  @media (max-width: 620px) {
+    .dental-state-panel > h2,
+    .dental-state-panel .caries-gravity-title {
+      font-size: 20px !important;
+    }
+
+    .dental-state-panel .caries-gravity-copy {
+      font-size: 15px !important;
+    }
+  }
+
 `;
 
 function App() {
