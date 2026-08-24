@@ -4064,6 +4064,27 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+  /* ==========================================================
+     HOMOLOGACIÓN — títulos de gráficas de Caries
+     Mismo estilo/tamaño que en IHOS y demás apartados
+     ========================================================== */
+
+  .dental-state-panel .dental-pies-row .proposal-pie-block > h3 {
+    font-size: 16px !important;
+    line-height: 1.15 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
+    color: #073b46 !important;
+    margin-bottom: 10px !important;
+  }
+
+  @media (max-width: 620px) {
+    .dental-state-panel .dental-pies-row .proposal-pie-block > h3 {
+      font-size: 15px !important;
+    }
+  }
+
 `;
 
 function App() {
