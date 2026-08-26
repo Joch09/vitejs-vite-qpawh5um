@@ -1,60 +1,37 @@
 {
-  "universo": {
-    "registros": 48222,
-    "unidades_con_registros": 157,
-    "unidades_mapa": 157,
-    "entidades": 23,
-    "fecha_corte": "2026-07-15"
+  "metadata": {
+    "proyecto": "Tablero interactivo de información epidemiológica del SIVEPAB",
+    "institucion": "IMSS-Bienestar",
+    "corte": "2026-07-16",
+    "version_datos": "Correccion_Tablero_Paso08",
+    "registros_original": 52570,
+    "registros_limpios": 48222,
+    "unidades_oficiales": 177,
+    "periodo_clinico": "Enero-julio 2026",
+    "periodo_evaluacion": "Enero-junio 2026",
+    "fuente_clinica": "01_agregado_clinico_atomico.rds",
+    "fuente_registrados": "02_agregado_registrados_atomico.rds",
+    "regla_edad_json": "Edades 0-19 exactas; grupos adultos codificados por límite inferior para compatibilidad con edadCoincide() de React."
   },
-  "caries": {
-    "N": 48220,
-    "n": 43608,
-    "cpod_2_6": {
-      "N": 1307,
-      "media": 5.61
-    },
-    "CPOD_7_13": {
-      "N": 7911,
-      "media": 1.8
-    },
-    "CPOD_14_mas": {
-      "N": 38702,
-      "media": 11.53
-    }
+  "kpi_global": {
+    "cuestionarios_registrados": 52570,
+    "cuestionarios_registrados_sin_inconsistencias": 48222,
+    "cuestionarios_sin_inconsistencias": 48222,
+    "diferencia": 4348
   },
-  "higiene": {
-    "N": 45680,
-    "media": 1.13,
-    "excelente": 13694,
-    "buena": 14282,
-    "regular": 15202,
-    "mala": 2502
+  "unidades": {
+    "universo_oficial": 177,
+    "con_registros_limpios": 157,
+    "sin_registros_limpios": 20
   },
-  "periodontal": {
-    "N": 29132,
-    "sano": 10918,
-    "hemorragia": 6032,
-    "calculo": 11293,
-    "bolsa_4_5": 710,
-    "bolsa_6_mas": 179
-  },
-  "otras_patologias": {
-    "lesiones": {
-      "N": 48136,
-      "n": 486
-    },
-    "tiempo": {
-      "N": 310,
-      "menos_3": 237,
-      "mas_3": 73
-    },
-    "fluorosis": {
-      "N": 45743,
-      "n": 799
-    },
-    "otra_patologia": {
-      "N": 47149,
-      "n": 7336
-    }
+  "evaluacion": {
+    "formatos_esperados": 63720,
+    "cuestionarios_sin_inconsistencias": 46372,
+    "cuestionarios_oportunos": 44212,
+    "cuestionarios_extemporaneos": 2160,
+    "cobertura": 71.75141243,
+    "consistencia": 68.36158192,
+    "calidad": 72.77463905,
+    "ponderado": 71.3
   }
 }
