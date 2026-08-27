@@ -4399,6 +4399,111 @@ const AJUSTES_VISUALES_20260817 = `
     min-width: 150px !important;
   }
 
+
+  /* ==========================================================
+     FILTROS — Mes + Trimestre en una sola línea de escritorio
+     ========================================================== */
+
+  @media (min-width: 1181px) {
+    .shared-filter-strip {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) 190px !important;
+      gap: 12px !important;
+      align-items: end !important;
+    }
+
+    .shared-filters {
+      display: grid !important;
+      grid-template-columns:
+        minmax(135px, 1.05fr)
+        minmax(210px, 1.55fr)
+        minmax(105px, 0.72fr)
+        minmax(125px, 0.82fr)
+        minmax(90px, 0.62fr)
+        minmax(105px, 0.68fr) !important;
+      gap: 10px !important;
+      align-items: end !important;
+      width: 100% !important;
+    }
+
+    .shared-filters .filter-group,
+    .shared-filters .filter-group select {
+      min-width: 0 !important;
+      width: 100% !important;
+    }
+
+    .shared-filters .clear-filters {
+      grid-column: auto !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      height: 44px !important;
+      margin: 0 !important;
+      align-self: end !important;
+    }
+
+    .shared-kpi {
+      width: 190px !important;
+      min-width: 190px !important;
+      max-width: 190px !important;
+      margin: 0 !important;
+      justify-self: end !important;
+      align-self: end !important;
+    }
+
+    .evaluation-filters {
+      display: grid !important;
+      grid-template-columns:
+        minmax(180px, 1.15fr)
+        minmax(240px, 1.55fr)
+        minmax(130px, 0.8fr)
+        minmax(150px, 0.9fr)
+        minmax(120px, 0.72fr) !important;
+      gap: 12px !important;
+      align-items: end !important;
+      width: 100% !important;
+    }
+
+    .evaluation-filters .filter-group,
+    .evaluation-filters .filter-group select {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .evaluation-filters .clear-filters {
+      grid-column: auto !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      height: 46px !important;
+      margin: 0 !important;
+      align-self: end !important;
+    }
+  }
+
+  @media (max-width: 1180px) and (min-width: 761px) {
+    .shared-filter-strip {
+      grid-template-columns: 1fr !important;
+    }
+
+    .shared-filters,
+    .evaluation-filters {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .shared-filters .clear-filters,
+    .evaluation-filters .clear-filters {
+      grid-column: auto !important;
+      max-width: none !important;
+      width: 100% !important;
+    }
+
+    .shared-kpi {
+      justify-self: end !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -6161,6 +6266,118 @@ function App() {
     [evaluacionFiltrada]
   );
 
+  const mesSeleccionadoEsEvaluable = useMemo(() => {
+    if (!mes) return false;
+
+    return mesesEvaluacion.some(
+      (item) => Number(item.mes) === Number(mes)
+    );
+  }, [mes, mesesEvaluacion]);
+
+  const unidadesMesNoEvaluable = useMemo(() => {
+    if (!mes || mesSeleccionadoEsEvaluable) {
+      return [];
+    }
+
+    const rows = kpiFiltrosData?.kpiDecoded || [];
+
+    const unidadesObjetivo = unidadesCatalogo.filter((item) => {
+      if (
+        entidad &&
+        String(item.entidad || '').trim() !==
+          String(entidad).trim()
+      ) {
+        return false;
+      }
+
+      if (
+        unidad &&
+        Number(item.unidad_id) !== Number(unidad)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+    const acumulado = {};
+
+    rows.forEach((item) => {
+      if (Number(item.mes) !== Number(mes)) {
+        return;
+      }
+
+      const id = Number(item.unidad_id);
+
+      if (
+        entidad &&
+        idsUnidadesEntidad &&
+        !idsUnidadesEntidad.has(id)
+      ) {
+        return;
+      }
+
+      if (
+        unidad &&
+        id !== Number(unidad)
+      ) {
+        return;
+      }
+
+      if (!acumulado[id]) {
+        acumulado[id] = {
+          registrados: 0,
+          sinInconsistencias: 0,
+        };
+      }
+
+      acumulado[id].registrados +=
+        Number(item.n_registrados) || 0;
+
+      acumulado[id].sinInconsistencias +=
+        Number(item.n_sin_inconsistencias) || 0;
+    });
+
+    return unidadesObjetivo
+      .map((item) => {
+        const id = Number(item.unidad_id);
+        const datos = acumulado[id] || {
+          registrados: 0,
+          sinInconsistencias: 0,
+        };
+
+        const esperados = 60;
+
+        return {
+          unidad_id: id,
+          unidad: String(item.unidad || ''),
+          registrados: datos.registrados,
+          oportunos: null,
+          sinInconsistencias:
+            datos.sinInconsistencias,
+          esperados,
+          cumplimientoMeta:
+            100 * datos.registrados / esperados,
+          consistencia: null,
+          calidad:
+            100 *
+            datos.sinInconsistencias /
+            esperados,
+        };
+      })
+      .sort((a, b) =>
+        a.unidad.localeCompare(b.unidad, 'es')
+      );
+  }, [
+    mes,
+    mesSeleccionadoEsEvaluable,
+    kpiFiltrosData,
+    unidadesCatalogo,
+    entidad,
+    unidad,
+    idsUnidadesEntidad,
+  ]);
+
   const unidadesTrimestreFiltradas = useMemo(() => {
     // Si se eligió un mes, los gráficos conservan el comportamiento
     // mensual aislado y se calculan desde evaluacionDecoded.
@@ -6206,6 +6423,45 @@ function App() {
   ]);
 
   const indicadoresEvaluacion = useMemo(() => {
+    // MES disponible pero aún no evaluable para oportunidad
+    // (actualmente julio): sí mostramos registrados, calidad
+    // y cumplimiento de meta; consistencia queda sin evaluar.
+    if (
+      mes &&
+      !mesSeleccionadoEsEvaluable &&
+      unidadesMesNoEvaluable.length > 0
+    ) {
+      const registrados = unidadesMesNoEvaluable.reduce(
+        (acc, item) =>
+          acc + (Number(item.registrados) || 0),
+        0
+      );
+
+      const sinInconsistencias =
+        unidadesMesNoEvaluable.reduce(
+          (acc, item) =>
+            acc +
+            (Number(item.sinInconsistencias) || 0),
+          0
+        );
+
+      const formatosEsperados =
+        unidadesMesNoEvaluable.reduce(
+          (acc, item) =>
+            acc + (Number(item.esperados) || 0),
+          0
+        );
+
+      return {
+        registrados,
+        sinInconsistencias,
+        formatosEsperados,
+        unidadesResultados:
+          unidadesMesNoEvaluable,
+        periodoEvaluable: false,
+      };
+    }
+
     // TRIMESTRE seleccionado (o último trimestre evaluable por defecto).
     if (!mes && unidadesTrimestreFiltradas.length > 0) {
       const registrados = sumar(
@@ -6355,6 +6611,8 @@ function App() {
     };
   }, [
     mes,
+    mesSeleccionadoEsEvaluable,
+    unidadesMesNoEvaluable,
     evaluacionFiltrada,
     evaluacionCompletaFiltrada,
     unidadesTrimestreFiltradas,
@@ -7878,7 +8136,7 @@ function App() {
               ) : (
                 <>
                   <EvaluationFilterStrip
-                    meses={mesesEvaluacion}
+                    meses={meses}
                     trimestres={trimestres}
                     entidades={entidades}
                     unidadesFiltradas={unidadesFiltradas}
@@ -7971,7 +8229,11 @@ function App() {
                             }
                             field="consistencia"
                             color="#b38c2e"
-                            emptyMessage="Sin información evaluable para la selección."
+                            emptyMessage={
+                              mes && !mesSeleccionadoEsEvaluable
+                                ? 'El mes seleccionado aún no es evaluable para oportunidad.'
+                                : 'Sin información evaluable para la selección.'
+                            }
                           />
                         </div>
 
