@@ -4751,6 +4751,80 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+
+  /* ==========================================================
+     AJUSTE FINAL — EVALUACIÓN
+     1) Cada tarjeta de indicador alineada con su gráfica.
+     2) Fuente al fondo del menú lateral, igual que en módulos.
+     ========================================================== */
+
+  .evaluation-main-grid {
+    align-items: stretch !important;
+  }
+
+  .evaluation-indicators-panel {
+    align-self: stretch !important;
+    height: 100% !important;
+    min-height: 100% !important;
+  }
+
+  .evaluation-indicators-stack {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    justify-content: space-around !important;
+  }
+
+  .evaluation-indicators-panel .evaluation-score-card {
+    flex: 0 0 auto !important;
+  }
+
+  /* Mantener el ponderado centrado respecto a la gráfica intermedia */
+  .final-evaluation-right {
+    align-self: stretch !important;
+    height: 100% !important;
+    padding-top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Sidebar de Evaluación: mismo comportamiento vertical que los demás */
+  .evaluation-body .sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-self: stretch !important;
+  }
+
+  .evaluation-body .sidebar-source {
+    position: static !important;
+    margin-top: auto !important;
+    margin-bottom: 18px !important;
+    transform: none !important;
+  }
+
+  @media (max-width: 980px) {
+    .final-evaluation-right {
+      padding-top: 0 !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .evaluation-indicators-panel {
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
+    .evaluation-indicators-stack {
+      height: auto !important;
+    }
+
+    .final-evaluation-right {
+      height: auto !important;
+      align-self: auto !important;
+    }
+  }
+
 `;
 
 function App() {
