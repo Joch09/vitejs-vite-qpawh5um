@@ -4504,6 +4504,61 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+
+  /* ==========================================================
+     EVALUACIÓN — eliminar espacio vertical muerto
+     ========================================================== */
+
+  .evaluation-body {
+    align-items: flex-start !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  .evaluation-body .dashboard-content {
+    min-height: 0 !important;
+    height: auto !important;
+    align-self: flex-start !important;
+  }
+
+  .evaluation-body .evaluation-module {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .evaluation-body .evaluation-content-card,
+  .evaluation-body .final-evaluation-card {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 14px !important;
+  }
+
+  .evaluation-body .evaluation-main-grid {
+    min-height: 0 !important;
+    height: auto !important;
+    align-self: flex-start !important;
+  }
+
+  .evaluation-body .sidebar {
+    min-height: 0 !important;
+    height: auto !important;
+    align-self: flex-start !important;
+  }
+
+  .evaluation-body .sidebar-source {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    margin-top: 18px !important;
+    transform: none !important;
+  }
+
 `;
 
 function App() {
@@ -6926,7 +6981,11 @@ function App() {
         </div>
       </header>
 
-      <div className="app-body">
+      <div
+        className={`app-body ${
+          vista === 'evaluacion' ? 'evaluation-body' : ''
+        }`}
+      >
         <aside className="sidebar">
           <nav className="sidebar-menu">
             {MODULOS.map((modulo) => (
