@@ -302,24 +302,6 @@ function formatoPorcentaje(valor, decimales = 1) {
   return `${formatoNumero(valor, decimales)}%`;
 }
 
-function limitarPorcentaje(valor) {
-  const numero = Number(valor);
-
-  if (!Number.isFinite(numero)) {
-    return null;
-  }
-
-  return Math.max(0, Math.min(100, numero));
-}
-
-function formatoPorcentajeAcotado(valor, decimales = 1) {
-  const acotado = limitarPorcentaje(valor);
-
-  return acotado === null
-    ? '—'
-    : `${formatoNumero(acotado, decimales)}%`;
-}
-
 
 function calcularSegmentosPie(
   items,
@@ -819,57 +801,11 @@ function FilterStrip({
   cambiarEntidad,
   setUnidad,
   limpiarFiltros,
-  kpiRegistrados,
   kpiSinInconsistencias,
 }) {
-  const mostrarEntero = (valor) =>
-    Number.isFinite(Number(valor))
-      ? Number(valor).toLocaleString('es-MX')
-      : '—';
-
   return (
     <div className="shared-filter-strip">
       <div className="shared-filters">
-        <div className="filter-group">
-          <label htmlFor="edad">Edad</label>
-
-          <select
-            id="edad"
-            value={edad}
-            onChange={(event) => setEdad(event.target.value)}
-          >
-            <option value="">Todas</option>
-
-            {gruposEdad.map((grupo) => (
-              <optgroup key={grupo.label} label={grupo.label}>
-                {grupo.opciones.map((item) => (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="mes">Mes</label>
-
-          <select
-            id="mes"
-            value={mes}
-            onChange={(event) => setMes(event.target.value)}
-          >
-            <option value="">Todos</option>
-
-            {meses.map((item) => (
-              <option key={item.mes} value={item.mes}>
-                {item.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <div className="filter-group">
           <label htmlFor="entidad">Entidad</label>
 
@@ -906,6 +842,46 @@ function FilterStrip({
           </select>
         </div>
 
+        <div className="filter-group">
+          <label htmlFor="mes">Mes</label>
+
+          <select
+            id="mes"
+            value={mes}
+            onChange={(event) => setMes(event.target.value)}
+          >
+            <option value="">Todos</option>
+
+            {meses.map((item) => (
+              <option key={item.mes} value={item.mes}>
+                {item.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="edad">Edad</label>
+
+          <select
+            id="edad"
+            value={edad}
+            onChange={(event) => setEdad(event.target.value)}
+          >
+            <option value="">Todas</option>
+
+            {gruposEdad.map((grupo) => (
+              <optgroup key={grupo.label} label={grupo.label}>
+                {grupo.opciones.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </div>
+
         <button
           className="clear-filters"
           type="button"
@@ -915,37 +891,24 @@ function FilterStrip({
         </button>
       </div>
 
-      <div className="shared-kpis">
-        <div className="shared-kpi">
-          <div className="shared-kpi-value">
-            {mostrarEntero(kpiRegistrados)}
-          </div>
-
-          <div className="shared-kpi-label">
-            Cuestionarios
-            <br />
-            registrados
-          </div>
+      <div className="shared-kpi">
+        <div className="shared-kpi-value">
+          {Number.isFinite(Number(kpiSinInconsistencias))
+            ? Number(kpiSinInconsistencias).toLocaleString('es-MX')
+            : '—'}
         </div>
 
-        <div className="shared-kpi">
-          <div className="shared-kpi-value">
-            {mostrarEntero(kpiSinInconsistencias)}
-          </div>
-
-          <div className="shared-kpi-label">
-            Cuestionarios
-            <br />
-            registrados sin
-            <br />
-            inconsistencias
-          </div>
+        <div className="shared-kpi-label">
+          Cuestionarios
+          <br />
+          Registrados sin
+          <br />
+          inconsistencias
         </div>
       </div>
     </div>
   );
 }
-
 
 function EvaluationFilterStrip({
   meses,
@@ -975,24 +938,6 @@ function EvaluationFilterStrip({
   return (
     <div className="evaluation-filter-strip">
       <div className="evaluation-filters">
-        <div className="filter-group">
-          <label htmlFor="eval-mes">Mes</label>
-
-          <select
-            id="eval-mes"
-            value={mes}
-            onChange={(event) => setMes(event.target.value)}
-          >
-            <option value="">Todos</option>
-
-            {meses.map((item) => (
-              <option key={item.mes} value={item.mes}>
-                {item.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <div className="filter-group">
           <label htmlFor="eval-entidad">Entidad</label>
 
@@ -1024,6 +969,24 @@ function EvaluationFilterStrip({
             {unidadesFiltradas.map((item) => (
               <option key={item.unidad_id} value={item.unidad_id}>
                 {item.unidad}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="eval-mes">Mes</label>
+
+          <select
+            id="eval-mes"
+            value={mes}
+            onChange={(event) => setMes(event.target.value)}
+          >
+            <option value="">Todos</option>
+
+            {meses.map((item) => (
+              <option key={item.mes} value={item.mes}>
+                {item.nombre}
               </option>
             ))}
           </select>
@@ -1081,7 +1044,6 @@ function EvaluationFilterStrip({
   );
 }
 
-
 function EvaluationUnitBars({
   items,
   field,
@@ -1100,6 +1062,16 @@ function EvaluationUnitBars({
     );
   }
 
+  const maximoObservado = Math.max(
+    100,
+    ...validItems.map((item) =>
+      Math.max(0, Number(item[field]) || 0)
+    )
+  );
+
+  const escalaMaxima =
+    Math.ceil(maximoObservado / 10) * 10;
+
   return (
     <div className="evaluation-unit-bars">
       {validItems.map((item) => {
@@ -1108,14 +1080,10 @@ function EvaluationUnitBars({
           Number(item[field]) || 0
         );
 
-        const valorBar = Math.min(
-          100,
-          valorRaw
-        );
-
-        const valorMostrar = limitarPorcentaje(
-          valorRaw
-        );
+        const valorBar =
+          escalaMaxima > 0
+            ? (valorRaw / escalaMaxima) * 100
+            : 0;
 
         return (
           <div
@@ -1139,16 +1107,8 @@ function EvaluationUnitBars({
               ></div>
             </div>
 
-            <strong
-              title={
-                valorRaw > 100
-                  ? `Valor observado: ${valorRaw.toFixed(1)}%`
-                  : undefined
-              }
-            >
-              {valorMostrar === null
-                ? '—'
-                : `${valorMostrar.toFixed(1)}%`}
+            <strong>
+              {valorRaw.toFixed(1)}%
             </strong>
           </div>
         );
@@ -4172,99 +4132,6 @@ const AJUSTES_VISUALES_20260817 = `
     font-size: 0.70rem !important;
   }
 
-
-  /* ==========================================================
-     PASO 09 — filtros jerárquicos + doble KPI + evaluación
-     ========================================================== */
-
-  .shared-filter-strip {
-    grid-template-columns: minmax(0, 1fr) minmax(360px, 410px) !important;
-  }
-
-  .shared-filters {
-    grid-template-columns:
-      minmax(150px, 0.9fr)
-      minmax(130px, 0.75fr)
-      minmax(180px, 1.05fr)
-      minmax(260px, 1.55fr)
-      minmax(90px, 0.55fr) !important;
-  }
-
-  .shared-kpis {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(170px, 1fr)) !important;
-    gap: 10px !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    align-items: stretch !important;
-  }
-
-  .shared-kpis .shared-kpi {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    height: 100% !important;
-    justify-self: stretch !important;
-    margin: 0 !important;
-  }
-
-  .shared-kpis .shared-kpi-value {
-    width: 100% !important;
-    max-width: none !important;
-  }
-
-  .evaluation-filters {
-    grid-template-columns:
-      minmax(140px, 0.75fr)
-      minmax(190px, 1fr)
-      minmax(280px, 1.45fr)
-      minmax(90px, 0.55fr) !important;
-  }
-
-  @media (max-width: 1500px) {
-    .shared-filter-strip {
-      grid-template-columns: 1fr !important;
-    }
-
-    .shared-kpis {
-      width: min(100%, 410px) !important;
-      justify-self: end !important;
-      margin-left: auto !important;
-    }
-  }
-
-  @media (max-width: 1050px) {
-    .shared-kpis {
-      width: min(100%, 410px) !important;
-      justify-self: center !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    .evaluation-filters {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    }
-
-    .evaluation-filters .clear-filters {
-      grid-column: 1 / -1 !important;
-    }
-  }
-
-  @media (max-width: 650px) {
-    .shared-kpis {
-      grid-template-columns: 1fr !important;
-      width: 100% !important;
-    }
-
-    .evaluation-filters {
-      grid-template-columns: 1fr !important;
-    }
-
-    .evaluation-filters .clear-filters {
-      grid-column: auto !important;
-    }
-  }
-
 `;
 
 function App() {
@@ -4516,13 +4383,18 @@ function App() {
 
   const entidades = useMemo(() => {
     return [...new Set(unidadesCatalogo.map((item) => item.entidad))]
-      .filter(Boolean);
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b, 'es'));
   }, [unidadesCatalogo]);
 
   const unidadesFiltradas = useMemo(() => {
-    return entidad
+    const base = entidad
       ? unidadesCatalogo.filter((item) => item.entidad === entidad)
       : unidadesCatalogo;
+
+    return [...base].sort((a, b) =>
+      String(a.unidad).localeCompare(String(b.unidad), 'es')
+    );
   }, [unidadesCatalogo, entidad]);
 
   const idsUnidadesEntidad = useMemo(() => {
@@ -4534,40 +4406,6 @@ function App() {
         .map((item) => Number(item.unidad_id))
     );
   }, [unidadesCatalogo, entidad]);
-
-  const kpiMapaPorUnidad = useMemo(() => {
-    const acumulado = new Map();
-    const rows = kpiFiltrosData?.kpiDecoded || [];
-
-    rows.forEach((item) => {
-      if (edad && !edadCoincide(item.edad, edad)) {
-        return;
-      }
-
-      if (mes && Number(item.mes) !== Number(mes)) {
-        return;
-      }
-
-      const id = Number(item.unidad_id);
-
-      if (!Number.isFinite(id)) {
-        return;
-      }
-
-      const previo = acumulado.get(id) || {
-        registrados: 0,
-        sinInconsistencias: 0,
-      };
-
-      previo.registrados += Number(item.n_registrados) || 0;
-      previo.sinInconsistencias +=
-        Number(item.n_sin_inconsistencias) || 0;
-
-      acumulado.set(id, previo);
-    });
-
-    return acumulado;
-  }, [kpiFiltrosData, edad, mes]);
 
   const puntosMapa = useMemo(() => {
     let resultado = mapa;
@@ -4598,31 +4436,14 @@ function App() {
 
         if (!coords) return null;
 
-        const kpiUnidad =
-          kpiMapaPorUnidad.get(
-            Number(item.unidad_id)
-          ) || {
-            registrados: 0,
-            sinInconsistencias: 0,
-          };
-
         return {
           ...item,
           lat: coords.lat,
           lon: coords.lon,
-          registros_filtrados:
-            kpiUnidad.registrados,
-          sin_inconsistencias_filtrados:
-            kpiUnidad.sinInconsistencias,
         };
       })
       .filter(Boolean);
-  }, [
-    mapa,
-    entidad,
-    unidad,
-    kpiMapaPorUnidad,
-  ]);
+  }, [mapa, entidad, unidad]);
 
   const cariesFiltrada = useMemo(
     () =>
@@ -4693,13 +4514,13 @@ function App() {
     () =>
       filtrarPorLlave(
         cariesData?.coreDecoded || [],
-        edad,
-        mes,
+        '',
+        '',
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, entidad, unidad, idsUnidadesEntidad]
   );
 
   // Edentulismo disponible para todas las edades y sensible al filtro de edad.
@@ -5047,7 +4868,7 @@ function App() {
             color: '#701039',
           },
           {
-            etiqueta: 'Sin edentulismo parcial',
+            etiqueta: 'Dentadura completa',
             valor: indicadoresCaries.sinEdentParcialPct,
             color: '#173f3a',
           },
@@ -5245,27 +5066,6 @@ function App() {
       background: `conic-gradient(${segmentos.join(', ')})`,
     };
   }, [higieneSexoData]);
-
-  const higieneSexoSegmentos = useMemo(
-    () =>
-      calcularSegmentosPie(
-        higieneSexoData.items.map((item, index) => ({
-          etiqueta: item.etiqueta,
-          valor: item.valor,
-          color:
-            ['#701039', '#173f3a', '#b38c2e', '#8b8b8b'][
-              index % 4
-            ],
-        })),
-        {
-          radioInterior: 28,
-          radioExterior: 57,
-          umbralExterior: 0,
-          umbralOcultar: 5,
-        }
-      ),
-    [higieneSexoData]
-  );
 
   const higieneAntecedentesData = useMemo(() => {
     const N = sumar(higieneAntecedentesFiltrados, 'N');
@@ -5654,27 +5454,6 @@ function App() {
     return { background: `conic-gradient(${segmentos.join(', ')})` };
   })();
 
-  const periodontalSexoSegmentos = useMemo(
-    () =>
-      calcularSegmentosPie(
-        periodontalSexoData.items.map((item, index) => ({
-          etiqueta: item.etiqueta,
-          valor: item.valor,
-          color:
-            ['#701039', '#173f3a', '#b38c2e', '#8b8b8b'][
-              index % 4
-            ],
-        })),
-        {
-          radioInterior: 28,
-          radioExterior: 57,
-          umbralExterior: 0,
-          umbralOcultar: 5,
-        }
-      ),
-    [periodontalSexoData]
-  );
-
   const indicadoresOtras = useMemo(() => {
     const lesionN = sumar(otrasCoreFiltrado, 'lesion_N');
     const lesionn = sumar(otrasCoreFiltrado, 'lesion_n');
@@ -5813,27 +5592,6 @@ function App() {
       background: `conic-gradient(${segmentos.join(', ')})`,
     };
   })();
-
-  const otrasSexoSegmentos = useMemo(
-    () =>
-      calcularSegmentosPie(
-        otrasSexoData.items.map((item, index) => ({
-          etiqueta: item.etiqueta,
-          valor: item.valor,
-          color:
-            ['#701039', '#173f3a', '#b38c2e', '#8b8b8b'][
-              index % 4
-            ],
-        })),
-        {
-          radioInterior: 28,
-          radioExterior: 57,
-          umbralExterior: 0,
-          umbralOcultar: 5,
-        }
-      ),
-    [otrasSexoData]
-  );
 
   const otrasTiempoPieStyle =
     indicadoresOtras.tiempoLt3Pct === null
@@ -6019,7 +5777,7 @@ function App() {
   const indicadoresEvaluacion = useMemo(() => {
     const registradosObservados = sumar(
       evaluacionFiltrada,
-      'cuestionarios_registrados'
+      'formatos_registrados'
     );
 
     const sinInconsistenciasObservados = sumar(
@@ -6052,7 +5810,6 @@ function App() {
           unidad_id: id,
           unidad: String(item.unidad || ''),
           registrados: 0,
-          limpiosCobertura: 0,
           oportunos: 0,
           sinInconsistencias: 0,
           esperados: 0,
@@ -6060,10 +5817,7 @@ function App() {
       }
 
       porUnidad[id].registrados +=
-        Number(item.cuestionarios_registrados) || 0;
-
-      porUnidad[id].limpiosCobertura +=
-        Number(item.formatos_cobertura) || 0;
+        Number(item.formatos_registrados) || 0;
 
       porUnidad[id].oportunos +=
         Number(item.formatos_oportunos) || 0;
@@ -6078,66 +5832,36 @@ function App() {
     const unidadesResultados = Object.values(porUnidad)
       .map((item) => {
         const esperado = item.esperados;
-        const mesesEvaluados =
-          esperado > 0 ? esperado / 60 : 0;
 
-        const umbralCobertura =
-          mesesEvaluados > 0
-            ? 30 * mesesEvaluados
-            : null;
-
-        const umbralConsistencia =
-          mesesEvaluados > 0
-            ? 30 * mesesEvaluados
-            : null;
-
-        const coberturaMeta =
-          umbralCobertura > 0
-            ? Math.min(
-                100,
-                (100 * item.limpiosCobertura) /
-                  umbralCobertura
-              )
+        const cumplimientoMeta =
+          esperado > 0
+            ? (100 * item.registrados) / esperado
             : null;
 
         const consistencia =
-          umbralConsistencia > 0
-            ? Math.min(
-                100,
-                (100 * item.oportunos) /
-                  umbralConsistencia
-              )
-            : null;
-
-        const calidadRaw =
           esperado > 0
-            ? (100 * item.sinInconsistencias) /
-              esperado
+            ? (100 * item.oportunos) / esperado
             : null;
 
         const calidad =
-          limitarPorcentaje(
-            calidadRaw
-          );
+          esperado > 0
+            ? (100 * item.sinInconsistencias) / esperado
+            : null;
 
         return {
           ...item,
-          coberturaMeta,
+          cumplimientoMeta,
           consistencia,
           calidad,
-          calidadRaw,
           cumpleCobertura:
-            umbralCobertura > 0
-              ? item.limpiosCobertura >=
-                umbralCobertura
-              : false,
-          cumpleConsistencia:
-            umbralConsistencia > 0
-              ? item.oportunos >=
-                umbralConsistencia
+            esperado > 0
+              ? item.sinInconsistencias >= 0.5 * esperado
               : false,
         };
-      });
+      })
+      .sort((a, b) =>
+        a.unidad.localeCompare(b.unidad, 'es')
+      );
 
     const unidadesEvaluables = unidadesResultados.filter(
       (item) => item.esperados > 0
@@ -6153,24 +5877,15 @@ function App() {
         : null;
 
     const consistencia =
-      unidadesEvaluables.length > 0
-        ? (100 *
-            unidadesEvaluables.filter(
-              (item) => item.cumpleConsistencia
-            ).length) /
-          unidadesEvaluables.length
+      formatosEsperados > 0
+        ? (100 * oportunos) / formatosEsperados
         : null;
 
-    const calidadRaw =
+    const calidad =
       formatosEsperados > 0
         ? (100 * sinInconsistenciasEvaluables) /
           formatosEsperados
         : null;
-
-    const calidad =
-      limitarPorcentaje(
-        calidadRaw
-      );
 
     const ponderado =
       Number.isFinite(cobertura) &&
@@ -6186,11 +5901,9 @@ function App() {
       sinInconsistencias: sinInconsistenciasObservados,
       formatosEsperados:
         formatosEsperados > 0 ? formatosEsperados : null,
-      oportunos,
       cobertura,
       consistencia,
       calidad,
-      calidadRaw,
       ponderado,
       unidadesResultados,
       periodoEvaluable:
@@ -6236,18 +5949,35 @@ function App() {
   ]);
 
   const ponderadoOficialEvaluacion = useMemo(() => {
-    if (!indicadorOficialEvaluacion) {
+    if (!indicadorOficialEvaluacion) return null;
+
+    const ponderadoJson =
+      Number(indicadorOficialEvaluacion.ponderado);
+
+    if (Number.isFinite(ponderadoJson)) {
+      return ponderadoJson;
+    }
+
+    const cobertura =
+      Number(indicadorOficialEvaluacion.cobertura);
+    const consistencia =
+      Number(indicadorOficialEvaluacion.consistencia);
+    const calidad =
+      Number(indicadorOficialEvaluacion.calidad);
+
+    if (
+      !Number.isFinite(cobertura) ||
+      !Number.isFinite(consistencia) ||
+      !Number.isFinite(calidad)
+    ) {
       return null;
     }
 
-    const ponderado =
-      Number(
-        indicadorOficialEvaluacion.ponderado
-      );
-
-    return Number.isFinite(ponderado)
-      ? ponderado
-      : null;
+    return (
+      Math.min(100, cobertura) * 0.2 +
+      Math.min(100, consistencia) * 0.3 +
+      Math.min(100, calidad) * 0.5
+    );
   }, [indicadorOficialEvaluacion]);
 
   const cambiarEntidad = (event) => {
@@ -6262,21 +5992,15 @@ function App() {
     setUnidad('');
   };
 
-  const kpiSeleccion = useMemo(() => {
+  const kpiSinInconsistencias = useMemo(() => {
     if (!kpiFiltrosData?.kpiDecoded) {
       const sinFiltros =
         !edad && !mes && !entidad && !unidad;
 
-      return {
-        registrados: sinFiltros
-          ? resumenNacional?.kpi_global
-              ?.cuestionarios_registrados ?? null
-          : null,
-        sinInconsistencias: sinFiltros
-          ? resumenNacional?.kpi_global
-              ?.cuestionarios_registrados_sin_inconsistencias ?? null
-          : null,
-      };
+      return sinFiltros
+        ? resumenNacional?.kpi_global
+            ?.cuestionarios_registrados_sin_inconsistencias ?? null
+        : null;
     }
 
     const filas = kpiFiltrosData.kpiDecoded.filter((item) => {
@@ -6306,16 +6030,10 @@ function App() {
       return true;
     });
 
-    return {
-      registrados: sumar(
-        filas,
-        'n_registrados'
-      ),
-      sinInconsistencias: sumar(
-        filas,
-        'n_sin_inconsistencias'
-      ),
-    };
+    return sumar(
+      filas,
+      'n_sin_inconsistencias'
+    );
   }, [
     kpiFiltrosData,
     resumenNacional,
@@ -6325,12 +6043,6 @@ function App() {
     unidad,
     idsUnidadesEntidad,
   ]);
-
-  const kpiRegistrados =
-    kpiSeleccion.registrados;
-
-  const kpiSinInconsistencias =
-    kpiSeleccion.sinInconsistencias;
 
   const filtroProps = {
     gruposEdad,
@@ -6346,7 +6058,6 @@ function App() {
     cambiarEntidad,
     setUnidad,
     limpiarFiltros,
-    kpiRegistrados,
     kpiSinInconsistencias,
   };
 
@@ -6488,8 +6199,8 @@ function App() {
             <span>
               Secretaría de Salud. Dirección General de Epidemiología.
               SINAVE. Sistema de Vigilancia Epidemiológica de Patologías
-              Bucales. Cuestionarios registrados de enero a julio de 2026,
-              corte al 15 de julio de 2026.
+              Bucales. Cédulas registradas de enero a junio de 2026,
+              corte al 30 de junio de 2026.
             </span>
           </div>
         </aside>
@@ -6583,17 +6294,7 @@ function App() {
                               )}
 
                               <span>
-                                Registrados: {' '}
-                                {Number(
-                                  item.registros_filtrados || 0
-                                ).toLocaleString('es-MX')}
-                              </span>
-
-                              <span>
-                                Sin inconsistencias: {' '}
-                                {Number(
-                                  item.sin_inconsistencias_filtrados || 0
-                                ).toLocaleString('es-MX')}
+                                Registros: {item.registros_total}
                               </span>
                             </div>
                           </Tooltip>
@@ -6800,58 +6501,53 @@ function App() {
                         Gravedad de caries dental:
                       </h3>
 
-                      {indicadoresCaries.CPOD !== null && (
-                        <div className="caries-gravity-row">
-                          <div className="caries-gravity-copy">
-                            En pacientes con dentición permanente*:
-                          </div>
-
-                          <div className="proposal-index-card proposal-index-CPOD caries-gravity-bullet">
-                            <strong>
-                              {formatoNumero(indicadoresCaries.CPOD)}
-                            </strong>
-                            <span>CPOD</span>
-                          </div>
+                      <div className="caries-gravity-row">
+                        <div className="caries-gravity-copy">
+                          En pacientes con dentición permanente*:
                         </div>
-                      )}
 
-                      {indicadoresCaries.cpod !== null &&
-                        String(edad).trim() !== '6' && (
-                          <div className="caries-gravity-row">
-                            <div className="caries-gravity-copy">
-                              En pacientes con dentición temporal:
-                            </div>
+                        <div className="proposal-index-card proposal-index-CPOD caries-gravity-bullet">
+                          <strong>
+                            {formatoNumero(indicadoresCaries.CPOD)}
+                          </strong>
+                          <span>CPOD</span>
+                        </div>
+                      </div>
 
-                            <div className="proposal-index-card proposal-index-cpod caries-gravity-bullet">
-                              <strong>
-                                {formatoNumero(indicadoresCaries.cpod)}
-                              </strong>
-                              <span>cpod</span>
-                            </div>
-                          </div>
-                        )}
+                      <div className="caries-gravity-row">
+                        <div className="caries-gravity-copy">
+                          En pacientes con dentición temporal:
+                        </div>
+
+                        <div className="proposal-index-card proposal-index-cpod caries-gravity-bullet">
+                          <strong>
+                            {String(edad).trim() === '6'
+                              ? '—'
+                              : formatoNumero(indicadoresCaries.cpod)}
+                          </strong>
+                          <span>cpod</span>
+                        </div>
+                      </div>
 
                       <div className="caries-summary-stack">
-                        {indicadoresCaries.librePct !== null && (
-                          <div className="caries-summary-card">
-                            <div className="caries-summary-icon" aria-hidden="true">
-                              <img src={iconNinosAdolescentes} alt="" />
-                            </div>
-
-                            <div className="caries-summary-content">
-                              <strong>
-                                {formatoPorcentaje(
-                                  indicadoresCaries.librePct,
-                                  1
-                                )}
-                              </strong>
-                              <span>
-                                de las niñas, niños y adolescentes están libres
-                                de caries dental
-                              </span>
-                            </div>
+                        <div className="caries-summary-card">
+                          <div className="caries-summary-icon" aria-hidden="true">
+                            <img src={iconNinosAdolescentes} alt="" />
                           </div>
-                        )}
+
+                          <div className="caries-summary-content">
+                            <strong>
+                              {formatoPorcentaje(
+                                indicadoresCaries.librePct,
+                                1
+                              )}
+                            </strong>
+                            <span>
+                              de las niñas, niños y adolescentes están libres
+                              de caries dental
+                            </span>
+                          </div>
+                        </div>
 
                         <div className="caries-summary-card">
                           <div className="caries-summary-icon" aria-hidden="true">
@@ -6914,7 +6610,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              higieneSociales.migrantePct,
+                              indicadoresSociales.migrantePct,
                               1
                             )}
                           </strong>
@@ -6934,7 +6630,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              higieneSociales.indigenaPct,
+                              indicadoresSociales.indigenaPct,
                               1
                             )}
                           </strong>
@@ -6942,7 +6638,7 @@ function App() {
                         </div>
                       </div>
 
-                      <PregnancySummaryCard valor={higieneEmbarazoPct} />
+                      <PregnancySummaryCard valor={embarazoPct} />
 
 
                       <div className="mini-section proposal-sex-section">
@@ -6951,16 +6647,16 @@ function App() {
                         <div className="sex-chart-wrap">
                           <div
                             className="sex-pie"
-                            style={higieneSexoPieStyle}
+                            style={sexoPieStyle}
                           >
                             <PieLabels
-                              segmentos={higieneSexoSegmentos}
+                              segmentos={sexoSegmentos}
                               decimales={1}
                             />
                           </div>
 
                           <div className="sex-legend">
-                            {higieneSexoSegmentos.map((item) => (
+                            {sexoSegmentos.map((item) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -6989,7 +6685,7 @@ function App() {
                         <h3>Antecedentes patológicos</h3>
 
                         <HorizontalBars
-                          items={higieneAntecedentesData}
+                          items={antecedentesData}
                           variant="green"
                         />
                       </div>
@@ -6998,7 +6694,7 @@ function App() {
                         <h3>Ocupación actual</h3>
 
                         <HorizontalBars
-                          items={higieneOcupacionData}
+                          items={ocupacionData}
                           variant="burgundy"
                         />
                       </div>
@@ -7092,7 +6788,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              periodontalSociales.migrantePct,
+                              indicadoresSociales.migrantePct,
                               1
                             )}
                           </strong>
@@ -7111,7 +6807,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              periodontalSociales.indigenaPct,
+                              indicadoresSociales.indigenaPct,
                               1
                             )}
                           </strong>
@@ -7119,20 +6815,20 @@ function App() {
                         </div>
                       </div>
 
-                      <PregnancySummaryCard valor={periodontalEmbarazoPct} />
+                      <PregnancySummaryCard valor={embarazoPct} />
 
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
                         <div className="sex-chart-wrap">
-                          <div className="sex-pie" style={periodontalSexoPieStyle}>
+                          <div className="sex-pie" style={sexoPieStyle}>
                             <PieLabels
-                              segmentos={periodontalSexoSegmentos}
+                              segmentos={sexoSegmentos}
                               decimales={1}
                             />
                           </div>
 
                           <div className="sex-legend">
-                            {periodontalSexoSegmentos.map((item) => (
+                            {sexoSegmentos.map((item) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -7160,7 +6856,7 @@ function App() {
                       <div className="mini-section proposal-bars-section">
                         <h3>Antecedentes patológicos</h3>
                         <HorizontalBars
-                          items={periodontalAntecedentesData}
+                          items={antecedentesData}
                           variant="green"
                         />
                       </div>
@@ -7168,7 +6864,7 @@ function App() {
                       <div className="mini-section occupation-section proposal-bars-section">
                         <h3>Ocupación actual</h3>
                         <HorizontalBars
-                          items={periodontalOcupacionData}
+                          items={ocupacionData}
                           variant="burgundy"
                         />
                       </div>
@@ -7323,7 +7019,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              otrasSociales.migrantePct,
+                              indicadoresSociales.migrantePct,
                               1
                             )}
                           </strong>
@@ -7343,7 +7039,7 @@ function App() {
                         <div className="social-summary-copy">
                           <strong>
                             {formatoPorcentaje(
-                              otrasSociales.indigenaPct,
+                              indicadoresSociales.indigenaPct,
                               1
                             )}
                           </strong>
@@ -7351,7 +7047,7 @@ function App() {
                         </div>
                       </div>
 
-                      <PregnancySummaryCard valor={otrasEmbarazoPct} />
+                      <PregnancySummaryCard valor={embarazoPct} />
 
                       <div className="mini-section proposal-sex-section">
                         <h3>Sexo</h3>
@@ -7359,16 +7055,16 @@ function App() {
                         <div className="sex-chart-wrap">
                           <div
                             className="sex-pie"
-                            style={otrasSexoPieStyle}
+                            style={sexoPieStyle}
                           >
                             <PieLabels
-                              segmentos={otrasSexoSegmentos}
+                              segmentos={sexoSegmentos}
                               decimales={1}
                             />
                           </div>
 
                           <div className="sex-legend">
-                            {otrasSexoSegmentos.map((item) => (
+                            {sexoSegmentos.map((item) => (
                               <div
                                 className="sex-legend-row"
                                 key={item.etiqueta}
@@ -7397,7 +7093,7 @@ function App() {
                         <h3>Antecedentes patológicos</h3>
 
                         <HorizontalBars
-                          items={otrasAntecedentesData}
+                          items={antecedentesData}
                           variant="green"
                         />
                       </div>
@@ -7406,7 +7102,7 @@ function App() {
                         <h3>Ocupación actual</h3>
 
                         <HorizontalBars
-                          items={otrasOcupacionData}
+                          items={ocupacionData}
                           variant="burgundy"
                         />
                       </div>
@@ -7712,21 +7408,14 @@ function App() {
                     }
                   />
 
-                  <div className="evaluation-official-note">
-                    <strong>Periodo evaluable:</strong>{' '}
-                    enero-junio de 2026. Cobertura considera cumplimiento
-                    de al menos 30 cuestionarios limpios por mes (50% de la
-                    meta mensual); consistencia, al menos 30 cuestionarios
-                    oportunos por mes. Los valores
-                    visuales se acotan a 100% sin modificar el dato fuente.
-                  </div>
-
                   <div className="evaluation-content-card final-evaluation-card">
                     <div className="evaluation-row">
                       <div className="evaluation-score-card eval-wine">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresEvaluacion.cobertura,
+                            Number(
+                              indicadorOficialEvaluacion?.cobertura
+                            ),
                             1
                           )}
                         </strong>
@@ -7734,15 +7423,15 @@ function App() {
                       </div>
 
                       <div className="evaluation-real-chart">
-                        <h3>Cobertura por unidad centinela</h3>
+                        <h3>Porcentaje de cumplimiento de meta por unidad centinela</h3>
 
                         <EvaluationUnitBars
                           items={
                             indicadoresEvaluacion.unidadesResultados
                           }
-                          field="coberturaMeta"
+                          field="cumplimientoMeta"
                           color="#701039"
-                          emptyMessage="El mes seleccionado no forma parte del periodo evaluable enero-junio."
+                          emptyMessage="Sin información evaluable para la selección."
                         />
                       </div>
                     </div>
@@ -7751,7 +7440,9 @@ function App() {
                       <div className="evaluation-score-card eval-gold">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresEvaluacion.consistencia,
+                            Number(
+                              indicadorOficialEvaluacion?.consistencia
+                            ),
                             1
                           )}
                         </strong>
@@ -7759,7 +7450,7 @@ function App() {
                       </div>
 
                       <div className="evaluation-real-chart">
-                        <h3>Consistencia por unidad centinela</h3>
+                        <h3>Porcentaje de cuestionarios capturados con oportunidad por unidad centinela</h3>
 
                         <EvaluationUnitBars
                           items={
@@ -7767,7 +7458,7 @@ function App() {
                           }
                           field="consistencia"
                           color="#b38c2e"
-                          emptyMessage="El mes seleccionado no forma parte del periodo evaluable enero-junio."
+                          emptyMessage="Sin información evaluable para la selección."
                         />
                       </div>
                     </div>
@@ -7775,8 +7466,10 @@ function App() {
                     <div className="evaluation-row">
                       <div className="evaluation-score-card eval-gray">
                         <strong>
-                          {formatoPorcentajeAcotado(
-                            indicadoresEvaluacion.calidad,
+                          {formatoPorcentaje(
+                            Number(
+                              indicadorOficialEvaluacion?.calidad
+                            ),
                             1
                           )}
                         </strong>
@@ -7784,7 +7477,7 @@ function App() {
                       </div>
 
                       <div className="evaluation-real-chart">
-                        <h3>Calidad por unidad centinela</h3>
+                        <h3>Porcentaje de cuestionarios con calidad por unidad centinela</h3>
 
                         <EvaluationUnitBars
                           items={
@@ -7792,7 +7485,7 @@ function App() {
                           }
                           field="calidad"
                           color="#8d8d8d"
-                          emptyMessage="El mes seleccionado no forma parte del periodo evaluable enero-junio."
+                          emptyMessage="Sin información evaluable para la selección."
                         />
                       </div>
                     </div>
@@ -7801,7 +7494,7 @@ function App() {
                       <div className="evaluation-pending-card">
                         <strong>
                           {formatoPorcentaje(
-                            indicadoresEvaluacion.ponderado,
+                            ponderadoOficialEvaluacion,
                             1
                           )}
                         </strong>
