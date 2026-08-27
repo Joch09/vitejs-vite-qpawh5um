@@ -550,6 +550,26 @@ function hayEdadEnRango(edades, valor) {
   return edades.some((edad) => edadCoincide(edad, valor));
 }
 
+function edadSeleccionadaDesde(valorEdad, minimo) {
+  if (valorEdad === null || valorEdad === undefined) return false;
+
+  const filtro = String(valorEdad).trim();
+  if (!filtro) return false;
+
+  if (filtro.endsWith('+')) {
+    const inicio = Number(filtro.slice(0, -1));
+    return Number.isFinite(inicio) && inicio >= minimo;
+  }
+
+  if (filtro.includes('-')) {
+    const inicio = Number(filtro.split('-')[0]);
+    return Number.isFinite(inicio) && inicio >= minimo;
+  }
+
+  const exacta = Number(filtro);
+  return Number.isFinite(exacta) && exacta >= minimo;
+}
+
 function construirGruposEdad(vista, edadesFuente) {
   const edades = edadesFuente
     .map((item) => Number(item))
@@ -4575,7 +4595,10 @@ const AJUSTES_VISUALES_20260817 = `
     min-height: unset !important;
     max-height: none !important;
     height: auto !important;
-    align-self: flex-start !important;
+
+    /* En Evaluación el menú lateral debe cubrir toda la altura
+       disponible del cuerpo, igual que en los demás módulos. */
+    align-self: stretch !important;
   }
 
   .evaluation-body .sidebar-source {
@@ -5458,6 +5481,14 @@ function App() {
         idsUnidadesEntidad
       ),
     [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
+  );
+
+  // Regla visual solicitada para gravedad de caries:
+  // desde los 6 años se muestra únicamente CPOD.
+  // La tarjeta cpod permanece visible, pero con guion (—).
+  const edadDesde6 = useMemo(
+    () => edadSeleccionadaDesde(edad, 6),
+    [edad]
   );
 
   const indicadoresCaries = useMemo(() => {
@@ -7504,7 +7535,7 @@ function App() {
 
                         <div className="proposal-index-card proposal-index-cpod caries-gravity-bullet">
                           <strong>
-                            {String(edad).trim() === '6'
+                            {edadDesde6
                               ? '—'
                               : formatoNumero(indicadoresCaries.cpod)}
                           </strong>
