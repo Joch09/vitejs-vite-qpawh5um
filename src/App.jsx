@@ -4134,7 +4134,7 @@ const AJUSTES_VISUALES_20260817 = `
 
 
   /* ==========================================================
-     EVALUACIÓN — separación visual simple
+     EVALUACIÓN — indicadores agrupados + gráficas por unidad
      ========================================================== */
 
   .final-evaluation-card {
@@ -4142,51 +4142,73 @@ const AJUSTES_VISUALES_20260817 = `
     overflow: visible !important;
   }
 
-  .evaluation-section-headings {
+  .evaluation-main-grid {
     display: grid !important;
     grid-template-columns: 190px minmax(0, 1fr) !important;
-    gap: 32px !important;
+    gap: 34px !important;
     align-items: stretch !important;
     width: 100% !important;
-    margin: 0 0 18px 0 !important;
     box-sizing: border-box !important;
   }
 
-  .evaluation-indicators-label {
-    min-height: 54px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+  .evaluation-indicators-panel {
     background: #ffffff !important;
-    border: 1px solid rgba(23, 63, 58, 0.12) !important;
-    border-radius: 10px !important;
+    border: 1px solid rgba(23, 63, 58, 0.14) !important;
+    border-radius: 12px !important;
+    padding: 16px 12px 18px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .evaluation-indicators-title {
+    width: 100% !important;
+    margin: 0 0 18px 0 !important;
+    padding: 0 4px 12px !important;
+    border-bottom: 1px solid rgba(23, 63, 58, 0.10) !important;
     color: #173f3a !important;
-    font-size: 1rem !important;
-    font-weight: 800 !important;
+    font-size: 1.05rem !important;
     line-height: 1 !important;
+    font-weight: 800 !important;
     text-align: center !important;
     box-sizing: border-box !important;
   }
 
-  .evaluation-heading-spacer {
-    min-height: 54px !important;
-    background: #ffffff !important;
-    border-radius: 10px !important;
+  .evaluation-indicators-stack {
+    width: 100% !important;
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    gap: 28px !important;
+  }
+
+  .evaluation-indicators-panel .evaluation-score-card {
+    width: 154px !important;
+    min-height: 106px !important;
+    margin: 0 auto !important;
     box-sizing: border-box !important;
   }
 
-  .final-evaluation-card .evaluation-row {
-    display: grid !important;
-    grid-template-columns: 190px minmax(0, 1fr) !important;
-    gap: 32px !important;
-    align-items: center !important;
+  .evaluation-charts-panel {
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 28px !important;
+    padding: 2px 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .evaluation-charts-panel .evaluation-real-chart {
+    min-width: 0 !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
-  .final-evaluation-card .evaluation-real-chart {
-    min-width: 0 !important;
-    box-sizing: border-box !important;
+  .evaluation-charts-panel .evaluation-real-chart h3 {
+    margin-top: 0 !important;
   }
 
   .final-evaluation-card .evaluation-real-chart::before,
@@ -4196,38 +4218,45 @@ const AJUSTES_VISUALES_20260817 = `
   }
 
   .final-evaluation-right {
-    margin-top: 8px !important;
+    margin-top: 20px !important;
     padding-top: 14px !important;
     border-top: 1px solid rgba(23, 63, 58, 0.10) !important;
   }
 
   @media (max-width: 980px) {
-    .evaluation-section-headings,
-    .final-evaluation-card .evaluation-row {
-      grid-template-columns: 160px minmax(0, 1fr) !important;
-      gap: 22px !important;
+    .evaluation-main-grid {
+      grid-template-columns: 165px minmax(0, 1fr) !important;
+      gap: 24px !important;
+    }
+
+    .evaluation-indicators-panel .evaluation-score-card {
+      width: 140px !important;
     }
   }
 
   @media (max-width: 720px) {
-    .evaluation-section-headings {
+    .evaluation-main-grid {
       grid-template-columns: 1fr !important;
-      gap: 8px !important;
+      gap: 20px !important;
     }
 
-    .evaluation-heading-spacer {
-      display: none !important;
+    .evaluation-indicators-panel {
+      padding: 14px !important;
     }
 
-    .final-evaluation-card .evaluation-row {
-      grid-template-columns: 1fr !important;
+    .evaluation-indicators-stack {
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
       gap: 12px !important;
-      padding: 14px 0 !important;
     }
 
-    .final-evaluation-card .evaluation-score-card {
-      width: min(100%, 230px) !important;
-      margin: 0 auto !important;
+    .evaluation-indicators-panel .evaluation-score-card {
+      width: min(100%, 190px) !important;
+    }
+
+    .evaluation-charts-panel {
+      gap: 22px !important;
     }
   }
 
@@ -7508,92 +7537,90 @@ function App() {
                   />
 
                   <div className="evaluation-content-card final-evaluation-card">
-                    <div className="evaluation-section-headings">
-                      <div className="evaluation-indicators-label">
-                        Indicadores
+                    <div className="evaluation-main-grid">
+                      <div className="evaluation-indicators-panel">
+                        <div className="evaluation-indicators-title">
+                          Indicadores
+                        </div>
+
+                        <div className="evaluation-indicators-stack">
+                          <div className="evaluation-score-card eval-wine">
+                            <strong>
+                              {formatoPorcentaje(
+                                Number(
+                                  indicadorOficialEvaluacion?.cobertura
+                                ),
+                                1
+                              )}
+                            </strong>
+                            <span>COBERTURA</span>
+                          </div>
+
+                          <div className="evaluation-score-card eval-gold">
+                            <strong>
+                              {formatoPorcentaje(
+                                Number(
+                                  indicadorOficialEvaluacion?.consistencia
+                                ),
+                                1
+                              )}
+                            </strong>
+                            <span>CONSISTENCIA</span>
+                          </div>
+
+                          <div className="evaluation-score-card eval-gray">
+                            <strong>
+                              {formatoPorcentaje(
+                                Number(
+                                  indicadorOficialEvaluacion?.calidad
+                                ),
+                                1
+                              )}
+                            </strong>
+                            <span>CALIDAD</span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="evaluation-heading-spacer"></div>
-                    </div>
+                      <div className="evaluation-charts-panel">
+                        <div className="evaluation-real-chart">
+                          <h3>Porcentaje de cumplimiento de meta por unidad centinela</h3>
 
-                    <div className="evaluation-row">
-                      <div className="evaluation-score-card eval-wine">
-                        <strong>
-                          {formatoPorcentaje(
-                            Number(
-                              indicadorOficialEvaluacion?.cobertura
-                            ),
-                            1
-                          )}
-                        </strong>
-                        <span>COBERTURA</span>
-                      </div>
+                          <EvaluationUnitBars
+                            items={
+                              indicadoresEvaluacion.unidadesResultados
+                            }
+                            field="cumplimientoMeta"
+                            color="#701039"
+                            emptyMessage="Sin información evaluable para la selección."
+                          />
+                        </div>
 
-                      <div className="evaluation-real-chart">
-                        <h3>Porcentaje de cumplimiento de meta por unidad centinela</h3>
+                        <div className="evaluation-real-chart">
+                          <h3>Porcentaje de cuestionarios capturados con oportunidad por unidad centinela</h3>
 
-                        <EvaluationUnitBars
-                          items={
-                            indicadoresEvaluacion.unidadesResultados
-                          }
-                          field="cumplimientoMeta"
-                          color="#701039"
-                          emptyMessage="Sin información evaluable para la selección."
-                        />
-                      </div>
-                    </div>
+                          <EvaluationUnitBars
+                            items={
+                              indicadoresEvaluacion.unidadesResultados
+                            }
+                            field="consistencia"
+                            color="#b38c2e"
+                            emptyMessage="Sin información evaluable para la selección."
+                          />
+                        </div>
 
-                    <div className="evaluation-row">
-                      <div className="evaluation-score-card eval-gold">
-                        <strong>
-                          {formatoPorcentaje(
-                            Number(
-                              indicadorOficialEvaluacion?.consistencia
-                            ),
-                            1
-                          )}
-                        </strong>
-                        <span>CONSISTENCIA</span>
-                      </div>
+                        <div className="evaluation-real-chart">
+                          <h3>Porcentaje de cuestionarios con calidad por unidad centinela</h3>
 
-                      <div className="evaluation-real-chart">
-                        <h3>Porcentaje de cuestionarios capturados con oportunidad por unidad centinela</h3>
-
-                        <EvaluationUnitBars
-                          items={
-                            indicadoresEvaluacion.unidadesResultados
-                          }
-                          field="consistencia"
-                          color="#b38c2e"
-                          emptyMessage="Sin información evaluable para la selección."
-                        />
-                      </div>
-                    </div>
-
-                    <div className="evaluation-row">
-                      <div className="evaluation-score-card eval-gray">
-                        <strong>
-                          {formatoPorcentaje(
-                            Number(
-                              indicadorOficialEvaluacion?.calidad
-                            ),
-                            1
-                          )}
-                        </strong>
-                        <span>CALIDAD</span>
-                      </div>
-
-                      <div className="evaluation-real-chart">
-                        <h3>Porcentaje de cuestionarios con calidad por unidad centinela</h3>
-
-                        <EvaluationUnitBars
-                          items={
-                            indicadoresEvaluacion.unidadesResultados
-                          }
-                          field="calidad"
-                          color="#8d8d8d"
-                          emptyMessage="Sin información evaluable para la selección."
-                        />
+                          <EvaluationUnitBars
+                            items={
+                              indicadoresEvaluacion.unidadesResultados
+                            }
+                            field="calidad"
+                            color="#8d8d8d"
+                            emptyMessage="Sin información evaluable para la selección."
+                          />
+                        </div>
                       </div>
                     </div>
 
