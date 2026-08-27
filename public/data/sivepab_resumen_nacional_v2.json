@@ -2,29 +2,31 @@
   "metadata": {
     "proyecto": "Tablero interactivo de información epidemiológica del SIVEPAB",
     "institucion": "IMSS-Bienestar",
-    "corte": "2026-06-30",
-    "version_datos": "Correccion_Tablero_Paso08E_ENE_JUN",
-    "registros_original": 50553,
-    "registros_limpios": 46372,
+    "corte": "2026-07-16",
+    "version_datos": "Correccion_Tablero_Paso08F_MES_TRIMESTRE",
+    "registros_original": 52570,
+    "registros_limpios": 48222,
     "unidades_oficiales": 177,
-    "periodo_clinico": "Enero-junio 2026",
-    "periodo_evaluacion": "Enero-junio 2026",
+    "periodo_clinico": "Enero-julio 2026",
+    "periodo_evaluacion": "1T: enero-marzo; 2T: enero-junio",
     "fuente_clinica": "01_agregado_clinico_atomico.rds",
     "fuente_registrados": "02_agregado_registrados_atomico.rds",
     "regla_edad_json": "Edades 0-19 exactas; grupos adultos codificados por límite inferior para compatibilidad con edadCoincide() de React."
   },
   "kpi_global": {
-    "cuestionarios_registrados": 50553,
-    "cuestionarios_registrados_sin_inconsistencias": 46372,
-    "cuestionarios_sin_inconsistencias": 46372,
-    "diferencia": 4181
+    "cuestionarios_registrados": 52570,
+    "cuestionarios_registrados_sin_inconsistencias": 48222,
+    "cuestionarios_sin_inconsistencias": 48222,
+    "diferencia": 4348
   },
   "unidades": {
     "universo_oficial": 177,
-    "con_registros_limpios": 156,
-    "sin_registros_limpios": 21
+    "con_registros_limpios": 157,
+    "sin_registros_limpios": 20
   },
   "evaluacion": {
+    "ultimo_trimestre_evaluable": 2,
+    "trimestre_nombre": "2.º trimestre",
     "formatos_esperados": 63720,
     "cuestionarios_sin_inconsistencias": 46372,
     "cuestionarios_oportunos": 43634,

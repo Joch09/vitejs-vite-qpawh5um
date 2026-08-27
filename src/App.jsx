@@ -763,13 +763,29 @@ function filtrarPorLlave(
   rows,
   edad,
   mes,
+  trimestre,
+  mesCierreTrimestre,
   entidad,
   unidad,
   idsUnidadesEntidad
 ) {
   return rows.filter((item) => {
     if (edad && !edadCoincide(item.edad, edad)) return false;
-    if (mes && Number(item.mes) !== Number(mes)) return false;
+
+    // Mes = selección aislada.
+    if (mes && Number(item.mes) !== Number(mes)) {
+      return false;
+    }
+
+    // Trimestre = acumulado desde enero hasta el mes de cierre.
+    if (
+      !mes &&
+      trimestre &&
+      Number.isFinite(Number(mesCierreTrimestre)) &&
+      Number(item.mes) > Number(mesCierreTrimestre)
+    ) {
+      return false;
+    }
 
     if (
       entidad &&
@@ -790,14 +806,17 @@ function filtrarPorLlave(
 function FilterStrip({
   gruposEdad,
   meses,
+  trimestres,
   entidades,
   unidadesFiltradas,
   edad,
   mes,
+  trimestre,
   entidad,
   unidad,
   setEdad,
-  setMes,
+  cambiarMes,
+  cambiarTrimestre,
   cambiarEntidad,
   setUnidad,
   limpiarFiltros,
@@ -848,12 +867,33 @@ function FilterStrip({
           <select
             id="mes"
             value={mes}
-            onChange={(event) => setMes(event.target.value)}
+            onChange={cambiarMes}
           >
             <option value="">Todos</option>
 
             {meses.map((item) => (
               <option key={item.mes} value={item.mes}>
+                {item.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="trimestre">Trimestre</label>
+
+          <select
+            id="trimestre"
+            value={trimestre}
+            onChange={cambiarTrimestre}
+          >
+            <option value="">Todos</option>
+
+            {trimestres.map((item) => (
+              <option
+                key={item.trimestre}
+                value={item.trimestre}
+              >
                 {item.nombre}
               </option>
             ))}
@@ -912,12 +952,15 @@ function FilterStrip({
 
 function EvaluationFilterStrip({
   meses,
+  trimestres,
   entidades,
   unidadesFiltradas,
   mes,
+  trimestre,
   entidad,
   unidad,
-  setMes,
+  cambiarMes,
+  cambiarTrimestre,
   cambiarEntidad,
   setUnidad,
   limpiarFiltros,
@@ -980,12 +1023,33 @@ function EvaluationFilterStrip({
           <select
             id="eval-mes"
             value={mes}
-            onChange={(event) => setMes(event.target.value)}
+            onChange={cambiarMes}
           >
             <option value="">Todos</option>
 
             {meses.map((item) => (
               <option key={item.mes} value={item.mes}>
+                {item.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="eval-trimestre">Trimestre</label>
+
+          <select
+            id="eval-trimestre"
+            value={trimestre}
+            onChange={cambiarTrimestre}
+          >
+            <option value="">Todos</option>
+
+            {trimestres.map((item) => (
+              <option
+                key={item.trimestre}
+                value={item.trimestre}
+              >
                 {item.nombre}
               </option>
             ))}
@@ -4323,6 +4387,18 @@ const AJUSTES_VISUALES_20260817 = `
     }
   }
 
+
+  /* Filtro temporal adicional: Trimestre */
+  .shared-filters,
+  .evaluation-filters {
+    flex-wrap: wrap !important;
+  }
+
+  .shared-filters .filter-group,
+  .evaluation-filters .filter-group {
+    min-width: 150px !important;
+  }
+
 `;
 
 function App() {
@@ -4341,6 +4417,7 @@ function App() {
 
   const [edad, setEdad] = useState('');
   const [mes, setMes] = useState('');
+  const [trimestre, setTrimestre] = useState('');
   const [entidad, setEntidad] = useState('');
   const [unidad, setUnidad] = useState('');
 
@@ -4524,6 +4601,10 @@ function App() {
           ...data,
           unidadesDecoded: decodeColumnarDataset(data.unidades),
           evaluacionDecoded: decodeColumnarDataset(data.evaluacion),
+          trimestresDecoded: decodeColumnarDataset(data.trimestres),
+          unidadesTrimestreDecoded: decodeColumnarDataset(
+            data.unidades_trimestre
+          ),
           indicadoresOficialesDecoded: decodeColumnarDataset(
             data.indicadores_oficiales
           ),
@@ -4545,7 +4626,48 @@ function App() {
 
   const edades = catalogos?.filtros?.edades || [];
   const meses = catalogos?.filtros?.meses || [];
+  const trimestres = catalogos?.filtros?.trimestres || [];
   const unidadesCatalogo = catalogos?.filtros?.unidades || [];
+
+  const mesesEvaluacion = useMemo(
+    () =>
+      meses.filter((item) => {
+        const valor = item.periodo_evaluacion;
+
+        return (
+          valor === true ||
+          valor === 1 ||
+          String(valor).toLowerCase() === 'true'
+        );
+      }),
+    [meses]
+  );
+
+  const ultimoTrimestreEvaluable = useMemo(() => {
+    const numeros = trimestres
+      .map((item) => Number(item.trimestre))
+      .filter((item) => Number.isFinite(item));
+
+    return numeros.length > 0
+      ? Math.max(...numeros)
+      : 2;
+  }, [trimestres]);
+
+  const trimestreIndicadoresActivo =
+    trimestre || String(ultimoTrimestreEvaluable);
+
+  const mesCierreTrimestre = useMemo(() => {
+    if (!trimestre) return null;
+
+    const item = trimestres.find(
+      (fila) =>
+        Number(fila.trimestre) === Number(trimestre)
+    );
+
+    return item
+      ? Number(item.mes_cierre)
+      : null;
+  }, [trimestre, trimestres]);
 
   const gruposEdad = useMemo(
     () => construirGruposEdad(vista, edades),
@@ -4642,11 +4764,13 @@ function App() {
         cariesData?.coreDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const sexoFiltrado = useMemo(
@@ -4655,11 +4779,13 @@ function App() {
         cariesData?.sexoDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const antecedentesFiltrados = useMemo(
@@ -4668,11 +4794,13 @@ function App() {
         cariesData?.antecedentesDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const ocupacionFiltrada = useMemo(
@@ -4681,11 +4809,13 @@ function App() {
         cariesData?.ocupacionDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const socialFiltrado = useMemo(
@@ -4694,11 +4824,13 @@ function App() {
         cariesData?.socialDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const cariesLibreFiltrada = useMemo(
@@ -4722,11 +4854,13 @@ function App() {
         cariesData?.coreDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [cariesData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [cariesData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const higieneCoreFiltrada = useMemo(
@@ -4735,11 +4869,13 @@ function App() {
         higieneData?.coreDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [higieneData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const higieneSexoFiltrado = useMemo(
@@ -4748,11 +4884,13 @@ function App() {
         higieneData?.sexoDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [higieneData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const higieneAntecedentesFiltrados = useMemo(
@@ -4761,11 +4899,13 @@ function App() {
         higieneData?.antecedentesDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [higieneData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const higieneOcupacionFiltrada = useMemo(
@@ -4774,11 +4914,13 @@ function App() {
         higieneData?.ocupacionDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [higieneData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const higieneSocialFiltrado = useMemo(
@@ -4787,11 +4929,13 @@ function App() {
         higieneData?.socialDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [higieneData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [higieneData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const periodontalCoreFiltrado = useMemo(
@@ -4800,11 +4944,13 @@ function App() {
         periodontalData?.coreDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [periodontalData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const periodontalSexoFiltrado = useMemo(
@@ -4813,11 +4959,13 @@ function App() {
         periodontalData?.sexoDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [periodontalData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const periodontalAntecedentesFiltrados = useMemo(
@@ -4826,11 +4974,13 @@ function App() {
         periodontalData?.antecedentesDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [periodontalData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const periodontalOcupacionFiltrada = useMemo(
@@ -4839,11 +4989,13 @@ function App() {
         periodontalData?.ocupacionDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [periodontalData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const periodontalSocialFiltrado = useMemo(
@@ -4852,11 +5004,13 @@ function App() {
         periodontalData?.socialDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [periodontalData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [periodontalData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const periodontalEpoFiltrado = useMemo(
@@ -4878,11 +5032,13 @@ function App() {
         otrasData?.coreDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const otrasSexoFiltrado = useMemo(
@@ -4891,11 +5047,13 @@ function App() {
         otrasData?.sexoDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const otrasAntecedentesFiltrados = useMemo(
@@ -4904,11 +5062,13 @@ function App() {
         otrasData?.antecedentesDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const otrasOcupacionFiltrada = useMemo(
@@ -4917,11 +5077,13 @@ function App() {
         otrasData?.ocupacionDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const otrasSocialFiltrado = useMemo(
@@ -4930,11 +5092,13 @@ function App() {
         otrasData?.socialDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const otrasCodigosFiltrado = useMemo(
@@ -4943,11 +5107,13 @@ function App() {
         otrasData?.codigosDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const otrasLesionesTiempoFiltrado = useMemo(
@@ -4956,11 +5122,13 @@ function App() {
         otrasData?.lesionesTiempoDecoded || [],
         edad,
         mes,
+        trimestre,
+        mesCierreTrimestre,
         entidad,
         unidad,
         idsUnidadesEntidad
       ),
-    [otrasData, edad, mes, entidad, unidad, idsUnidadesEntidad]
+    [otrasData, edad, mes, trimestre, mesCierreTrimestre, entidad, unidad, idsUnidadesEntidad]
   );
 
   const indicadoresCaries = useMemo(() => {
@@ -5928,14 +6096,33 @@ function App() {
   const evaluacionFiltrada = useMemo(() => {
     const rows = evaluacionData?.evaluacionDecoded || [];
 
+    const mesCierrePorDefecto = trimestres.find(
+      (item) =>
+        Number(item.trimestre) ===
+        Number(ultimoTrimestreEvaluable)
+    )?.mes_cierre;
+
+    const corteTrimestre =
+      trimestre
+        ? mesCierreTrimestre
+        : Number(mesCierrePorDefecto) || 6;
+
     return rows.filter((item) => {
-      if (mes && Number(item.mes) !== Number(mes)) {
+      if (mes) {
+        if (Number(item.mes) !== Number(mes)) {
+          return false;
+        }
+      } else if (
+        Number.isFinite(Number(corteTrimestre)) &&
+        Number(item.mes) > Number(corteTrimestre)
+      ) {
         return false;
       }
 
       if (
         entidad &&
-        String(item.entidad || '').trim() !== String(entidad).trim()
+        String(item.entidad || '').trim() !==
+          String(entidad).trim()
       ) {
         return false;
       }
@@ -5949,7 +6136,16 @@ function App() {
 
       return true;
     });
-  }, [evaluacionData, mes, entidad, unidad]);
+  }, [
+    evaluacionData,
+    mes,
+    trimestre,
+    mesCierreTrimestre,
+    ultimoTrimestreEvaluable,
+    trimestres,
+    entidad,
+    unidad,
+  ]);
 
   const evaluacionCompletaFiltrada = useMemo(
     () =>
@@ -5965,7 +6161,115 @@ function App() {
     [evaluacionFiltrada]
   );
 
+  const unidadesTrimestreFiltradas = useMemo(() => {
+    // Si se eligió un mes, los gráficos conservan el comportamiento
+    // mensual aislado y se calculan desde evaluacionDecoded.
+    if (mes) return [];
+
+    const rows =
+      evaluacionData?.unidadesTrimestreDecoded || [];
+
+    const trimestreObjetivo =
+      Number(trimestreIndicadoresActivo);
+
+    return rows.filter((item) => {
+      if (
+        Number(item.trimestre) !==
+        trimestreObjetivo
+      ) {
+        return false;
+      }
+
+      if (
+        entidad &&
+        String(item.entidad || '').trim() !==
+          String(entidad).trim()
+      ) {
+        return false;
+      }
+
+      if (
+        unidad &&
+        Number(item.unidad_id) !== Number(unidad)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [
+    evaluacionData,
+    mes,
+    trimestreIndicadoresActivo,
+    entidad,
+    unidad,
+  ]);
+
   const indicadoresEvaluacion = useMemo(() => {
+    // TRIMESTRE seleccionado (o último trimestre evaluable por defecto).
+    if (!mes && unidadesTrimestreFiltradas.length > 0) {
+      const registrados = sumar(
+        unidadesTrimestreFiltradas,
+        'cuestionarios_registrados'
+      );
+
+      const sinInconsistencias = sumar(
+        unidadesTrimestreFiltradas,
+        'cuestionarios_sin_inconsistencias'
+      );
+
+      const formatosEsperados = sumar(
+        unidadesTrimestreFiltradas,
+        'cuestionarios_esperados'
+      );
+
+      const unidadesResultados =
+        unidadesTrimestreFiltradas
+          .map((item) => ({
+            unidad_id: Number(item.unidad_id),
+            unidad: String(item.unidad || ''),
+            registrados:
+              Number(item.cuestionarios_registrados) || 0,
+            oportunos:
+              Number(item.cuestionarios_oportunos) || 0,
+            sinInconsistencias:
+              Number(
+                item.cuestionarios_sin_inconsistencias
+              ) || 0,
+            esperados:
+              Number(item.cuestionarios_esperados) || 0,
+            cumplimientoMeta:
+              Number.isFinite(
+                Number(item.cumplimiento_meta)
+              )
+                ? Number(item.cumplimiento_meta)
+                : null,
+            consistencia:
+              Number.isFinite(Number(item.consistencia))
+                ? Number(item.consistencia)
+                : null,
+            calidad:
+              Number.isFinite(Number(item.calidad))
+                ? Number(item.calidad)
+                : null,
+          }))
+          .sort((a, b) =>
+            a.unidad.localeCompare(b.unidad, 'es')
+          );
+
+      return {
+        registrados,
+        sinInconsistencias,
+        formatosEsperados:
+          formatosEsperados > 0
+            ? formatosEsperados
+            : null,
+        unidadesResultados,
+        periodoEvaluable: true,
+      };
+    }
+
+    // MES seleccionado = comportamiento aislado.
     const registradosObservados = sumar(
       evaluacionFiltrada,
       'formatos_registrados'
@@ -5979,16 +6283,6 @@ function App() {
     const formatosEsperados = sumar(
       evaluacionCompletaFiltrada,
       'meta_formatos_esperados'
-    );
-
-    const oportunos = sumar(
-      evaluacionCompletaFiltrada,
-      'formatos_oportunos'
-    );
-
-    const sinInconsistenciasEvaluables = sumar(
-      evaluacionCompletaFiltrada,
-      'cuestionarios_sin_inconsistencias'
     );
 
     const porUnidad = {};
@@ -6014,7 +6308,9 @@ function App() {
         Number(item.formatos_oportunos) || 0;
 
       porUnidad[id].sinInconsistencias +=
-        Number(item.cuestionarios_sin_inconsistencias) || 0;
+        Number(
+          item.cuestionarios_sin_inconsistencias
+        ) || 0;
 
       porUnidad[id].esperados +=
         Number(item.meta_formatos_esperados) || 0;
@@ -6024,85 +6320,44 @@ function App() {
       .map((item) => {
         const esperado = item.esperados;
 
-        const cumplimientoMeta =
-          esperado > 0
-            ? (100 * item.registrados) / esperado
-            : null;
-
-        const consistencia =
-          esperado > 0
-            ? (100 * item.oportunos) / esperado
-            : null;
-
-        const calidad =
-          esperado > 0
-            ? (100 * item.sinInconsistencias) / esperado
-            : null;
-
         return {
           ...item,
-          cumplimientoMeta,
-          consistencia,
-          calidad,
-          cumpleCobertura:
+          cumplimientoMeta:
             esperado > 0
-              ? item.sinInconsistencias >= 0.5 * esperado
-              : false,
+              ? (100 * item.registrados) / esperado
+              : null,
+          consistencia:
+            esperado > 0
+              ? (100 * item.oportunos) / esperado
+              : null,
+          calidad:
+            esperado > 0
+              ? (100 * item.sinInconsistencias) /
+                esperado
+              : null,
         };
       })
       .sort((a, b) =>
         a.unidad.localeCompare(b.unidad, 'es')
       );
 
-    const unidadesEvaluables = unidadesResultados.filter(
-      (item) => item.esperados > 0
-    );
-
-    const cobertura =
-      unidadesEvaluables.length > 0
-        ? (100 *
-            unidadesEvaluables.filter(
-              (item) => item.cumpleCobertura
-            ).length) /
-          unidadesEvaluables.length
-        : null;
-
-    const consistencia =
-      formatosEsperados > 0
-        ? (100 * oportunos) / formatosEsperados
-        : null;
-
-    const calidad =
-      formatosEsperados > 0
-        ? (100 * sinInconsistenciasEvaluables) /
-          formatosEsperados
-        : null;
-
-    const ponderado =
-      Number.isFinite(cobertura) &&
-      Number.isFinite(consistencia) &&
-      Number.isFinite(calidad)
-        ? cobertura * 0.2 +
-          consistencia * 0.3 +
-          calidad * 0.5
-        : null;
-
     return {
       registrados: registradosObservados,
-      sinInconsistencias: sinInconsistenciasObservados,
+      sinInconsistencias:
+        sinInconsistenciasObservados,
       formatosEsperados:
-        formatosEsperados > 0 ? formatosEsperados : null,
-      cobertura,
-      consistencia,
-      calidad,
-      ponderado,
+        formatosEsperados > 0
+          ? formatosEsperados
+          : null,
       unidadesResultados,
       periodoEvaluable:
         evaluacionCompletaFiltrada.length > 0,
     };
   }, [
+    mes,
     evaluacionFiltrada,
     evaluacionCompletaFiltrada,
+    unidadesTrimestreFiltradas,
   ]);
 
   const indicadorOficialEvaluacion = useMemo(() => {
@@ -6125,15 +6380,21 @@ function App() {
     const claveObjetivo =
       claveEntidadComparacion(entidadObjetivo);
 
+    const trimestreObjetivo =
+      Number(trimestreIndicadoresActivo);
+
     const encontrado = rows.find(
       (item) =>
+        Number(item.trimestre) ===
+          trimestreObjetivo &&
         claveEntidadComparacion(item.entidad) ===
-        claveObjetivo
+          claveObjetivo
     );
 
     return encontrado || null;
   }, [
     evaluacionData,
+    trimestreIndicadoresActivo,
     entidad,
     unidad,
     unidadesCatalogo,
@@ -6171,6 +6432,26 @@ function App() {
     );
   }, [indicadorOficialEvaluacion]);
 
+  const cambiarMes = (event) => {
+    const valor = event.target.value;
+
+    setMes(valor);
+
+    if (valor) {
+      setTrimestre('');
+    }
+  };
+
+  const cambiarTrimestre = (event) => {
+    const valor = event.target.value;
+
+    setTrimestre(valor);
+
+    if (valor) {
+      setMes('');
+    }
+  };
+
   const cambiarEntidad = (event) => {
     setEntidad(event.target.value);
     setUnidad('');
@@ -6179,6 +6460,7 @@ function App() {
   const limpiarFiltros = () => {
     setEdad('');
     setMes('');
+    setTrimestre('');
     setEntidad('');
     setUnidad('');
   };
@@ -6186,7 +6468,11 @@ function App() {
   const kpiSinInconsistencias = useMemo(() => {
     if (!kpiFiltrosData?.kpiDecoded) {
       const sinFiltros =
-        !edad && !mes && !entidad && !unidad;
+        !edad &&
+        !mes &&
+        !trimestre &&
+        !entidad &&
+        !unidad;
 
       return sinFiltros
         ? resumenNacional?.kpi_global
@@ -6200,6 +6486,15 @@ function App() {
       }
 
       if (mes && Number(item.mes) !== Number(mes)) {
+        return false;
+      }
+
+      if (
+        !mes &&
+        trimestre &&
+        Number.isFinite(Number(mesCierreTrimestre)) &&
+        Number(item.mes) > Number(mesCierreTrimestre)
+      ) {
         return false;
       }
 
@@ -6230,6 +6525,8 @@ function App() {
     resumenNacional,
     edad,
     mes,
+    trimestre,
+    mesCierreTrimestre,
     entidad,
     unidad,
     idsUnidadesEntidad,
@@ -6238,14 +6535,17 @@ function App() {
   const filtroProps = {
     gruposEdad,
     meses,
+    trimestres,
     entidades,
     unidadesFiltradas,
     edad,
     mes,
+    trimestre,
     entidad,
     unidad,
     setEdad,
-    setMes,
+    cambiarMes,
+    cambiarTrimestre,
     cambiarEntidad,
     setUnidad,
     limpiarFiltros,
@@ -6390,8 +6690,8 @@ function App() {
             <span>
               Secretaría de Salud. Dirección General de Epidemiología.
               SINAVE. Sistema de Vigilancia Epidemiológica de Patologías
-              Bucales. Cédulas registradas de enero a junio de 2026,
-              corte al 30 de junio de 2026.
+              Bucales. Cédulas registradas de enero a julio de 2026,
+              corte al 16 de julio de 2026.
             </span>
           </div>
         </aside>
@@ -7578,13 +7878,16 @@ function App() {
               ) : (
                 <>
                   <EvaluationFilterStrip
-                    meses={meses}
+                    meses={mesesEvaluacion}
+                    trimestres={trimestres}
                     entidades={entidades}
                     unidadesFiltradas={unidadesFiltradas}
                     mes={mes}
+                    trimestre={trimestre}
                     entidad={entidad}
                     unidad={unidad}
-                    setMes={setMes}
+                    cambiarMes={cambiarMes}
+                    cambiarTrimestre={cambiarTrimestre}
                     cambiarEntidad={cambiarEntidad}
                     setUnidad={setUnidad}
                     limpiarFiltros={limpiarFiltros}

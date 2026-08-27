@@ -2,19 +2,19 @@
   "metadata": {
     "proyecto": "Tablero interactivo de información epidemiológica del SIVEPAB",
     "institucion": "IMSS-Bienestar",
-    "corte": "2026-06-30",
-    "version_datos": "Correccion_Tablero_Paso08E_ENE_JUN",
-    "registros_original": 50553,
-    "registros_limpios": 46372,
+    "corte": "2026-07-16",
+    "version_datos": "Correccion_Tablero_Paso08F_MES_TRIMESTRE",
+    "registros_original": 52570,
+    "registros_limpios": 48222,
     "unidades_oficiales": 177,
-    "periodo_clinico": "Enero-junio 2026",
-    "periodo_evaluacion": "Enero-junio 2026",
+    "periodo_clinico": "Enero-julio 2026",
+    "periodo_evaluacion": "1T: enero-marzo; 2T: enero-junio",
     "fuente_clinica": "01_agregado_clinico_atomico.rds",
     "fuente_registrados": "02_agregado_registrados_atomico.rds",
     "regla_edad_json": "Edades 0-19 exactas; grupos adultos codificados por límite inferior para compatibilidad con edadCoincide() de React."
   },
   "filtros": {
-    "orden": ["edad", "mes", "entidad", "unidad"],
+    "orden": ["edad", "mes", "trimestre", "entidad", "unidad"],
     "edades": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80],
     "edades_detalle": [
       {
@@ -213,6 +213,25 @@
         "mes": 6,
         "nombre": "Junio",
         "periodo_evaluacion": true
+      },
+      {
+        "mes": 7,
+        "nombre": "Julio",
+        "periodo_evaluacion": false
+      }
+    ],
+    "trimestres": [
+      {
+        "trimestre": 1,
+        "nombre": "1.er trimestre",
+        "mes_cierre": 3,
+        "acumulado": true
+      },
+      {
+        "trimestre": 2,
+        "nombre": "2.º trimestre",
+        "mes_cierre": 6,
+        "acumulado": true
       }
     ],
     "unidades": [
@@ -225,7 +244,7 @@
         "localidad": "RODOLFO SANCHEZ TABOADA (MANEADERO)",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 327
+        "registros_total": 342
       },
       {
         "unidad_id": 2,
@@ -258,7 +277,7 @@
         "localidad": "CIUDAD CONSTITUCION",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 355
+        "registros_total": 387
       },
       {
         "unidad_id": 5,
@@ -346,7 +365,7 @@
         "localidad": "SILTEPEC",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 341
+        "registros_total": 356
       },
       {
         "unidad_id": 13,
@@ -368,7 +387,7 @@
         "localidad": "AZCAPOTZALCO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 358
+        "registros_total": 365
       },
       {
         "unidad_id": 15,
@@ -379,7 +398,7 @@
         "localidad": "COYOACAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 348
+        "registros_total": 355
       },
       {
         "unidad_id": 16,
@@ -390,7 +409,7 @@
         "localidad": "CUAJIMALPA DE MORELOS",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 464
+        "registros_total": 491
       },
       {
         "unidad_id": 17,
@@ -401,7 +420,7 @@
         "localidad": "GUSTAVO A. MADERO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 355
+        "registros_total": 364
       },
       {
         "unidad_id": 18,
@@ -412,7 +431,7 @@
         "localidad": "IZTACALCO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 216
+        "registros_total": 230
       },
       {
         "unidad_id": 19,
@@ -423,7 +442,7 @@
         "localidad": "LA MAGDALENA CONTRERAS",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 221
+        "registros_total": 226
       },
       {
         "unidad_id": 20,
@@ -434,7 +453,7 @@
         "localidad": "SAN ANTONIO TECOMITL",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 334
+        "registros_total": 363
       },
       {
         "unidad_id": 21,
@@ -456,7 +475,7 @@
         "localidad": "SANTA CATARINA YECAHUITZOTL",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 405
+        "registros_total": 426
       },
       {
         "unidad_id": 23,
@@ -478,7 +497,7 @@
         "localidad": "XOCHIMILCO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 362
+        "registros_total": 370
       },
       {
         "unidad_id": 25,
@@ -489,7 +508,7 @@
         "localidad": "BENITO JUAREZ",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 223
+        "registros_total": 227
       },
       {
         "unidad_id": 26,
@@ -500,7 +519,7 @@
         "localidad": "MIGUEL HIDALGO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 365
+        "registros_total": 388
       },
       {
         "unidad_id": 27,
@@ -511,7 +530,7 @@
         "localidad": "VENUSTIANO CARRANZA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 332
+        "registros_total": 340
       },
       {
         "unidad_id": 28,
@@ -522,7 +541,7 @@
         "localidad": "IZTAPALAPA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 353
+        "registros_total": 375
       },
       {
         "unidad_id": 29,
@@ -577,7 +596,7 @@
         "localidad": "TECOMAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 325
+        "registros_total": 346
       },
       {
         "unidad_id": 34,
@@ -588,7 +607,7 @@
         "localidad": "CERRO DE ORTEGA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 282
+        "registros_total": 297
       },
       {
         "unidad_id": 35,
@@ -654,7 +673,7 @@
         "localidad": "ZIHUATANEJO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 327
+        "registros_total": 336
       },
       {
         "unidad_id": 41,
@@ -665,7 +684,7 @@
         "localidad": "CIUDAD ALTAMIRANO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 164
+        "registros_total": 172
       },
       {
         "unidad_id": 42,
@@ -676,7 +695,7 @@
         "localidad": "SAN LUIS ACATLAN",
         "nivel": "Segundo nivel",
         "estatus": "FUERA DE OPERACION",
-        "registros_total": 347
+        "registros_total": 380
       },
       {
         "unidad_id": 43,
@@ -687,7 +706,7 @@
         "localidad": "TAXCO DE ALARCON",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 490
+        "registros_total": 513
       },
       {
         "unidad_id": 44,
@@ -709,7 +728,7 @@
         "localidad": "ACTOPAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 300
+        "registros_total": 315
       },
       {
         "unidad_id": 46,
@@ -720,7 +739,7 @@
         "localidad": "HUASCA DE OCAMPO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 346
+        "registros_total": 402
       },
       {
         "unidad_id": 47,
@@ -742,7 +761,7 @@
         "localidad": "METZTITLAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 359
+        "registros_total": 384
       },
       {
         "unidad_id": 49,
@@ -753,7 +772,7 @@
         "localidad": "MOLANGO DE ESCAMILLA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 344
+        "registros_total": 347
       },
       {
         "unidad_id": 50,
@@ -764,7 +783,7 @@
         "localidad": "NOPALA DE VILLAGRAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 280
+        "registros_total": 318
       },
       {
         "unidad_id": 51,
@@ -786,7 +805,7 @@
         "localidad": "PACHUCA DE SOTO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 580
+        "registros_total": 608
       },
       {
         "unidad_id": 53,
@@ -797,7 +816,7 @@
         "localidad": "PISAFLORES",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 314
+        "registros_total": 364
       },
       {
         "unidad_id": 54,
@@ -808,7 +827,7 @@
         "localidad": "TENANGO DE DORIA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 346
+        "registros_total": 391
       },
       {
         "unidad_id": 55,
@@ -819,7 +838,7 @@
         "localidad": "TIZAYUCA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 403
+        "registros_total": 422
       },
       {
         "unidad_id": 56,
@@ -841,7 +860,7 @@
         "localidad": "TULANCINGO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 549
+        "registros_total": 587
       },
       {
         "unidad_id": 58,
@@ -852,7 +871,7 @@
         "localidad": "ZACUALTIPAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 365
+        "registros_total": 401
       },
       {
         "unidad_id": 59,
@@ -863,7 +882,7 @@
         "localidad": "ZIMAPAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 343
+        "registros_total": 349
       },
       {
         "unidad_id": 60,
@@ -874,7 +893,7 @@
         "localidad": "AJACUBA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 343
+        "registros_total": 344
       },
       {
         "unidad_id": 61,
@@ -885,7 +904,7 @@
         "localidad": "APAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 330
+        "registros_total": 337
       },
       {
         "unidad_id": 62,
@@ -907,7 +926,7 @@
         "localidad": "ATLACOMULCO DE FABELA",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 346
+        "registros_total": 376
       },
       {
         "unidad_id": 64,
@@ -929,7 +948,7 @@
         "localidad": "CIUDAD NEZAHUALCOYOTL",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 324
+        "registros_total": 354
       },
       {
         "unidad_id": 66,
@@ -973,7 +992,7 @@
         "localidad": "APATZINGAN DE LA CONSTITUCION",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 588
+        "registros_total": 595
       },
       {
         "unidad_id": 70,
@@ -1006,7 +1025,7 @@
         "localidad": "LAS GUACAMAYAS",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 422
+        "registros_total": 423
       },
       {
         "unidad_id": 73,
@@ -1072,7 +1091,7 @@
         "localidad": "LA ORILLA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 402
+        "registros_total": 418
       },
       {
         "unidad_id": 79,
@@ -1083,7 +1102,7 @@
         "localidad": "SAHUAYO DE MORELOS",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 118
+        "registros_total": 139
       },
       {
         "unidad_id": 80,
@@ -1127,7 +1146,7 @@
         "localidad": "JALOXTOC",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 148
+        "registros_total": 187
       },
       {
         "unidad_id": 84,
@@ -1138,7 +1157,7 @@
         "localidad": "TEPOZTLAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 340
+        "registros_total": 361
       },
       {
         "unidad_id": 85,
@@ -1182,7 +1201,7 @@
         "localidad": "SANTA MARIA DEL ORO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 287
+        "registros_total": 298
       },
       {
         "unidad_id": 89,
@@ -1325,7 +1344,7 @@
         "localidad": "TEHUACAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 334
+        "registros_total": 356
       },
       {
         "unidad_id": 102,
@@ -1358,7 +1377,7 @@
         "localidad": "SANTA MARIA XONACATEPEC",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 360
+        "registros_total": 371
       },
       {
         "unidad_id": 105,
@@ -1369,7 +1388,7 @@
         "localidad": "LOMAS DE ALCHICHICA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 360
+        "registros_total": 380
       },
       {
         "unidad_id": 106,
@@ -1413,7 +1432,7 @@
         "localidad": null,
         "nivel": null,
         "estatus": null,
-        "registros_total": 163
+        "registros_total": 177
       },
       {
         "unidad_id": 110,
@@ -1468,7 +1487,7 @@
         "localidad": "CEDRAL",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 289
+        "registros_total": 297
       },
       {
         "unidad_id": 115,
@@ -1501,7 +1520,7 @@
         "localidad": "AHOME",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 330
+        "registros_total": 359
       },
       {
         "unidad_id": 118,
@@ -1534,7 +1553,7 @@
         "localidad": "CONSTANCIA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 343
+        "registros_total": 364
       },
       {
         "unidad_id": 121,
@@ -1545,7 +1564,7 @@
         "localidad": "HERMOSILLO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 179
+        "registros_total": 190
       },
       {
         "unidad_id": 122,
@@ -1556,7 +1575,7 @@
         "localidad": "HERMOSILLO",
         "nivel": "Tercer nivel",
         "estatus": "En operación",
-        "registros_total": 167
+        "registros_total": 208
       },
       {
         "unidad_id": 123,
@@ -1567,7 +1586,7 @@
         "localidad": "MAGDALENA DE KINO",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 173
+        "registros_total": 182
       },
       {
         "unidad_id": 124,
@@ -1600,7 +1619,7 @@
         "localidad": "BALANCAN",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 387
+        "registros_total": 429
       },
       {
         "unidad_id": 127,
@@ -1611,7 +1630,7 @@
         "localidad": "CARDENAS",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 362
+        "registros_total": 369
       },
       {
         "unidad_id": 128,
@@ -1622,7 +1641,7 @@
         "localidad": "VILLAHERMOSA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 438
+        "registros_total": 463
       },
       {
         "unidad_id": 129,
@@ -1633,7 +1652,7 @@
         "localidad": "VILLAHERMOSA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 408
+        "registros_total": 430
       },
       {
         "unidad_id": 130,
@@ -1644,7 +1663,7 @@
         "localidad": "VILLAHERMOSA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 285
+        "registros_total": 288
       },
       {
         "unidad_id": 131,
@@ -1655,7 +1674,7 @@
         "localidad": "LUIS GIL PEREZ",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 93
+        "registros_total": 106
       },
       {
         "unidad_id": 132,
@@ -1699,7 +1718,7 @@
         "localidad": "HUIMANGUILLO",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 429
+        "registros_total": 460
       },
       {
         "unidad_id": 136,
@@ -1710,7 +1729,7 @@
         "localidad": "JALAPA",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 139
+        "registros_total": 150
       },
       {
         "unidad_id": 137,
@@ -1721,7 +1740,7 @@
         "localidad": "JALPA DE MENDEZ",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 306
+        "registros_total": 332
       },
       {
         "unidad_id": 138,
@@ -1732,7 +1751,7 @@
         "localidad": "MACUSPANA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 450
+        "registros_total": 458
       },
       {
         "unidad_id": 139,
@@ -1743,7 +1762,7 @@
         "localidad": "NACAJUCA",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 200
+        "registros_total": 222
       },
       {
         "unidad_id": 140,
@@ -1765,7 +1784,7 @@
         "localidad": "TACOTALPA",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 105
+        "registros_total": 113
       },
       {
         "unidad_id": 142,
@@ -1776,7 +1795,7 @@
         "localidad": "TEAPA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 106
+        "registros_total": 119
       },
       {
         "unidad_id": 143,
@@ -1787,7 +1806,7 @@
         "localidad": "TENOSIQUE DE PINO SUAREZ",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 212
+        "registros_total": 221
       },
       {
         "unidad_id": 144,
@@ -1798,7 +1817,7 @@
         "localidad": "OCUILTZAPOTLAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 366
+        "registros_total": 404
       },
       {
         "unidad_id": 145,
@@ -1820,7 +1839,7 @@
         "localidad": "JONUTA",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 133
+        "registros_total": 149
       },
       {
         "unidad_id": 147,
@@ -1864,7 +1883,7 @@
         "localidad": "CIUDAD MANTE",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 0
+        "registros_total": 18
       },
       {
         "unidad_id": 151,
@@ -1875,7 +1894,7 @@
         "localidad": null,
         "nivel": null,
         "estatus": null,
-        "registros_total": 365
+        "registros_total": 390
       },
       {
         "unidad_id": 152,
@@ -1886,7 +1905,7 @@
         "localidad": "HUEYOTLIPAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 409
+        "registros_total": 464
       },
       {
         "unidad_id": 153,
@@ -1897,7 +1916,7 @@
         "localidad": "TLAXCALA DE XICOHTENCATL",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 561
+        "registros_total": 610
       },
       {
         "unidad_id": 154,
@@ -1919,7 +1938,7 @@
         "localidad": "SANTA ANITA HUILOAC",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 554
+        "registros_total": 630
       },
       {
         "unidad_id": 156,
@@ -1985,7 +2004,7 @@
         "localidad": "MINATITLAN",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 430
+        "registros_total": 487
       },
       {
         "unidad_id": 162,
@@ -2007,7 +2026,7 @@
         "localidad": "PANUCO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 255
+        "registros_total": 265
       },
       {
         "unidad_id": 164,
@@ -2040,7 +2059,7 @@
         "localidad": "SAN ANDRES TUXTLA",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 433
+        "registros_total": 463
       },
       {
         "unidad_id": 167,
@@ -2084,7 +2103,7 @@
         "localidad": "FRESNILLO",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 305
+        "registros_total": 361
       },
       {
         "unidad_id": 171,
@@ -2095,7 +2114,7 @@
         "localidad": "GUADALUPE",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 348
+        "registros_total": 371
       },
       {
         "unidad_id": 172,
@@ -2117,7 +2136,7 @@
         "localidad": "JUAN ALDAMA",
         "nivel": "Segundo nivel",
         "estatus": "En operación",
-        "registros_total": 342
+        "registros_total": 361
       },
       {
         "unidad_id": 174,
@@ -2139,7 +2158,7 @@
         "localidad": "ZACATECAS",
         "nivel": "Primer nivel",
         "estatus": "En operación",
-        "registros_total": 336
+        "registros_total": 390
       },
       {
         "unidad_id": 176,
@@ -2297,19 +2316,19 @@
   ],
   "decisiones": {
     "cuestionarios_registrados": {
-      "total": 50553,
+      "total": 52570,
       "universo": "Base original"
     },
     "cuestionarios_sin_inconsistencias": {
-      "total": 46372,
+      "total": 48222,
       "universo": "Base oficial limpia"
     },
     "evaluacion": {
-      "meses": "Enero-junio",
+      "trimestres_disponibles": ["1.er trimestre = enero-marzo acumulado", "2.º trimestre = enero-junio acumulado"],
       "meta_mensual_unidad": 60,
-      "cobertura": "Unidades con al menos 180 cuestionarios sin inconsistencias acumulados ENE-JUN / unidades oficiales.",
-      "consistencia": "Cuestionarios oportunos con FEC_ACT hasta el día 15 del mes siguiente, inclusive / formatos esperados.",
-      "calidad": "Cuestionarios sin inconsistencias ENE-JUN / formatos esperados.",
+      "cobertura": "Unidades con al menos 50% de la meta acumulada del trimestre / unidades oficiales.",
+      "consistencia": "Cuestionarios oportunos acumulados con FEC_ACT hasta el día 15 del mes siguiente, inclusive / formatos esperados acumulados.",
+      "calidad": "Cuestionarios sin inconsistencias acumulados / formatos esperados acumulados.",
       "ponderaciones": {
         "cobertura": 0.2,
         "consistencia": 0.3,
