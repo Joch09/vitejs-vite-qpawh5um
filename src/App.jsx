@@ -4221,13 +4221,29 @@ const AJUSTES_VISUALES_20260817 = `
     display: flex !important;
     align-items: flex-start !important;
     justify-content: center !important;
+    align-self: start !important;
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
     margin: 0 !important;
     padding: 52px 0 0 0 !important;
     border: 0 !important;
     box-sizing: border-box !important;
+    transform: none !important;
   }
 
   .final-evaluation-right .evaluation-pending-card {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    float: none !important;
+    transform: none !important;
     width: 180px !important;
     min-height: 106px !important;
     margin: 0 !important;
@@ -4252,7 +4268,11 @@ const AJUSTES_VISUALES_20260817 = `
     }
 
     .final-evaluation-right {
+      position: static !important;
+      inset: auto !important;
+      align-self: start !important;
       padding-top: 48px !important;
+      transform: none !important;
     }
 
     .final-evaluation-right .evaluation-pending-card {
@@ -4271,8 +4291,12 @@ const AJUSTES_VISUALES_20260817 = `
     }
 
     .final-evaluation-right {
+      position: static !important;
+      inset: auto !important;
+      align-self: start !important;
       padding-top: 0 !important;
       justify-content: center !important;
+      transform: none !important;
     }
 
     .final-evaluation-right .evaluation-pending-card {
