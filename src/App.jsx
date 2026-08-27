@@ -4506,44 +4506,74 @@ const AJUSTES_VISUALES_20260817 = `
 
 
   /* ==========================================================
-     EVALUACIÓN — eliminar espacio vertical muerto
+     EVALUACIÓN — altura determinada sólo por su contenido
      ========================================================== */
 
   .evaluation-body {
-    align-items: flex-start !important;
-    min-height: 0 !important;
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    min-height: unset !important;
+    max-height: none !important;
     height: auto !important;
+    align-items: flex-start !important;
+    overflow: visible !important;
   }
 
   .evaluation-body .dashboard-content {
-    min-height: 0 !important;
+    min-height: unset !important;
+    max-height: none !important;
     height: auto !important;
     align-self: flex-start !important;
+    overflow: visible !important;
   }
 
   .evaluation-body .evaluation-module {
-    min-height: 0 !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    min-height: unset !important;
+    max-height: none !important;
     height: auto !important;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
     padding-bottom: 0 !important;
+    overflow: visible !important;
   }
 
   .evaluation-body .evaluation-content-card,
   .evaluation-body .final-evaluation-card {
-    min-height: 0 !important;
-    height: auto !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    min-height: unset !important;
+    max-height: none !important;
+    height: fit-content !important;
     margin-bottom: 0 !important;
     padding-bottom: 14px !important;
+    overflow: visible !important;
   }
 
   .evaluation-body .evaluation-main-grid {
-    min-height: 0 !important;
+    flex: 0 0 auto !important;
+    min-height: unset !important;
+    max-height: none !important;
     height: auto !important;
     align-self: flex-start !important;
   }
 
+  .evaluation-body .evaluation-charts-panel,
+  .evaluation-body .evaluation-indicators-panel,
+  .evaluation-body .final-evaluation-right {
+    min-height: unset !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
   .evaluation-body .sidebar {
-    min-height: 0 !important;
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    min-height: unset !important;
+    max-height: none !important;
     height: auto !important;
     align-self: flex-start !important;
   }
@@ -4557,6 +4587,16 @@ const AJUSTES_VISUALES_20260817 = `
     left: auto !important;
     margin-top: 18px !important;
     transform: none !important;
+  }
+
+
+  .app.app-evaluation-view {
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  .app.app-evaluation-view > .evaluation-body {
+    margin-bottom: 0 !important;
   }
 
 `;
@@ -6941,7 +6981,11 @@ function App() {
 
 
   return (
-    <div className="app">
+    <div
+      className={`app ${
+        vista === 'evaluacion' ? 'app-evaluation-view' : ''
+      }`}
+    >
       <style>{AJUSTES_VISUALES_20260817}</style>
       <header className="top-header">
         <div
