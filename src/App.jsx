@@ -4229,7 +4229,7 @@ const AJUSTES_VISUALES_20260817 = `
     bottom: auto !important;
     left: auto !important;
     margin: 0 !important;
-    padding: 52px 0 0 0 !important;
+    padding: 200px 0 0 0 !important;
     border: 0 !important;
     box-sizing: border-box !important;
     transform: none !important;
@@ -4271,7 +4271,7 @@ const AJUSTES_VISUALES_20260817 = `
       position: static !important;
       inset: auto !important;
       align-self: start !important;
-      padding-top: 48px !important;
+      padding-top: 194px !important;
       transform: none !important;
     }
 
