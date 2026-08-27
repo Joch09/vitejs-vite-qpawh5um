@@ -4599,6 +4599,135 @@ const AJUSTES_VISUALES_20260817 = `
     margin-bottom: 0 !important;
   }
 
+
+  /* ==========================================================
+     ENCABEZADO — orden institucional solicitado
+     IMSS-Bienestar | SIVEPAB | Coordinación | Vigilancia
+     ========================================================== */
+
+  .top-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 32px !important;
+  }
+
+  .top-header-left {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 30px !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .top-header-left .logo-imss-bienestar {
+    width: 235px !important;
+    max-width: 235px !important;
+    height: 78px !important;
+    max-height: 78px !important;
+    object-fit: contain !important;
+    object-position: left center !important;
+    flex: 0 0 auto !important;
+  }
+
+  .top-header-left .top-header-title {
+    flex: 0 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+  }
+
+  .top-header-logos {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 44px !important;
+    width: auto !important;
+    flex: 0 0 auto !important;
+    margin-left: auto !important;
+  }
+
+  .top-header-logos .logo-coordinacion,
+  .top-header-logos .logo-vigilancia {
+    width: 190px !important;
+    max-width: 190px !important;
+    height: 76px !important;
+    max-height: 76px !important;
+    object-fit: contain !important;
+  }
+
+  @media (max-width: 1100px) {
+    .top-header-left {
+      width: 100% !important;
+      justify-content: center !important;
+      gap: 24px !important;
+    }
+
+    .top-header-left .top-header-title {
+      width: auto !important;
+      text-align: left !important;
+      align-items: flex-start !important;
+    }
+
+    .top-header-left .logo-imss-bienestar {
+      width: 210px !important;
+      max-width: 210px !important;
+      height: 72px !important;
+      max-height: 72px !important;
+    }
+
+    .top-header-logos {
+      width: 100% !important;
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 18px !important;
+      justify-items: center !important;
+      margin-left: 0 !important;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .top-header-left {
+      flex-direction: column !important;
+      gap: 8px !important;
+    }
+
+    .top-header-left .top-header-title {
+      text-align: center !important;
+      align-items: center !important;
+    }
+
+    .top-header-left .logo-imss-bienestar {
+      width: 200px !important;
+      max-width: 200px !important;
+      height: 66px !important;
+      max-height: 66px !important;
+      object-position: center !important;
+    }
+
+    .top-header-logos {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 10px !important;
+    }
+
+    .top-header-logos .logo-coordinacion,
+    .top-header-logos .logo-vigilancia {
+      width: 100% !important;
+      max-width: 170px !important;
+      height: 62px !important;
+      max-height: 62px !important;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .top-header-logos {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -6988,29 +7117,31 @@ function App() {
     >
       <style>{AJUSTES_VISUALES_20260817}</style>
       <header className="top-header">
-        <div
-          className="top-header-title"
-          onClick={() => setVista('inicio')}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              setVista('inicio');
-            }
-          }}
-          aria-label="Ir a la pantalla principal"
-        >
-          <h1>SIVEPAB</h1>
-          <p>Tablero interactivo 2026</p>
-        </div>
-
-        <div className="top-header-logos">
+        <div className="top-header-left">
           <img
             className="logo-imss-bienestar"
             src={logoImssBienestar}
             alt="IMSS Bienestar"
           />
 
+          <div
+            className="top-header-title"
+            onClick={() => setVista('inicio')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                setVista('inicio');
+              }
+            }}
+            aria-label="Ir a la pantalla principal"
+          >
+            <h1>SIVEPAB</h1>
+            <p>Tablero interactivo 2026</p>
+          </div>
+        </div>
+
+        <div className="top-header-logos">
           <img
             className="logo-coordinacion"
             src={logoCoordinacion}
