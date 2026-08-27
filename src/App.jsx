@@ -1647,7 +1647,7 @@ const AJUSTES_VISUALES_20260817 = `
   }
 
   .final-evaluation-right .evaluation-pending-card {
-    width: 100% !important;
+    width: 180px !important;
   }
 
   @media (max-width: 1180px) {
@@ -4144,9 +4144,9 @@ const AJUSTES_VISUALES_20260817 = `
 
   .evaluation-main-grid {
     display: grid !important;
-    grid-template-columns: 190px minmax(0, 1fr) !important;
-    gap: 34px !important;
-    align-items: stretch !important;
+    grid-template-columns: 190px minmax(0, 1fr) 180px !important;
+    gap: 28px !important;
+    align-items: start !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -4218,15 +4218,45 @@ const AJUSTES_VISUALES_20260817 = `
   }
 
   .final-evaluation-right {
-    margin-top: 20px !important;
-    padding-top: 14px !important;
-    border-top: 1px solid rgba(23, 63, 58, 0.10) !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 52px 0 0 0 !important;
+    border: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .final-evaluation-right .evaluation-pending-card {
+    width: 180px !important;
+    min-height: 106px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  @media (max-width: 1180px) {
+    .evaluation-main-grid {
+      grid-template-columns: 165px minmax(0, 1fr) 160px !important;
+      gap: 20px !important;
+    }
+
+    .final-evaluation-right .evaluation-pending-card {
+      width: 160px !important;
+    }
   }
 
   @media (max-width: 980px) {
     .evaluation-main-grid {
-      grid-template-columns: 165px minmax(0, 1fr) !important;
-      gap: 24px !important;
+      grid-template-columns: 155px minmax(0, 1fr) 150px !important;
+      gap: 16px !important;
+    }
+
+    .final-evaluation-right {
+      padding-top: 48px !important;
+    }
+
+    .final-evaluation-right .evaluation-pending-card {
+      width: 150px !important;
     }
 
     .evaluation-indicators-panel .evaluation-score-card {
@@ -4238,6 +4268,15 @@ const AJUSTES_VISUALES_20260817 = `
     .evaluation-main-grid {
       grid-template-columns: 1fr !important;
       gap: 20px !important;
+    }
+
+    .final-evaluation-right {
+      padding-top: 0 !important;
+      justify-content: center !important;
+    }
+
+    .final-evaluation-right .evaluation-pending-card {
+      width: min(100%, 190px) !important;
     }
 
     .evaluation-indicators-panel {
@@ -7622,17 +7661,17 @@ function App() {
                           />
                         </div>
                       </div>
-                    </div>
 
-                    <div className="evaluation-right-column final-evaluation-right">
-                      <div className="evaluation-pending-card">
-                        <strong>
-                          {formatoPorcentaje(
-                            ponderadoOficialEvaluacion,
-                            1
-                          )}
-                        </strong>
-                        <span>Ponderado</span>
+                      <div className="evaluation-right-column final-evaluation-right">
+                        <div className="evaluation-pending-card">
+                          <strong>
+                            {formatoPorcentaje(
+                              ponderadoOficialEvaluacion,
+                              1
+                            )}
+                          </strong>
+                          <span>Ponderado</span>
+                        </div>
                       </div>
                     </div>
                   </div>
