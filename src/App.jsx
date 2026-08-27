@@ -1232,7 +1232,7 @@ function PregnancySummaryCard({ valor }) {
 
       <div className="social-summary-copy">
         <strong>{formatoPorcentaje(valor, 1)}</strong>
-        <span>Se encuentran embarazadas</span>
+        <span>Se encontraban embarazadas</span>
       </div>
     </div>
   );
@@ -3793,7 +3793,7 @@ const AJUSTES_VISUALES_20260817 = `
 
   /* Texto descriptivo de las tarjetas sociales:
      "Se consideran migrantes", "Se consideran indígenas",
-     "Se encuentran embarazadas". */
+     "Se encontraban embarazadas". */
   .proposal-social-panel .social-summary-copy > span {
     font-size: 13px !important;
     line-height: 1.2 !important;
