@@ -4132,6 +4132,163 @@ const AJUSTES_VISUALES_20260817 = `
     font-size: 0.70rem !important;
   }
 
+
+  /* ==========================================================
+     EVALUACIÓN — separación de indicadores vs unidad centinela
+     ========================================================== */
+
+  .final-evaluation-card {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  .evaluation-section-headings {
+    display: grid !important;
+    grid-template-columns: 190px minmax(0, 1fr) !important;
+    gap: 32px !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    margin: 0 0 14px 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .evaluation-section-heading {
+    min-width: 0 !important;
+    padding: 11px 14px 10px !important;
+    border-radius: 10px !important;
+    background: #f5f7f6 !important;
+    border: 1px solid rgba(23, 63, 58, 0.14) !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+  }
+
+  .evaluation-section-heading strong {
+    display: block !important;
+    color: #173f3a !important;
+    font-size: 0.96rem !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .evaluation-section-heading span {
+    display: block !important;
+    margin-top: 4px !important;
+    color: #66716e !important;
+    font-size: 0.72rem !important;
+    line-height: 1.2 !important;
+    font-weight: 650 !important;
+  }
+
+  .evaluation-state-heading {
+    border-top: 4px solid #173f3a !important;
+  }
+
+  .evaluation-unit-heading {
+    border-top: 4px solid #701039 !important;
+  }
+
+  .final-evaluation-card .evaluation-row {
+    display: grid !important;
+    grid-template-columns: 190px minmax(0, 1fr) !important;
+    gap: 32px !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .final-evaluation-card .evaluation-real-chart {
+    position: relative !important;
+    min-width: 0 !important;
+    padding-left: 28px !important;
+    border-left: 2px solid rgba(23, 63, 58, 0.18) !important;
+    box-sizing: border-box !important;
+  }
+
+  .final-evaluation-card .evaluation-real-chart::before {
+    content: "UNIDAD" !important;
+    position: absolute !important;
+    left: -18px !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) rotate(-90deg) !important;
+    padding: 3px 6px !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    color: #75807d !important;
+    font-size: 0.58rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap !important;
+  }
+
+  .final-evaluation-card .evaluation-score-card {
+    position: relative !important;
+  }
+
+  .final-evaluation-card .evaluation-score-card::after {
+    content: "ENTIDAD" !important;
+    position: absolute !important;
+    right: -27px !important;
+    top: 50% !important;
+    transform: translateY(-50%) rotate(-90deg) !important;
+    color: rgba(23, 63, 58, 0.55) !important;
+    font-size: 0.55rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap !important;
+  }
+
+  .final-evaluation-right {
+    margin-top: 8px !important;
+    padding-top: 14px !important;
+    border-top: 1px solid rgba(23, 63, 58, 0.12) !important;
+  }
+
+  @media (max-width: 980px) {
+    .evaluation-section-headings,
+    .final-evaluation-card .evaluation-row {
+      grid-template-columns: 160px minmax(0, 1fr) !important;
+      gap: 22px !important;
+    }
+
+    .final-evaluation-card .evaluation-real-chart {
+      padding-left: 20px !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .evaluation-section-headings {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+    }
+
+    .final-evaluation-card .evaluation-row {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+      padding: 14px 0 !important;
+      border-top: 1px solid rgba(23, 63, 58, 0.10) !important;
+    }
+
+    .final-evaluation-card .evaluation-real-chart {
+      padding-left: 0 !important;
+      border-left: 0 !important;
+      border-top: 2px solid rgba(23, 63, 58, 0.16) !important;
+      padding-top: 14px !important;
+    }
+
+    .final-evaluation-card .evaluation-real-chart::before,
+    .final-evaluation-card .evaluation-score-card::after {
+      display: none !important;
+    }
+
+    .final-evaluation-card .evaluation-score-card {
+      width: min(100%, 230px) !important;
+      margin: 0 auto !important;
+    }
+  }
+
 `;
 
 function App() {
@@ -7409,6 +7566,28 @@ function App() {
                   />
 
                   <div className="evaluation-content-card final-evaluation-card">
+                    <div className="evaluation-section-headings">
+                      <div className="evaluation-section-heading evaluation-state-heading">
+                        <strong>
+                          {entidad
+                            ? 'Indicadores estatales'
+                            : 'Indicadores nacionales'}
+                        </strong>
+                        <span>
+                          {entidad
+                            ? 'Resultado de la entidad seleccionada'
+                            : 'Resultado nacional IMSS-BIENESTAR'}
+                        </span>
+                      </div>
+
+                      <div className="evaluation-section-heading evaluation-unit-heading">
+                        <strong>Desempeño por unidad centinela</strong>
+                        <span>
+                          Seguimiento operativo de las unidades de la selección
+                        </span>
+                      </div>
+                    </div>
+
                     <div className="evaluation-row">
                       <div className="evaluation-score-card eval-wine">
                         <strong>
