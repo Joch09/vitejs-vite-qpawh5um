@@ -7345,8 +7345,8 @@ function App() {
                       className="sivepab-map"
                     >
                       <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='Datos &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> / ODbL - renderizado por <a href="https://www.openstreetmap.fr/">OSM France</a>'
+                        url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
                       />
 
                       {puntosMapa.map((item) => (
