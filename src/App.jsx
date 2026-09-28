@@ -270,10 +270,6 @@ function LoginScreen({ onLogin }) {
             alt="IMSS Bienestar Servicios Públicos de Salud"
             style={LOGIN_STYLES.logoImss}
           />
-          <div style={LOGIN_STYLES.brandText}>
-            <h1 style={LOGIN_STYLES.brandTitle}>SIVEPAB</h1>
-            <p style={LOGIN_STYLES.brandSubtitle}>Tablero interactivo 2026</p>
-          </div>
         </div>
 
         <div style={LOGIN_STYLES.headerRight}>
